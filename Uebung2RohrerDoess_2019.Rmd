@@ -143,7 +143,17 @@ Vergleichen Sie die beiden Ergebnisse. Was w?rden Sie erwarten? F?hren Sie ggf. 
 \paragraph{L?sung} <!---Hier Schreiben Sie--->
 
 ```{r}
+a = rnorm(100, mean = 50, sd = 4)
+b = rnorm(100, mean = 1, sd = sqrt(2))
+diff.med <- function(data) {
+   return(abs(mean(data)-median(data)))
+}
 
+diff.med(a)
+diff.med(b)
+hist(a)
+hist(b)
+#Beobachtung: diff.med(a) variiert viel mehr als diff.med(b)
 ```
  
 
