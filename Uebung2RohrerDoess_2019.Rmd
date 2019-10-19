@@ -144,7 +144,7 @@ Vergleichen Sie die beiden Ergebnisse. Was w?rden Sie erwarten? F?hren Sie ggf. 
 
 ```{r}
 a = rnorm(100, mean = 50, sd = 4)
-b = rnorm(100, mean = 1, sd = sqrt(2))
+b = rlnorm(100, mean = 1, sd = sqrt(2))
 diff.med <- function(data) {
    return(abs(mean(data)-median(data)))
 }
@@ -153,7 +153,8 @@ diff.med(a)
 diff.med(b)
 hist(a)
 hist(b)
-#Beobachtung: diff.med(a) variiert viel mehr als diff.med(b)
+#~~Beobachtung: diff.med(a) variiert viel mehr als diff.med(b)~~
+#Erwartung: LN erreicht höheren Differenzwert, da rechtsschiefe Verteilung (N ist symmetrische Verteilung)
 ```
  
 
@@ -176,6 +177,19 @@ Schreiben Sie eine \R-Funktion {\ttfamily Sim.V}, die zu einem gegebenen Niveau 
 \paragraph{L?sung} <!---Hier Schreiben Sie--->
 
 ```{r}
+sim.v <- function(a, n){
+  x <- rnorm(n, mean = 0, sd = 1)
+  x <- sort(x, decreasing = FALSE) # necessar to draw plot
+  df <- data.frame()
+  for(z in x){
+    v <- exp(1)^z+2*z^2
+    df <-rbind(df, list(z, v)) 
+  }
+  plot(df, type = "b", xlab = "X", ylab = "V") #not required
+  return(quantile(df[[2]], a))
+}
+
+sim.v(0.33, 100)# not required
 
 ```
 
