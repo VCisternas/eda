@@ -179,18 +179,16 @@ Schreiben Sie eine \R-Funktion {\ttfamily Sim.V}, die zu einem gegebenen Niveau 
 ```{r}
 sim.v <- function(a, n){
   x <- rnorm(n, mean = 0, sd = 1)
-  x <- sort(x, decreasing = FALSE) # necessar to draw plot
-  df <- data.frame()
-  for(z in x){
-    v <- exp(1)^z+2*z^2
-    df <-rbind(df, list(z, v)) 
-  }
-  plot(df, type = "b", xlab = "X", ylab = "V") #not required
-  return(quantile(df[[2]], a))
+  v <- v(x)
+
+  return(quantile(v, a))
+}
+
+v <- function(X) {
+  return(exp(1)^X+2*X^2)
 }
 
 sim.v(0.33, 100)# not required
-
 ```
 
 
