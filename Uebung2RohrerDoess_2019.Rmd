@@ -124,6 +124,7 @@ Simulate 100 observations from $N(50,16)$. Plot the empirical distribution funct
 observations <- rnorm(100, mean = 50, sd = 4)
 Fn <- ecdf(observations)
 plot(Fn)
+curve(dnorm(x, mean=50, sd=4), add=TRUE)
 ```
  
 
@@ -153,7 +154,6 @@ diff.med(a)
 diff.med(b)
 hist(a)
 hist(b)
-#~~Beobachtung: diff.med(a) variiert viel mehr als diff.med(b)~~
 #Erwartung: LN erreicht höheren Differenzwert, da rechtsschiefe Verteilung (N ist symmetrische Verteilung)
 ```
  
