@@ -55,12 +55,12 @@ knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
 \begin{centering}
 %\vspace{-2 cm}
 \Huge
-{\bf Übung 4}\\
+{\bf Ãœbung 4}\\
 \Large
 Explorative Datenanalyse und Visualisierung\\
 \normalsize
 Wintersemester 2019\\
-S. Döhler, B. Nedic (FBMN, h\_da)\\
+S. DÃ¶hler, B. Nedic (FBMN, h\_da)\\
 \end{centering}
 
 
@@ -75,20 +75,20 @@ S. Döhler, B. Nedic (FBMN, h\_da)\\
 
 \setcounter{auf}{12}
 \begin{auf}
-Verwenden Sie den R-Datensatz {\ttfamily faithful} (dieser Datensatz ist im base package enthalten). Das Merkmal {\ttfamily eruptions} enthält die Länge von Eruptionen (in Minuten) des Old Faithful Geysirs im Yellowstone National Park in Wyoming, USA. Sie sollen die Verteilung der Eruptionen analysieren. Achten Sie bei allen Grafiken darauf, dass sowohl der Titel der Grafik als auch die Beschriftungen der Achsen möglichst aussagekräftig sind. 
+Verwenden Sie den R-Datensatz {\ttfamily faithful} (dieser Datensatz ist im base package enthalten). Das Merkmal {\ttfamily eruptions} enthÃ¤lt die LÃ¤nge von Eruptionen (in Minuten) des Old Faithful Geysirs im Yellowstone National Park in Wyoming, USA. Sie sollen die Verteilung der Eruptionen analysieren. Achten Sie bei allen Grafiken darauf, dass sowohl der Titel der Grafik als auch die Beschriftungen der Achsen mÃ¶glichst aussagekrÃ¤ftig sind. 
 
 \begin{enumerate}
 	 \item[(a)] Laden Sie die Daten und erstellen Sie eine five-point summary.
 	 \item[(b)] Erstellen Sie einen Box-Plot und interpretieren Sie diesen.
 	 \item[(c)] Erstellen Sie einen Stem and leaf-Plot und interpretieren Sie diesen.
 	 \item[(d)] Plotten Sie die empirische Verteilungsfunktion. 
-	 \item[(e)] Plotten Sie das Histogramm (inklusive eines "rug-plots") und interpretieren Sie dieses. Experimentieren Sie mit verschiedenen Klassenbreiten. Wie müssen Sie die Optionen einstellen, damit das Histogramm als Dichteschätzer geplottet wird? Wie erhält man ein ähnliches Bild wie beim stem and leaf-Plot?
+	 \item[(e)] Plotten Sie das Histogramm (inklusive eines "rug-plots") und interpretieren Sie dieses. Experimentieren Sie mit verschiedenen Klassenbreiten. Wie mÃ¼ssen Sie die Optionen einstellen, damit das Histogramm als DichteschÃ¤tzer geplottet wird? Wie erhÃ¤lt man ein Ã¤hnliches Bild wie beim stem and leaf-Plot?
 	 \item[(f)] Plotten Sie ein gleitendes Histogramm in das Histogramm mit ein. Experimentieren Sie mit verschiedenen Bandbreiten. Welche Bandbreite liefert ein "gutes" Ergebnis? 
-	 \item[(g)] Wiederholen Sie Teil (f) mit dem Gauß- und Epanechnikov-Kernen.
-	 \item[(h)] Vergleichen Sie die verschiedenen Methoden. Was haben Sie über die Daten gelernt? Welche Methode(n) würden Sie einem Anwender empfehlen?
+	 \item[(g)] Wiederholen Sie Teil (f) mit dem GauÃŸ- und Epanechnikov-Kernen.
+	 \item[(h)] Vergleichen Sie die verschiedenen Methoden. Was haben Sie Ã¼ber die Daten gelernt? Welche Methode(n) wÃ¼rden Sie einem Anwender empfehlen?
 	\end{enumerate}
 \end{auf}
-\paragraph{Lösung} <!---Hier Schreiben Sie--->
+\paragraph{LÃ¶sung} <!---Hier Schreiben Sie--->
 
 Zu (a):
 
