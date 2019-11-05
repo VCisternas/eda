@@ -94,6 +94,8 @@ Zu (a):
 ```{r}
 data("faithful")
 summary(faithful$eruptions) # five point summary plus mean
+#or
+fivenum(faithful$eruptions)
 
 ```
 
@@ -105,7 +107,7 @@ data("faithful")
 boxplot(faithful$eruptions, horizontal = TRUE, main="Boxplot des Merkmals 'eruptions'", xlab="eruption time in min")
 
 # Interpretation
-# 1. Die Werte reichen von ca. 1.6 bis ca 5.1 Eruptionen
+# 1. Die Werte reichen von ca. 1.6 bis ca 5.1 Minuten
 # Die Verteilung ist linksschief, da die unteren 50 Prozent der Daten über eine größere Spannweite verfgen als die oberen 50 Prozent
 # Der Median liegt bei ca 4.0 Minuten
 # Die 'whiskers' sind verhältnismäßig kurz, sodass nicht von sehr starken Ausreißern ausgegangen werden kann
@@ -138,10 +140,8 @@ rug(faithful$eruptions, ticksize = 0.03, side = 1, lwd = 0.5, col = "red", quiet
 # Die genaue Verteilung der Werte kann in der Default Einstellung schlechter erkannt werden, als im Stem-Leaf-Plot
 # Dies wird durch das Hinzufügen des Rugs ergänzt -> z.B ist z erkennen, dass die Werte innerhalb des Intervalls 4.0 - 4.5 sehr geichmäßig im Intervall 5.0-5.5 jedoch sehr ungleichmäßig verteilt sind.
 
-# Histogramm als Dichteschätzer
-histinfo <- hist(faithful$eruptions, freq = FALSE, main="Histogram of eruption time", xlab = "eruption time in min", include.lowest = TRUE, xlim = range(breaks))
-rug(faithful$eruptions, ticksize = 0.03, side = 1, lwd = 0.5, col = "red", quiet = getOption("warn") < 0)
-lines(density(faithful$eruptions, bw="SJ", kernel = "gaussian"), col=3)
+#Histogram als Dichteschätzer mit relativen Häufigkeiten, sodass Fläche 1 ergibt.
+hist(eruptions, xlab="duration in minutes", breaks = 20, freq=FALSE)
 
 # ähnliches Bild zu stem-leaf-plot: Klassenbreite muss den Abständen der Werte vor | im Stem-Leaf Plot entsprechen
 breaks = seq(1.5, 5.5, 0.1)
@@ -151,18 +151,29 @@ rug(faithful$eruptions, ticksize = 0.03, side = 1, lwd = 0.5, col = "red", quiet
 
 Zu (f):
 ```{r}
-data("faithful")
-histinfo <- hist(faithful$eruptions,  main="Histogram of eruption time", freq = FALSE, xlab = "eruption time in min", include.lowest = TRUE)
-histinfo
-h <- 0.5
-d <- density(faithful$eruptions, kernel="rectangular", bw=h)
-lines(d, col="red")
-
+eruptions <- faithful$eruptions
+hist(eruptions, xlab="duration in minutes", breaks = 20, freq=FALSE)
+lines(density(eruptions, kernel='rectangular', 1.0), add=TRUE, col='red')
+lines(density(eruptions, kernel='rectangular', 0.3), add=TRUE, col='blue')
+lines(density(eruptions, kernel='rectangular', 0.1), add=TRUE, col='green')
+legend("topleft",
+       c("h=1","h=0.3", "h=0.1"),
+       fill=c("red","blue", "green")
+)
+#Die Bandbreite zwischen 0.2 und 0.3 liefern ein "gutes" Ergebnis.
 ```
 
 
 Zu (g):
-
+```{r}
+hist(eruptions, xlab="duration in minutes", breaks = 20, freq=FALSE)
+lines(density(eruptions, kernel='gaussian', 0.2), add=TRUE, col='red')
+lines(density(eruptions, kernel='epanechnikov', 0.2), add=TRUE, col='blue')
+legend("topleft",
+       c("gaussian","epanechnikov"),
+       fill=c("red","blue")
+)
+```
 
 Zu (h):
 
