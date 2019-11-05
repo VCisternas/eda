@@ -176,7 +176,9 @@ legend("topleft",
 ```
 
 Zu (h):
-
+```{r}
+#Für diese Daten hat sich die Verwendung der Kerndichteschätzung ausgezahlt. Durch den Boxplot war nicht zu erkennen, dass es eine Anhäufung von Vorkommen bei ~1,8 und ~4,5 gibt. Nützlich war der Boxplot jedoch immernoch um Informationen über Min und Max der Daten zu bekommen. Auch die Verwendung eines Histogramms mit 30 > k > 15 hat einen guten Überblick über die Daten gegeben.
+```
 
 
 
