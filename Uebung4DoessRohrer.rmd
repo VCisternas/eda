@@ -1,7 +1,7 @@
 ---
-title: 
-author:
-date: 
+title: "Übung 4"
+author: "Tamara Döß, Tobias Rohrer"
+date: "06.11.19"
 output: pdf_document
 header-includes: 
     - \usepackage{amsthm}
@@ -91,21 +91,74 @@ Verwenden Sie den R-Datensatz {\ttfamily faithful} (dieser Datensatz ist im base
 \paragraph{Lösung} <!---Hier Schreiben Sie--->
 
 Zu (a):
+```{r}
+data("faithful")
+summary(faithful$eruptions) # five point summary plus mean
+
+```
 
 
 Zu (b):
 
+```{r}
+data("faithful")
+boxplot(faithful$eruptions, horizontal = TRUE, main="Boxplot des Merkmals 'eruptions'", xlab="eruption time in min")
+
+# Interpretation
+# 1. Die Werte reichen von ca. 1.6 bis ca 5.1 Eruptionen
+# Die Verteilung ist linksschief, da die unteren 50 Prozent der Daten über eine größere Spannweite verfgen als die oberen 50 Prozent
+# Der Median liegt bei ca 4.0 Minuten
+# Die 'whiskers' sind verhältnismäßig kurz, sodass nicht von sehr starken Ausreißern ausgegangen werden kann
+# der untere (linke) 'whiskers' ist kürzer als die Darstellung des unteren (linken) Quartils -> Dichte steigt erneut an
+```
+
 
 Zu (c):
+```{r}
+data("faithful")
+stem(faithful$eruptions, scale = 2)
+# Es ist zu sehen, dass die höchste Dichte in einem Intervall der Breite 0.1 zwischen 1.8 und 1.9 ist.
+# Es ist zu erkennen, dass es sich nicht um eine normal linksschiefe Verteilung handelt 
+```
 
 
 Zu (d):
+```{r}
+data("faithful")
+plot(ecdf(faithful$eruptions), main="Empirical Cumulative Distribution of eruption time", xlab="eruption length in min")
+```
 
 
 Zu (e):
+```{r}
+data("faithful")
+hist(faithful$eruptions,  main="Histogram of eruption time", xlab = "eruption time in min", include.lowest = TRUE)
+rug(faithful$eruptions, ticksize = 0.03, side = 1, lwd = 0.5, col = "red", quiet = getOption("warn") < 0)
+# In einem Intervall von 0.5 ist die höchste Dichte zwischen 4.0 und 4.5
+# Die genaue Verteilung der Werte kann in der Default Einstellung schlechter erkannt werden, als im Stem-Leaf-Plot
+# Dies wird durch das Hinzufügen des Rugs ergänzt -> z.B ist z erkennen, dass die Werte innerhalb des Intervalls 4.0 - 4.5 sehr geichmäßig im Intervall 5.0-5.5 jedoch sehr ungleichmäßig verteilt sind.
 
+# Histogramm als Dichteschätzer
+histinfo <- hist(faithful$eruptions, freq = FALSE, main="Histogram of eruption time", xlab = "eruption time in min", include.lowest = TRUE, xlim = range(breaks))
+rug(faithful$eruptions, ticksize = 0.03, side = 1, lwd = 0.5, col = "red", quiet = getOption("warn") < 0)
+lines(density(faithful$eruptions, bw="SJ", kernel = "gaussian"), col=3)
+
+# ähnliches Bild zu stem-leaf-plot: Klassenbreite muss den Abständen der Werte vor | im Stem-Leaf Plot entsprechen
+breaks = seq(1.5, 5.5, 0.1)
+histinfo <- hist(faithful$eruptions, breaks = breaks, main="Histogram of eruption time", xlab = "eruption time in min", include.lowest = TRUE, xlim = range(breaks))
+rug(faithful$eruptions, ticksize = 0.03, side = 1, lwd = 0.5, col = "red", quiet = getOption("warn") < 0)
+```
 
 Zu (f):
+```{r}
+data("faithful")
+histinfo <- hist(faithful$eruptions,  main="Histogram of eruption time", freq = FALSE, xlab = "eruption time in min", include.lowest = TRUE)
+histinfo
+h <- 0.5
+d <- density(faithful$eruptions, kernel="rectangular", bw=h)
+lines(d, col="red")
+
+```
 
 
 Zu (g):
