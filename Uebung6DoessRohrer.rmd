@@ -55,12 +55,12 @@ knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
 \begin{centering}
 %\vspace{-2 cm}
 \Huge
-{\bf Übung 6}\\
+{\bf ?bung 6}\\
 \Large
 Explorative Datenanalyse und Visualisierung\\
 \normalsize
 Wintersemester 2019\\
-S. Döhler, S. Döhler (FBMN, h\_da)\\
+S. D?hler, S. D?hler (FBMN, h\_da)\\
 \end{centering}
 
 
@@ -75,21 +75,30 @@ S. Döhler, S. Döhler (FBMN, h\_da)\\
 
 \setcounter{auf}{15}
 \begin{auf}
-In dieser Aufgabe soll untersucht werden, ob Text-Messaging die Rechtschreibung verschlechtert. Dazu wurde folgendes Experiment durchgeführt: Ein Gruppe von 25 Schülern wurde sechs Monate lang ermuntert über ihre Smartphones Textnachrichten zu versenden. Einer zweite Gruppe von 25 Schülern wurde hingegen sechs Monate lang verboten über ihre Smartphones Textnachrichten zu versenden. Am Anfang und Ende der sechs Monate wurde die Rechtschreibung der Schüler durch einen Test gemessen (Details -- auch zur Durchführung des Verbots! -- finden sich in "Discovering Statistics Using R" von Andy Field). Der Datensatz {\ttfamily TextMessages.dat}, den Sie in Moodle finden enthält folgende Variablen:
+In dieser Aufgabe soll untersucht werden, ob Text-Messaging die Rechtschreibung verschlechtert. Dazu wurde folgendes Experiment durchgef?hrt: Ein Gruppe von 25 Sch?lern wurde sechs Monate lang ermuntert ?ber ihre Smartphones Textnachrichten zu versenden. Einer zweite Gruppe von 25 Sch?lern wurde hingegen sechs Monate lang verboten ?ber ihre Smartphones Textnachrichten zu versenden. Am Anfang und Ende der sechs Monate wurde die Rechtschreibung der Sch?ler durch einen Test gemessen (Details -- auch zur Durchf?hrung des Verbots! -- finden sich in "Discovering Statistics Using R" von Andy Field). Der Datensatz {\ttfamily TextMessages.dat}, den Sie in Moodle finden enth?lt folgende Variablen:
 \begin{itemize}
-    \item {\ttfamily Group}: Beschreibt, ob die Person zur ersten oder zweiten Gruppe gehörte.
+    \item {\ttfamily Group}: Beschreibt, ob die Person zur ersten oder zweiten Gruppe geh?rte.
     \item {\ttfamily Baseline:} Ergebnis des Rechtschreibungstests (in \% Richtige) zu Beginn der sechs Monate
     \item {\ttfamily SixMonths:} Ergebnis des Rechtschreibungstests (in \% Richtige) am Ende der sechs Monate
 \end{itemize}
 Sie sollen die Ergebnisse des Experiments mit den Methoden aus der LV explorativ analysieren. Einige Hinweise:
 \begin{itemize}
-    \item Starten Sie zunächst mit den Rohdaten. Nähern Sie sich dann der Fragestellung indem Sie neue Variablen einführen, mit denen Sie dann weiterarbeiten.
-    \item Begründen Sie, welche Methoden zu welchen Variablentypen passen könnten. 
+    \item Starten Sie zun?chst mit den Rohdaten. N?hern Sie sich dann der Fragestellung indem Sie neue Variablen einf?hren, mit denen Sie dann weiterarbeiten.
+    \item Begr?nden Sie, welche Methoden zu welchen Variablentypen passen k?nnten. 
     \item Achten Sie auf Titel, Legende, Achsenbeschriftung Ihrer plots.
 \end{itemize}
 \end{auf}
 
-\paragraph{Lösung} <!---Hier Schreiben Sie--->
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+
+```{r}
+df <- data.frame(TextMessages)
+boxplot(df[-1], boxfill = NA, border = NA) #invisible boxes - only axes and plot area
+boxplot(df[df$Group=="TextMessages",-1], xaxt = "n", add = TRUE, boxfill="red", 
+  boxwex=0.25, at = 1:ncol(df[,-1]) - 0.15) #shift these left by -0.15
+boxplot(df[df$Group=="Controls", -1], xaxt = "n", add = TRUE, boxfill="blue", 
+  boxwex=0.25, at = 1:ncol(df[,-1]) + 0.15) #shift to the right by +0.15
+```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
