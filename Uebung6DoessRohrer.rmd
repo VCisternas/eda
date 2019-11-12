@@ -92,12 +92,20 @@ Sie sollen die Ergebnisse des Experiments mit den Methoden aus der LV explorativ
 \paragraph{L?sung} <!---Hier Schreiben Sie--->
 
 ```{r}
-df <- data.frame(TextMessages)
+df <- read.table("TextMessages.dat", header=TRUE, sep="\t")
+#df <- data.frame(TextMessages)
 boxplot(df[-1], boxfill = NA, border = NA) #invisible boxes - only axes and plot area
 boxplot(df[df$Group=="TextMessages",-1], xaxt = "n", add = TRUE, boxfill="red", 
   boxwex=0.25, at = 1:ncol(df[,-1]) - 0.15) #shift these left by -0.15
 boxplot(df[df$Group=="Controls", -1], xaxt = "n", add = TRUE, boxfill="blue", 
   boxwex=0.25, at = 1:ncol(df[,-1]) + 0.15) #shift to the right by +0.15
+
+difference <- data.frame(
+  'Text Messagers' =  df[df$Group=="Text Messagers","Six_months"] - df[df$Group=="Text Messagers","Baseline"],
+  'Controls' = df[df$Group=="Controls","Six_months"] - df[df$Group=="Controls","Baseline"]
+                         )
+boxplot(difference, ylab="Änderung des Ergebnis in %")
+
 ```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
