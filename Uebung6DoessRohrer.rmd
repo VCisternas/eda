@@ -90,14 +90,67 @@ Sie sollen die Ergebnisse des Experiments mit den Methoden aus der LV explorativ
 \end{auf}
 
 \paragraph{L?sung} <!---Hier Schreiben Sie--->
-
+Zunächst untersuchen wir die Grunddaten explorativ. Hierfür haben wir zunächst Boxplots erstellt, 
+die uns eine Auskunft über die grobe Verteilung der Daten geben sollen. Insgesamt ist zu erkennen, dass sich der Median
+nach dem Experiment für die Control Gruppe, sowie für die Text Messaging Gruppe, "verschlechtert" hat. Außerdem ist zu erkennen, dass sich in der Text Messaging Gruppe nach dem Experiment 4 Ausreisser mit "extrem schlechten" Ergebnis befinden. Des Weiteren ist zu erkennen, dass die 2 Baseline Gruppen in etwa gleich verteilt sind. Diese Aussage wird weiter durch den nachfolgendewn Q-Q-Plot verifiziert.
 ```{r}
-df <- data.frame(TextMessages)
-boxplot(df[-1], boxfill = NA, border = NA) #invisible boxes - only axes and plot area
-boxplot(df[df$Group=="TextMessages",-1], xaxt = "n", add = TRUE, boxfill="red", 
-  boxwex=0.25, at = 1:ncol(df[,-1]) - 0.15) #shift these left by -0.15
-boxplot(df[df$Group=="Controls", -1], xaxt = "n", add = TRUE, boxfill="blue", 
-  boxwex=0.25, at = 1:ncol(df[,-1]) + 0.15) #shift to the right by +0.15
+df <- read.table("./TextMessages.dat", header=TRUE, sep="\t")
+
+boxplot(df[df$Group=="Controls","Baseline"],
+        df[df$Group=="Controls","Six_months"],
+        df[df$Group=="Text Messagers","Baseline"],
+        df[df$Group=="Text Messagers","Six_months"],
+        at=c(1,2,4,5),
+        names=c("Cntrl. base","Cntrl. 6", "Text base", "Text 6"),
+        main="Summary of both groups before and after the experiment"
+)
+```
+
+Der Q-Q-Plot zeigt uns einen Vergleich der Verteilungen der Baseline-Werte für die Control- und Text Messagers-Gruppe. Die Punkte in dem Q-Q-Plot stellen in etwa die Winkelhalbierende dar. Die Baseline-Werte beider Gruppen sind also ähnlich verteilt, was unsere Erkenntnis aus dem Boxplot deckt.
+```{r}
+qqplot(df[df$Group=="Text Messagers","Baseline"],
+       df[df$Group=="Controls","Baseline"], 
+       ylab="Baseline controls", 
+       xlab="Baseline text nessagers",
+       main="Q-Q-Plot of both baseline groups",
+       asp = 1,
+       xlim=c(40,100), 
+       ylim=c(40,100))
+abline(c(0,0),c(1,1))
+```
+Um die Auswirkungen des Experiments nach 6 Monaten weiter zu untersuchen ist im nächsten Boxplot nur die Differenz zur Baseline abgebildet. Was auf dem Boxplot nicht zu erkennen ist, ist die Tatsache, dass sich die Text Messagers Group im Durchschnitt um 11.9% und die Control Group um nur 3.76% verschlechtert hat.
+```{r}
+ difference <- data.frame(
+  'Text Messagers' =  
+    df[df$Group=="Text Messagers","Six_months"] - 
+    df[df$Group=="Text Messagers","Baseline"],
+  'Controls' = 
+    df[df$Group=="Controls","Six_months"] - 
+    df[df$Group=="Controls","Baseline"])
+
+boxplot(difference, 
+        ylab="Änderung des Ergebnis in %")
+
+mean(df[df$Group=="Text Messagers","Baseline"])
+
+mean(df[df$Group=="Controls","Baseline"])
+mean(df[df$Group=="Controls","Six_months"])
+mean(df[df$Group=="Text Messagers","Six_months"])
+mean(difference$Text.Messagers)
+mean(difference$Controls)
+```
+Auf dem Q-Q-Plot der beiden Gruppen nach dem Experiment ist jedoch zu erkennen, dass sich die Werte der schlechteren Probantinnen nicht mehr auf der Nähe der Winkelhalbierenden befinden. Daraus lässt sich erkennen, dass das Text Messaging Experiment auf eine Untergruppe der Probantinnen eine negative Auswirkung hatte.
+```{r}
+qqplot(df[df$Group=="Text Messagers","Six_months"], 
+       df[df$Group=="Controls","Six_months"], 
+       ylab="After six months controls", 
+       xlab="After six months messagers", 
+       main="QQ Plot of both groups after 6 month",
+       asp = 1,
+       xlim=c(0,100), 
+       ylim=c(0,100)
+       )
+abline(c(0,0),c(1,1))
 ```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
