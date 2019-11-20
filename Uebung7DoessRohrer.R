@@ -1,7 +1,6 @@
 library(shiny)
 
 ui <- bootstrapPage(
-  column(100, offset = 10, titlePanel("Uebung 7 Doess Rohrer", col("red"))) ,
   sidebarPanel(
     
   selectInput(inputId = "colour",
