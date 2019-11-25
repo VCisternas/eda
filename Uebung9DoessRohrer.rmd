@@ -1,11 +1,13 @@
 ---
-title: 
-author:
-date: 
-output: pdf_document
-header-includes: 
-    - \usepackage{amsthm}
-    - \usepackage{xcolor}
+title: "null"
+author: "null"
+date: "null"
+output:
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{amsthm}
+- \usepackage{xcolor}
 documentclass: article
 <!---output: beamer_presentation--->
 ---
@@ -66,7 +68,7 @@ S. D?hler (FBMN, h\_da)\\
 
 \hrulefill
 
-**Name:**
+**Name: Doess, Rohrer**
 
 
 \hrulefill
@@ -95,29 +97,72 @@ In der Datei {\ttfamily UmfrageBis2019.csv} finden Sie (bereinigte) Daten, die v
 \end{auf}
    
 \paragraph{L?sung} <!---Hier Schreiben Sie--->
-a)
+zu a)
+
 ```{r}
-data <- read.csv('./UmfrageBis2019.csv', sep = ';')
+data <- read.csv("UmfrageBis2019.csv", header = TRUE, sep = ";", 
+         dec = ".", fill = TRUE, comment.char = "")
 head(data)
 str(data)
 ```
-b)
+zu b)
+
 ```{r}
-colnames(data)[7] <- "NoteMath"
-colnames(data)[8] <- "WhatsAppHours" 
-colnames(data)[9] <- "#Shoes" 
 colnames(data)
+names(data)[names(data) == "Letzte.Schulnote.in.Mathematik"] <- "Mathe"
+names(data)[names(data) == "Stunden.am.Tag.in.WhatsApp"] <- "WhatsApp"
+names(data)[names(data) == "Anzahl.Paar.Schuhe.im.Schrank"] <- "AnzSchuhe"
+names(data)
+
 ```
 c)
 ```{r}
 summary(data)
 ```
-d)
-Simple Scatter plots are the `plot.default`. When calling `plot(data)` scatterplots of all variations of X-Y  Data will be plottet as scatter plot.
+zu d)
+
 ```{r}
 plot(data)
 ```
+Durch den Befehl plot(data) werden alle Merkmale paarweise verglichen als Streudiagramm geplottet. Dabei können vor allem erste Auffälligkeiten beobachtet werden, die in ungenauen Plos ablesbar sind. Z.B.: Das Maximum an Schuhen besitzt eine Frau, Die schlechteste MAthe Note besitzt ein Mann, bei dem Vergleich Schuhgröße und Größe kann von einem groben linearen Zusammenhang ausgegangen werden, Männer sind tendenziell größer als Frauen, die Mehrzahl der Mathenoten liegt im guten Bereich, ...
 
+zu e)
+
+```{r}
+plot.cont.data <- function(data_feature){
+
+  index <- 1
+    for (variable in data_feature) {
+      if (is.na(variable)){data_feature[index] <- 0}
+      index <- index + 1
+    }
+  
+  mean_feature <- mean(data_feature)
+  sd_feature <- sd(data_feature)
+  xseq <- sort(data_feature, decreasing= FALSE)
+  cumulative<-pnorm(xseq, mean(data_feature), sd(data_feature))
+
+  
+  
+  par(mfrow=c(2,2))
+  boxplot(data_feature)
+  qqnorm(data_feature)
+  hist(data_feature)
+  plot(ecdf(data_feature))
+  lines(xseq, cumulative, col ="blue", type = "l", ylim = range(0,1))
+  
+}
+
+```
+zu f)
+
+```{r}
+plot.cont.data(data$Groesse)
+```
+
+Interpretation: Das Merkmal Groesse ist annähernd normal verteilt (siehe QQ-Plot und ecdf)
+
+zu g)
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
