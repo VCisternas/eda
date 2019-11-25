@@ -1,0 +1,219 @@
+---
+title: "null"
+author: "null"
+date: "null"
+output:
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{amsthm}
+- \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "100%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{break}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf ?bung 9}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. D?hler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name: Doess, Rohrer**
+
+
+\hrulefill
+
+
+\setcounter{auf}{20} 
+\begin{auf}
+In der Datei {\ttfamily UmfrageBis2019.csv} finden Sie (bereinigte) Daten, die von den aktuellen und bisherigen BesucherInnen der EDA-Veranstaltung erhoben wurden.
+\begin{itemize}
+    \item[a)] Laden Sie die Daten und lassen Sie sich die ersten Datens?tze mit dem {\ttfamily head}-Befehl anzeigen. Verschaffen Sie sich einen ?berblick ?ber die Struktur der Daten mit dem {\ttfamily str}-Befehl. Nennen Sie den Datensatz {\ttfamily data}.
+    \item[b)] Einige Spaltennamen sind sehr lang und daher unpraktisch zu handhaben. Benennen Sie die Spalten , {\ttfamily Letzte. Schulnote....}, {\ttfamily Stunden.am.Tag...} bzw.  {\ttfamily Anzahl.Paar.Schuhe...} um in {\ttfamily Mathe}, {\ttfamily WhatsApp}, {\ttfamily AnzSchuhe} bzw. und lassen Sie sich den header des neuen datensatzes anzeigen.
+    \item[c)] Erzeugen Sie 5-point summaries f?r alle Merkmale.
+    \item[d)] Was passiert, wenn man {\ttfamily plot(data)} eingibt?
+    \item[e)] Definieren Sie eine Funktion {\ttfamily plot.cont.data}, die als Argument einen Datensatz {\ttfamily dat} eines stetigen Merkmals nimmt und einen grafischen Outpunkt in Form eines 2x2 Grafikpanels liefert, der folgende Grafiken enth?lt:
+    \begin{itemize}
+          \item Boxplot
+          \item QQ-Plot
+          \item Histogramm mit Dichtefunktion der angepassten Normalverteilung
+          \item Empirische Verteilungsfunktion mit Verteilungsfunktion der angepassten Normalverteilung.
+    \end{itemize}
+    \item[f)] Wenden Sie {\ttfamily plot.cont.data} auf das Merkmal {\ttfamily Groesse} an und interpretieren Sie das Ergebnis.
+    \item[g)] Definieren Sie eine Funktion {\ttfamily analyse.regression}, die als Argument einen Teil-Datensatz {\ttfamily dat} des gesamten Datensatzes nimmt und eine Regression von {\ttfamily Groesse} auf {\ttfamily Schuhgroesse} durchf?hrt. Als Ausgabe sollen das lm-Objekt und die ANOVA-Tabelle zur?ckgegeben werden.
+    \item[h)] Wenden Sie {\ttfamily analyse.regression} auf die gesamte Stichprobe, sowie jeweils auf die m?nnlichen und weiblichen Teilnehmer an und interpretieren Sie die Ergebnisse. Um Teile der Gesamtstichprobe auszuw?hlen k?nnen Sie den {\ttfamily subset}-Befehl verwenden.
+    \item[i)] Analysieren Sie K?rpergr??e in Abh?ngigkeit von der Haarfarbe durch mehrere Boxplots in einer Grafik. Was erscheint besonders? Untersuchen Sie die Daten ggf. genauer, um den Grund zu erkennen. 
+    \end{itemize}
+\end{auf}
+   
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+zu a)
+
+```{r}
+data <- read.csv("UmfrageBis2019.csv", header = TRUE, sep = ";", 
+         dec = ".", fill = TRUE, comment.char = "")
+
+head(data)
+str(data)
+```
+zu b)
+
+```{r}
+colnames(data)
+names(data)[names(data) == "Letzte.Schulnote.in.Mathematik"] <- "Mathe"
+names(data)[names(data) == "Stunden.am.Tag.in.WhatsApp"] <- "WhatsApp"
+names(data)[names(data) == "Anzahl.Paar.Schuhe.im.Schrank"] <- "AnzSchuhe"
+names(data)
+
+```
+zu c)
+
+Five Point Summary for: Teilnehmer
+```{r}
+summary(data$Teilnehmer)
+
+```
+Five Point Summary for: Geschlecht
+```{r}
+summary(data$Geschlecht)
+
+```
+Five Point Summary for: Groesse
+```{r}
+summary(data$Groesse)
+
+```
+Five Point Summary for: Schuhgroesse
+```{r}
+summary(data$Schuhgroesse)
+
+```
+Five Point Summary for: Haarfarbe
+```{r}
+summary(data$Haarfarbe)
+
+```
+Five Point Summary for: Musikalitaet
+```{r}
+summary(data$Musikalitaet)
+
+```
+Five Point Summary for: Mathe
+```{r}
+summary(data$Mathe)
+
+```
+Five Point Summary for: WhatsApp
+```{r}
+summary(data$WhatsApp)
+
+```
+Five Point Summary for: AnzSchuhe
+```{r}
+summary(data$AnzSchuhe)
+
+```
+Five Point Summary for: Fussballfan
+```{r}
+summary(data$Fussballfan)
+
+```
+zu d)
+
+```{r}
+plot(data)
+```
+Durch den Befehl plot(data) werden alle Merkmale paarweise verglichen als Streudiagramm geplottet. Dabei können vor allem erste Auffälligkeiten beobachtet werden, die in ungenauen Plos ablesbar sind. Z.B.: Das Maximum an Schuhen besitzt eine Frau, Die schlechteste MAthe Note besitzt ein Mann, bei dem Vergleich Schuhgröße und Größe kann von einem groben linearen Zusammenhang ausgegangen werden, Männer sind tendenziell größer als Frauen, die Mehrzahl der Mathenoten liegt im guten Bereich, ...
+
+zu e)
+
+```{r}
+plot.cont.data <- function(data_feature){
+
+  index <- 1
+    for (variable in data_feature) {
+      if (is.na(variable)){data_feature[index] <- 0}
+      index <- index + 1
+    }
+  
+  mean_feature <- mean(data_feature)
+  sd_feature <- sd(data_feature)
+  xseq <- sort(data_feature, decreasing= FALSE)
+  cumulative<-pnorm(xseq, mean(data_feature), sd(data_feature))
+
+  
+  
+  par(mfrow=c(2,2))
+  boxplot(data_feature)
+  qqnorm(data_feature)
+  hist(data_feature)
+  plot(ecdf(data_feature))
+  lines(xseq, cumulative, col ="blue", type = "l", ylim = range(0,1))
+  
+}
+
+```
+zu f)
+
+```{r}
+plot.cont.data(data$Groesse)
+```
+
+Interpretation: Das Merkmal Groesse ist annähernd normal verteilt (siehe QQ-Plot und ecdf)
+
+zu g)
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
