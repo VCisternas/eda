@@ -1,0 +1,104 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "100%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{break}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf Übung 9}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. Döhler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:**
+
+
+\hrulefill
+
+
+\setcounter{auf}{20} 
+\begin{auf}
+In der Datei {\ttfamily UmfrageBis2019.csv} finden Sie (bereinigte) Daten, die von den aktuellen und bisherigen BesucherInnen der EDA-Veranstaltung erhoben wurden.
+\begin{itemize}
+    \item[a)] Laden Sie die Daten und lassen Sie sich die ersten Datensätze mit dem {\ttfamily head}-Befehl anzeigen. Verschaffen Sie sich einen Überblick über die Struktur der Daten mit dem {\ttfamily str}-Befehl. Nennen Sie den Datensatz {\ttfamily data}.
+    \item[b)] Einige Spaltennamen sind sehr lang und daher unpraktisch zu handhaben. Benennen Sie die Spalten , {\ttfamily Letzte. Schulnote....}, {\ttfamily Stunden.am.Tag...} bzw.  {\ttfamily Anzahl.Paar.Schuhe...} um in {\ttfamily Mathe}, {\ttfamily WhatsApp}, {\ttfamily AnzSchuhe} bzw. und lassen Sie sich den header des neuen datensatzes anzeigen.
+    \item[c)] Erzeugen Sie 5-point summaries für alle Merkmale.
+    \item[d)] Was passiert, wenn man {\ttfamily plot(data)} eingibt?
+    \item[e)] Definieren Sie eine Funktion {\ttfamily plot.cont.data}, die als Argument einen Datensatz {\ttfamily dat} eines stetigen Merkmals nimmt und einen grafischen Outpunkt in Form eines 2x2 Grafikpanels liefert, der folgende Grafiken enthält:
+    \begin{itemize}
+          \item Boxplot
+          \item QQ-Plot
+          \item Histogramm mit Dichtefunktion der angepassten Normalverteilung
+          \item Empirische Verteilungsfunktion mit Verteilungsfunktion der angepassten Normalverteilung.
+    \end{itemize}
+    \item[f)] Wenden Sie {\ttfamily plot.cont.data} auf das Merkmal {\ttfamily Groesse} an und interpretieren Sie das Ergebnis.
+    \item[g)] Definieren Sie eine Funktion {\ttfamily analyse.regression}, die als Argument einen Teil-Datensatz {\ttfamily dat} des gesamten Datensatzes nimmt und eine Regression von {\ttfamily Groesse} auf {\ttfamily Schuhgroesse} durchführt. Als Ausgabe sollen das lm-Objekt und die ANOVA-Tabelle zurückgegeben werden.
+    \item[h)] Wenden Sie {\ttfamily analyse.regression} auf die gesamte Stichprobe, sowie jeweils auf die männlichen und weiblichen Teilnehmer an und interpretieren Sie die Ergebnisse. Um Teile der Gesamtstichprobe auszuwählen können Sie den {\ttfamily subset}-Befehl verwenden.
+    \item[i)] Analysieren Sie Körpergröße in Abhängigkeit von der Haarfarbe durch mehrere Boxplots in einer Grafik. Was erscheint besonders? Untersuchen Sie die Daten ggf. genauer, um den Grund zu erkennen. 
+    \end{itemize}
+\end{auf}
+   
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
