@@ -172,15 +172,33 @@ analyse.regression(data)
 ```
 
 h)
-Es gibt einen leichten linearen Zusammenhang zwischen Körper und Schuhgröße. Der Zusammenhang in der Gruppe der Männer ist leicht größer, als der in der Gruppe der Frauen.
+Es gibt einen leichten linearen Zusammenhang zwischen Körper und Schuhgröße. Der Zusammenhang in der Gruppe der Männer ist leicht größer, als der in der Gruppe der Frauen. 
+
+Der Wert SSR (Regression Sums of Squeres) also der Indikator für die Streuung der durch die Regressionsgerade geschätzten Y-Werte beträgt bei den Frauen im Durchschnitt 1.20 und bei den Männern 1.64. Das Bedeutet, dass die Regressionsgerade der Männer Steiler als die der Frauen ist.
+
+Der Wert SSE (Error Sum of Squeres) bwz. Resudien beträgt bei den Frauen 1.2 und bei den Männern 1.87. Das Bedeutet, dass die die Regressionsgerade der Frauen "genauer" als die der Männer ist (Basierend auf der Stichprobe). 
 ```{r}
 male <- subset(data, Geschlecht=="m")
 female <- data[data$Geschlecht=="w",] #was ist der Unterschied? Warum gibts die subset Methode, wenn auch einfache Selektoren funktionieren?
-
 analyse.regression(male)
 analyse.regression(female)
 ```
 
+i)
+In der Gruppe Blonden ist die Standardabweichung geringer zu der Gruppe der Braunhaarigen. In der Gruppe der Blonden gibt es nur wenige Menschen, die besonders klein oder Groß sind.  
+```{r}
+par(mfrow=c(2,2))
+boxplot(subset(data, Haarfarbe=="blond",select = "Groesse"), main="blond")
+boxplot(subset(data, Haarfarbe=="braun",select = "Groesse"), main="braun")
+boxplot(subset(data, Haarfarbe=="rot",select = "Groesse"), main="rot")
+boxplot(subset(data, Haarfarbe=="schwarz",select = "Groesse"), main="schwarz")
+
+par(mfrow=c(2,2))
+hist(data[data$Haarfarbe=="blond", "Groesse"], main="blond")
+hist(data[data$Haarfarbe=="braun", "Groesse"], main="braun")
+boxplot(subset(data, Haarfarbe=="blond",select = "Groesse"), main="blond")
+boxplot(subset(data, Haarfarbe=="braun",select = "Groesse"), main="braun")
+```
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
 \textcolor{gray}{\hrulefill}
