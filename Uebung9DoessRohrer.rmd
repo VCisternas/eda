@@ -113,7 +113,6 @@ names(data)[names(data) == "Letzte.Schulnote.in.Mathematik"] <- "Mathe"
 names(data)[names(data) == "Stunden.am.Tag.in.WhatsApp"] <- "WhatsApp"
 names(data)[names(data) == "Anzahl.Paar.Schuhe.im.Schrank"] <- "AnzSchuhe"
 names(data)
-
 ```
 c)
 ```{r}
@@ -163,6 +162,24 @@ plot.cont.data(data$Groesse)
 Interpretation: Das Merkmal Groesse ist annähernd normal verteilt (siehe QQ-Plot und ecdf)
 
 zu g)
+```{r}
+analyse.regression <- function(dat){
+  lm.shoesize <- lm(dat$Schuhgroesse ~ dat$Groesse, data=dat)
+  print(lm.shoesize)
+  return(anova(lm.shoesize))
+}
+analyse.regression(data)
+```
+
+h)
+Es gibt einen leichten linearen Zusammenhang zwischen Körper und Schuhgröße. Der Zusammenhang in der Gruppe der Männer ist leicht größer, als der in der Gruppe der Frauen.
+```{r}
+male <- subset(data, Geschlecht=="m")
+female <- data[data$Geschlecht=="w",] #was ist der Unterschied? Warum gibts die subset Methode, wenn auch einfache Selektoren funktionieren?
+
+analyse.regression(male)
+analyse.regression(female)
+```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
