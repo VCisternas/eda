@@ -123,7 +123,7 @@ reg2 <- read.csv(file="Reg2.csv", header=TRUE, sep=",")
 reg3 <- read.csv(file="Reg3.csv", header=TRUE, sep=",")
 reg4 <- read.csv(file="Reg4.csv", header=TRUE, sep=",")
 ```
-a)
+22a)
 
 ```{r}
 calculate_a <- function(x,y){
@@ -149,7 +149,7 @@ df1 <- rbind(df1, calculate_a(reg4$x4, reg4$y4))
 ```
 Was fällt auf: Obwohl die vier Verteilungen sehr unterschiedlich sind, sind die errechneten Werte jeweils sehr ähnlich.
 
-b)
+22b)
 
 ```{r}
 lm(reg1$y1~reg1$x1)
@@ -161,7 +161,7 @@ reg3_line <- function(x){0.4997*x + 3.0025}
 lm(reg4$y4~reg4$x4)
 reg4_line <- function(x){0.4999*x + 3.0017}
 ```
-c) 
+22c) 
 
 ```{r}
 plot.regression <- function(data, model, header, x, y){
@@ -170,7 +170,7 @@ plot.regression <- function(data, model, header, x, y){
 }
 ```
 
-d)
+22d)
 
 ```{r}
 par(mfrow=c(2,2))
@@ -179,10 +179,24 @@ plot.regression(reg2, lm(reg2$y2~reg2$x2), "Plot 2", range(0,20), range(0,13))
 plot.regression(reg3, lm(reg3$y3~reg3$x3), "Plot 3", range(0,20), range(0,13))
 plot.regression(reg4, lm(reg4$y4~reg4$x4), "Plot 4", range(0,20), range(0,13))
 ```
-e)
+22e)
  
 ```{r}
 ```
+
+23a)
+
+```{r}
+data2019 <- read.csv(file="UmfrageBis2019.csv", header=TRUE, sep=";")
+
+table(data2019$Geschlecht, data2019$Fussballfan)
+
+install.packages("vcd")
+library(vcd)
+table <- structable(data2019$Geschlecht ~ data2019$Fussballfan)
+mosaic(table, shade = TRUE, legend = TRUE)
+```
+Interpretation: Als Mann ist man eher Fußballfan
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
 \textcolor{gray}{\hrulefill}
