@@ -1,0 +1,126 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "100%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2016 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{definition}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf Übung 10}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. Döhler, B. Nedic (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:**
+
+**Punkte:**
+
+\hrulefill
+
+
+\setcounter{auf}{21} 
+\begin{auf}
+Auf der Moodle-Seite zur Vorlesung finden Sie 4 verschiedene zweidimensionale Datensätze.
+\begin{itemize}
+    \item[a)] Ermitteln Sie in jedem Fall $\overline{x},\overline{y},s_x,s_y$ und $r_{xy}$. Was fällt Ihnen auf?
+    \item[b)] Ermitteln Sie in allen 4 Fällen das Regressionsmodel und die Regressionsgerade. Benutzen Sie hierfür den {\ttfamily lm}-Befehl.
+    \item[c)] Schreiben Sie eine Funktion {\ttfamily plot.regression}. Als Argumente sollen dieser Funktion übergeben werden:
+    \begin{itemize}
+          \item {\ttfamily daten}: Ein Datensatz
+          \item {\ttfamily model}: Das zugehörige {\ttfamily lm}-Objekt
+          \item {\ttfamily header}: Eine Überschrift
+          \item {\ttfamily x.lim,y.lim}: Wertebereich der $x$- und $y$-Achse
+    \end{itemize}
+    Als Output soll die Funktion einen Scatterplot der Daten (auf den übergebenen Wertebereichenen) mit zugehöriger Regressionsgerade sowie eines Titels liefern.
+    \item[d)] Plotten Sie die 4 Scatterplots inklusive ihrer Regressionsgeraden in einem gemeinsamen Grafikpanel. Benutzen Sie die Funktion {\ttfamily plot.regression}. 
+    \item[e)] Führen Sie für die 4 Datensätze jeweils eine Residuenanalyse durch und interpretieren Sie die Ergebnisse.
+\end{itemize}
+Interpretieren Sie die Ergebnisse.
+\end{auf}
+
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
+\begin{auf}
+Arbeiten Sie weiter an dem Datensatz {\ttfamily UmfrageBis2019.csv} (s. Aufgabe 21).
+\begin{itemize}
+    \item[a)] Untersuchen Sie, ob und wenn ja, welcher Zusammenhang zwischen den Merkmalen 'Fussballfan' und 'Geschlecht' besteht. Erzeugen Sie hierzu eine Vierfeldertafel und einen Mosaicplot mit geeigneten R-Befehlen.
+    \item[b)] Untersuchen Sie, die gleiche Fragestellung wie in a) bei  den Merkmalen 'Musikalitaet' und 'Geschlecht'. Was unterscheidet das Merkmal 'Musikalitaet' vom Merkmal 'Fussballfan'? Wie sollte man das in der Analyse berücksichtigen?
+    \item[c)] Untersuchen Sie, die gleiche Fragestellung wie in a) bei  den Merkmalen 'Musikalitaet' und 'Haarfarbe'.
+    \item[d)] In welchen der 3 obigen Situation scheint der Mosaicplot am ehesten auf Unabhängigkeit der Merkmale hinzudeuten? Begründen Sie Ihre Antwort!
+\end{itemize}
+\end{auf}
+
+
+   
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+```{r}
+
+```
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
+
