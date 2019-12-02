@@ -188,15 +188,39 @@ plot.regression(reg4, lm(reg4$y4~reg4$x4), "Plot 4", range(0,20), range(0,13))
 
 ```{r}
 data2019 <- read.csv(file="UmfrageBis2019.csv", header=TRUE, sep=";")
-
-table(data2019$Geschlecht, data2019$Fussballfan)
-
-install.packages("vcd")
-library(vcd)
-table <- structable(data2019$Geschlecht ~ data2019$Fussballfan)
-mosaic(table, shade = TRUE, legend = TRUE)
+table_abs <- structable(data2019$Geschlecht ~ data2019$Fussballfan)
+table_abs
+table_rel <- prop.table(table_abs)
+table_rel
+mosaicplot(table_abs, xlab = "Fußballfan", ylab = "Geschlecht", main= "Mosaic: Geschlecht~Fussballfan")
 ```
 Interpretation: Als Mann ist man eher Fußballfan
+
+23b)
+
+Das Merkmal Musikalitaet ist im Gegensatz zum Merkmal Fussballfan nicht binär und kann somit mehr als 2 verschiedene Werte annehmen. In der Analyse ist dabei zu berücksichtigen, dass es keine Vier-Felder-Tafel gibt. Daher muss bei der Interpretation des Mosaic Plots darauf geachtet werden, dass das Merkmal Musikalitaet evtl nicht in richtiger Reihenfolge sortiert ist.
+```{r}
+abs_table2 <- structable(data2019$Geschlecht ~ data2019$Musikalitaet)
+abs_table2
+rel_table2 <- prop.table(abs_table)
+rel_table2
+mosaicplot(abs_table2, xlab = "Musikalitaet", ylab = "Geschlecht", off = 5, main = "Mosaic: Geschlecht~ Musiaklitaet")
+```
+Es ist kein deutlicher Zusammenhang zwischen Geschlecht und Musikalitaet erkennbar.
+
+23c)
+
+```{r}
+abs_table3 <- table(data2019$Haarfarbe, data2019$Musikalitaet)
+abs_table3
+rel_table3 <- prop.table(abs_table)
+rel_table3
+mosaicplot(abs_table3, xlab = "Haarfarbe", ylab = "Musikalitaet", off = 25, main = "Mosaic: Musikalitaet ~ Haarfarbe")
+```
+Es kann kein Zusammenhang festgestellt werden. Jedochkönnte aus dieser Stichprobe herausgelesen werden, dass alle Rothaarigen nur etwas musikalisch sind.
+
+23d)
+
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
 \textcolor{gray}{\hrulefill}
