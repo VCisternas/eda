@@ -138,27 +138,28 @@ calculate_a <- function(x,y){
 }
 
 df1 <- data.frame(matrix(ncol = 5, nrow = 0))
-x <- c("mean_x", "mean_y", "sd_x", "sd_y", "cor_xy")
-colnames(df1) <- x
 
 df1 <- rbind(df1, calculate_a(reg1$x1, reg1$y1))
 df1 <- rbind(df1, calculate_a(reg2$x2, reg2$y2))
 df1 <- rbind(df1, calculate_a(reg3$x3, reg3$y3))
 df1 <- rbind(df1, calculate_a(reg4$x4, reg4$y4))
 
+colnames(df1) <- c("mean_x", "mean_y", "sd_x", "sd_y", "cor_xy")
+
+print(df1)
 ```
 Was fällt auf: Obwohl die vier Verteilungen sehr unterschiedlich sind, sind die errechneten Werte jeweils sehr ähnlich.
 
 22b)
 
 ```{r}
-lm(reg1$y1~reg1$x1)
+lm1 <- lm(reg1$y1~reg1$x1)
 reg1_line <- function(x){0.5001*x + 3.0001}
-lm(reg2$y2~reg2$x2)
+lm2 <- lm(reg2$y2~reg2$x2)
 reg2_line <- function(x){0.500*x + 3.001}
-lm(reg3$y3~reg3$x3)
+lm3 <- lm(reg3$y3~reg3$x3)
 reg3_line <- function(x){0.4997*x + 3.0025}
-lm(reg4$y4~reg4$x4)
+lm4 <- lm(reg4$y4~reg4$x4)
 reg4_line <- function(x){0.4999*x + 3.0017}
 ```
 22c) 
@@ -180,8 +181,55 @@ plot.regression(reg3, lm(reg3$y3~reg3$x3), "Plot 3", range(0,20), range(0,13))
 plot.regression(reg4, lm(reg4$y4~reg4$x4), "Plot 4", range(0,20), range(0,13))
 ```
 22e)
- 
+
+Def: Residual Plot = Scatterplot mit x="gefittete Y-Werte" y="residuen"
+
+Reg1:
+- Residuen sind grob Normalverteilt
+- Residual Plot zeigt keine Abhängigkeit
+-> Alles gut. Das lineare Modell zeigt keine negativen Auffälligkeiten.
+
+Reg2:
+- Residuen sind grob Normalverteilt
+- Residual Plot zeigt auffälligkeiten.
+  - Umso weiter die Distanz der gefitteten-Y vom Wert 7,5, desto kleiner ("kleiner" im Sinne von: Der negativ-Wert wird größer) sind die Residuen. Es lässt sich erkennen, dass sich die Beziehung zwischen X und Y nur schlecht linear ausdrücken lässt.
+  
+Reg3:
+- Residuen sind auf Grund eines Ausreissers nicht Normalverteilt
+- Residual Plot zeigt Abhängigkeit
+    - Der Negativ-Fehler der Residuen nimmt mit steigendem Gefittetem-Y zu. Die Regression "versucht" den Ausreisser zu kompensieren.
+
+Reg4:
+- Residuen sind grob Normalverteilt
+- Residual Plot zeigt Auffälligkeit
+     - X hat mehrere verschiedene Ausprägungen. Das gefittete-Y nimmt für die gleichen Ausprägungen X immer den gleichen Wert mit einem unterschiedlichen Fehler an.
+
+
 ```{r}
+#reg1_line <- function(x){0.5001*x + 3.0001}
+#reg2_line <- function(x){0.500*x + 3.001}
+#reg3_line <- function(x){0.4997*x + 3.0025}
+#reg4_line <- function(x){0.4999*x + 3.0017}
+
+get.residuen <- function(a, b, data){
+  return(data[,2] - (data[,1]*a + b))
+}
+
+analyse.residuen <- function(a,b, data){
+  residuen = get.residuen(a, b, data)
+  print(mean(residuen))
+  qqnorm(residuen)
+  fittet.y <- a*data[,1] + b
+  print(fittet.y)
+  plot(fittet.y, residuen)
+}
+
+analyse.residuen(0.5001, 3.0001, reg1)
+analyse.residuen(0.500, 3.001, reg2)
+analyse.residuen(0.4997, 3.0025, reg3)
+analyse.residuen(0.4999, 3.0017, reg4)
+
+#or just: plot(lm<i>)
 ```
 
 23a)
