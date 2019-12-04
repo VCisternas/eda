@@ -148,7 +148,7 @@ colnames(df1) <- c("mean_x", "mean_y", "sd_x", "sd_y", "cor_xy")
 
 print(df1)
 ```
-Was fällt auf: Obwohl die vier Verteilungen sehr unterschiedlich sind, sind die errechneten Werte jeweils sehr ähnlich.
+Was fällt auf: Obwohl die vier Verteilungen sehr unterschiedlich sind, sind die errechneten Werte, die das Merkmal y betreffen, jeweils sehr ähnlich. Das Merkmal x ist bei allen vier Verteilungen gleich, sodass die Werte, die x betreffen nicht voneinander abweichen.
 
 22b)
 
@@ -235,6 +235,8 @@ analyse.residuen(0.4999, 3.0017, reg4)
 23a)
 
 ```{r}
+install.packages("vcd")
+library("vcd")
 data2019 <- read.csv(file="UmfrageBis2019.csv", header=TRUE, sep=";")
 table_abs <- structable(data2019$Geschlecht ~ data2019$Fussballfan)
 table_abs
@@ -242,32 +244,35 @@ table_rel <- prop.table(table_abs)
 table_rel
 mosaicplot(table_abs, xlab = "Fußballfan", ylab = "Geschlecht", main= "Mosaic: Geschlecht~Fussballfan")
 ```
-Interpretation: Als Mann ist man eher Fußballfan
+Interpretation: Es ist erkennbar, dass eine Abhängigkeit zwischen den Merkmalen Geschlecht und Fußballfan besteht, da die Zeilen bzw. Spalen unterschiedliche Breiten aufweisen. Der größte Anteil der Befragten ist kein Fußballfan und unter denjenigen, die Fußballfan sind, ist der Großteil männlich. "Als Mann ist man eher Fußballfan"
 
 23b)
 
-Das Merkmal Musikalitaet ist im Gegensatz zum Merkmal Fussballfan nicht binär und kann somit mehr als 2 verschiedene Werte annehmen. In der Analyse ist dabei zu berücksichtigen, dass es keine Vier-Felder-Tafel gibt. Daher muss bei der Interpretation des Mosaic Plots darauf geachtet werden, dass das Merkmal Musikalitaet evtl nicht in richtiger Reihenfolge sortiert ist.
+Das Merkmal Musikalitaet ist im Gegensatz zum Merkmal Fussballfan nicht binär und kann somit mehr als 2 verschiedene Werte annehmen. In der Analyse ist dabei zu berücksichtigen, dass es keine Vier-Felder-Tafel gibt. Auch muss bei der Interpretation des Mosaic Plots darauf geachtet werden, dass das Merkmal Musikalitaet evtl. nicht in richtiger Reihenfolge sortiert ist.
 ```{r}
 abs_table2 <- structable(data2019$Geschlecht ~ data2019$Musikalitaet)
 abs_table2
-rel_table2 <- prop.table(abs_table)
+rel_table2 <- prop.table(abs_table2)
 rel_table2
 mosaicplot(abs_table2, xlab = "Musikalitaet", ylab = "Geschlecht", off = 5, main = "Mosaic: Geschlecht~ Musiaklitaet")
 ```
-Es ist kein deutlicher Zusammenhang zwischen Geschlecht und Musikalitaet erkennbar.
+Es ist kein deutlicher Zusammenhang zwischen Geschlecht und Musikalitaet erkennbar, da die Mehrzahl der Spalten eine ähnliche Breite aufweisen. (Die Auspräung NA wird nicht berücksichtigt.) 
 
 23c)
 
 ```{r}
 abs_table3 <- table(data2019$Haarfarbe, data2019$Musikalitaet)
 abs_table3
-rel_table3 <- prop.table(abs_table)
+rel_table3 <- prop.table(abs_table3)
 rel_table3
 mosaicplot(abs_table3, xlab = "Haarfarbe", ylab = "Musikalitaet", off = 25, main = "Mosaic: Musikalitaet ~ Haarfarbe")
+
 ```
 Es kann kein Zusammenhang festgestellt werden. Jedochkönnte aus dieser Stichprobe herausgelesen werden, dass alle Rothaarigen nur etwas musikalisch sind.
 
 23d)
+Der Mosaic Plot aus 23c) zeigt am ehesten Unabhängigkeit zwischen den beiden Merkmalen, da die Zeilenbreiten der Merkmalskombinationen eine ähnliche Breite aufweisen. Nur bei den Merkmalsausprägungen rot, schwarz und sonstige des Merkmals Haarfarbe ist eine unterschiedliche Breite dargestellt, was auf die geringe ANzahl der Beobachtungen zurückgeführt wird.
+
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
