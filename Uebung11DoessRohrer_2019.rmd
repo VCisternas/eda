@@ -98,6 +98,7 @@ help(mcycle)
 mcycle
 ```
 b)
+Die Beziehung zwischen der Beschleunigungskraft und der vergangenen Zeit lässt sich nicht gut linear ausdrücken. Dies ist auf dem Scatterplot, sowie vorallem in der residuen Anbalyse zu erkennen. Bei dem Histogram "Verteilung der Messzeitpunkte" fällt außerdem auf, dass bei ca. 15ms nach dem Aufprall besonders viele Messungen stattgefunden haben.
 ```{r}
 par(mfrow=c(2,2))
 plot(df$times, df$accel, ylab="Beschleunigungskraft in g", xlab="Zeit nach Aufprall in ms", main="Korrelation")
@@ -106,7 +107,7 @@ hist(df$times, xlab="Zeit der Messungen in ms", main="Verteilung der Messzeitpun
 ```
 
 ```{r}
-plot.regression <- function(data, model, header, x, y){
+plot.regression <- function(data, model, header){
   plot(data, main=header)
   abline(model, col = "red")
 }
@@ -134,11 +135,36 @@ Sie sollen die Zeitreihen 'globtemp' und 'gtemp' aus dem Paket 'astsa' (explorat
 \end{itemize}
 \end{auf}
 
-
+a)
+Beschreibt die Veränderung der "land-ocean temperature" pro Jahr. Ausgangspunkt war der Durchschnitt der Jahre 1951-1980. Es liegt eine Zeitreihe vor. Bei dem Datensatz globtemp handelt es sich um eine aktualisierte Variante des Datensatzes gtemp.
 ```{r}
+install.packages("astsa")
+library(astsa)
+
+help(globtemp)
 
 ```
 
+b)
+Interpretation ANOVA #Todo!:
+- Gesamtfehler beträgt 3.3692 und der Durchschnittsfehler 0.0251
+Q-Q-Plot:
+- Residuen sind Normalverteilt
+```{r}
+plot.timeseries.regression <- function(df,model){
+  plot.ts(globtemp)
+  abline(model, col="red")
+}
+
+df <- data.frame("Year"= seq(from=1880,to=2015,by=1), "deviation"= globtemp)
+linear.model <- lm(df$deviation~df$Year)
+plot.regression(df, linear.model, "linear regression year - deviation of temprature")
+anova(linear.model)
+
+par(mfrow=c(2,2))
+plot.timeseries.regression(df, linear.model)
+qqnorm(resid(linear.model), main="Q-Q Plot residuals of regression")
+```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
