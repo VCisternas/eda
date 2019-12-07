@@ -66,7 +66,7 @@ S. D?hler (FBMN, h\_da)\\
 
 \hrulefill
 
-**Name:**
+**Name: Doess Rohrer**
 
 **Punkte:**
 
@@ -98,7 +98,7 @@ help(mcycle)
 mcycle
 ```
 b)
-Die Beziehung zwischen der Beschleunigungskraft und der vergangenen Zeit lässt sich nicht gut linear ausdrücken. Dies ist auf dem Scatterplot, sowie vorallem in der residuen Anbalyse zu erkennen. Bei dem Histogram "Verteilung der Messzeitpunkte" fällt außerdem auf, dass bei ca. 15ms nach dem Aufprall besonders viele Messungen stattgefunden haben.
+Die Beziehung zwischen der Beschleunigungskraft und der vergangenen Zeit lässt sich nicht gut linear ausdrücken. Dies ist auf dem Scatterplot, sowie vorallem in der Residuenanalyse zu erkennen. Bei dem Histogram "Verteilung der Messzeitpunkte" fällt außerdem auf, dass bei ca. 15ms nach dem Aufprall besonders viele Messungen stattgefunden haben.
 ```{r}
 par(mfrow=c(2,2))
 plot(df$times, df$accel, ylab="Beschleunigungskraft in g", xlab="Zeit nach Aufprall in ms", main="Korrelation")
@@ -117,6 +117,48 @@ lm1 <- lm(df$accel~df$times)
 plot.regression(df, lm1, "linear regression model")
 
 plot(lm1)
+```
+
+c)
+
+```{r}
+
+library(shiny)
+
+ui <- bootstrapPage(
+  sidebarPanel(
+
+  selectInput(inputId = "kernel",
+              label = "Kernschaetzer:",
+              choices = c("box", "normal"),
+              selected = "normal"),
+  
+  sliderInput(inputId = "bandwidth",
+              label = "Bandbreite",
+              min = 0.5, max = 10, value = 1, step = 0.01)),
+  mainPanel(
+    plotOutput("main_plot"),
+    titlePanel(
+      "supported by: https://shiny.rstudio.com/gallery/faithful.html"
+    )
+    
+  )
+  
+)
+
+server <- function(input, output) {
+  
+  output$main_plot <- renderPlot({
+    
+    kernel <- input$kernel
+    bw <- input$bandwidth
+    plot(df$accel, df$times)
+    lines(ksmooth(df$accel, df$times, kernel, bandwidth = bw/0.25), col = "red")
+  
+  })
+}
+
+shinyApp(ui = ui, server = server)
 ```
 
 \begin{auf}
