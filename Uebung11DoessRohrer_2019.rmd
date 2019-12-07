@@ -1,11 +1,15 @@
 ---
-title: 
-author:
-date: 
-output: pdf_document
-header-includes: 
-    - \usepackage{amsthm}
-    - \usepackage{xcolor}
+title: 'null'
+author: 'null'
+date: 'null'
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+header-includes:
+- \usepackage{amsthm}
+- \usepackage{xcolor}
 documentclass: article
 <!---output: beamer_presentation--->
 ---
@@ -93,17 +97,18 @@ Der Datensatz enthält den Beschleunigungswert eines Kopfes in g innerhalb eines
 
 ```{r}
 library(MASS)
-df <- MASS::mcycle
-help(mcycle)
+df.mcycle <- MASS::mcycle
+# help(mcycle)
 mcycle
 ```
 b)
 Die Beziehung zwischen der Beschleunigungskraft und der vergangenen Zeit lässt sich nicht gut linear ausdrücken. Dies ist auf dem Scatterplot, sowie vorallem in der Residuenanalyse zu erkennen. Bei dem Histogram "Verteilung der Messzeitpunkte" fällt außerdem auf, dass bei ca. 15ms nach dem Aufprall besonders viele Messungen stattgefunden haben.
 ```{r}
 par(mfrow=c(2,2))
-plot(df$times, df$accel, ylab="Beschleunigungskraft in g", xlab="Zeit nach Aufprall in ms", main="Korrelation")
-hist(df$accel, xlab="Beschleunigung in g", main="Verteilung der gemessenen Werte")
-hist(df$times, xlab="Zeit der Messungen in ms", main="Verteilung der Messzeitpunkte")
+plot(df.mcycle$times, df.mcycle$accel, ylab="Beschleunigungskraft in g", xlab="Zeit nach Aufprall in ms", main="Korrelation")
+plot(df.mcycle)
+hist(df.mcycle$accel, xlab="Beschleunigung in g", main="Verteilung der gemessenen Werte")
+hist(df.mcycle$times, xlab="Zeit der Messungen in ms", main="Verteilung der Messzeitpunkte")
 ```
 
 ```{r}
@@ -112,9 +117,9 @@ plot.regression <- function(data, model, header){
   abline(model, col = "red")
 }
 
-lm1 <- lm(df$accel~df$times)
+lm1 <- lm(df.mcycle$accel~df.mcycle$times)
 
-plot.regression(df, lm1, "linear regression model")
+plot.regression(df.mcycle, lm1, "linear regression model")
 
 plot(lm1)
 ```
@@ -183,7 +188,8 @@ Beschreibt die Veränderung der "land-ocean temperature" pro Jahr. Ausgangspunkt
 install.packages("astsa")
 library(astsa)
 
-help(globtemp)
+# help(globtemp)
+# help(gtemp)
 
 ```
 
@@ -198,14 +204,21 @@ plot.timeseries.regression <- function(df,model){
   abline(model, col="red")
 }
 
-df <- data.frame("Year"= seq(from=1880,to=2015,by=1), "deviation"= globtemp)
-linear.model <- lm(df$deviation~df$Year)
-plot.regression(df, linear.model, "linear regression year - deviation of temprature")
+df.globtemp <- data.frame("Year"= seq(from=1880,to=2015,by=1), "deviation"= globtemp)
+df.gtemp <- data.frame("Year"= seq(from=1880,to=2009,by=1), "deviation"= gtemp)
+linear.model <- lm(df.globtemp$deviation~df.globtemp$Year)
+linear.model.1 <- lm(df.gtemp$deviation~df.gtemp$Year)
+par(mfrow=c(2,1))
+plot.regression(df.globtemp, linear.model, "linear regression year - deviation of temprature")
+plot.regression(df.gtemp, linear.model, "linear regression year - deviation of temprature")
 anova(linear.model)
+anova(linear.model.1)
 
 par(mfrow=c(2,2))
-plot.timeseries.regression(df, linear.model)
+plot.timeseries.regression(df.globtemp, linear.model)
 qqnorm(resid(linear.model), main="Q-Q Plot residuals of regression")
+plot.timeseries.regression(df.gtemp, linear.model.1)
+qqnorm(resid(linear.model.1), main="Q-Q Plot residuals of regression")
 ```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
