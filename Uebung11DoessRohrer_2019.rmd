@@ -128,7 +128,7 @@ Sie sollen die Zeitreihen 'globtemp' und 'gtemp' aus dem Paket 'astsa' (explorat
     \item ein QQ-Plot der Residuen. Dikutieren Sie, ob die Residuen normalverteilt sind.
     \end{itemize}
     Diskutieren Sie ggf. Unterschiede, die sich bei 'globtemp' gegen?ber 'gtemp' ergeben. 
-    \item[c)] Bearbeiten Sie Aufgabe b), indem Sie jedoch als Regressionssch?tzer Kern-Sch?tzer verwenden. Probieren Sie verschiedene Bandbreiten aus.  
+    \item[c)] Bearbeiten Sie Aufgabe b), indem Sie jedoch als Regressionssch?tzer Kern-Sch?tzer verwenden. Probieren Sie verschiedene Bandbreiten aus.
     \item[d)] Probieren Sie verschiedene symmetrische (und gewichtete)  Filter aus, die Sie auf die Zeitreihe anwenden. 
     \item[e)] Schrieben Sie shiny-Apps, die Aufgaben c) und d) implementieren.
     \item[f)] Wenden Sie die Holt-Winters-Methode auf die zeitreihe an, um z.B. eine exponentielle Gl?ttung der Zeitreihe zu erzielen. 
@@ -164,6 +164,37 @@ anova(linear.model)
 par(mfrow=c(2,2))
 plot.timeseries.regression(df, linear.model)
 qqnorm(resid(linear.model), main="Q-Q Plot residuals of regression")
+help(density)
+```
+
+c)
+```{r}
+
+with(df, {
+  plot(Year, deviation)
+  lines(ksmooth(Year, deviation, kernel = 'box', bandwidth= 10))
+})
+
+help(ksmooth)
+
+ksmooth(df$Year, df$deviation, kernel = 'box', bandwidth= 100)
+
+df
+```
+
+f)
+```{r}
+
+with(df, {
+  plot(Year, deviation)
+  lines(ksmooth(Year, deviation, kernel = 'box', bandwidth= 10))
+})
+
+help(ksmooth)
+
+ksmooth(df$Year, df$deviation, kernel = 'box', bandwidth= 100)
+
+df
 ```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
