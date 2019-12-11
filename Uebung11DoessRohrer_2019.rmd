@@ -1,11 +1,15 @@
 ---
-title: 
-author:
-date: 
-output: pdf_document
-header-includes: 
-    - \usepackage{amsthm}
-    - \usepackage{xcolor}
+title: 'null'
+author: 'null'
+date: 'null'
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+  word_document: default
+header-includes:
+- \usepackage{amsthm}
+- \usepackage{xcolor}
 documentclass: article
 <!---output: beamer_presentation--->
 ---
@@ -66,7 +70,7 @@ S. D?hler (FBMN, h\_da)\\
 
 \hrulefill
 
-**Name:**
+**Name: Doess Rohrer**
 
 **Punkte:**
 
@@ -93,17 +97,18 @@ Der Datensatz enthält den Beschleunigungswert eines Kopfes in g innerhalb eines
 
 ```{r}
 library(MASS)
-df <- MASS::mcycle
-help(mcycle)
+df.mcycle <- MASS::mcycle
+# help(mcycle)
 mcycle
 ```
 b)
-Die Beziehung zwischen der Beschleunigungskraft und der vergangenen Zeit lässt sich nicht gut linear ausdrücken. Dies ist auf dem Scatterplot, sowie vorallem in der residuen Anbalyse zu erkennen. Bei dem Histogram "Verteilung der Messzeitpunkte" fällt außerdem auf, dass bei ca. 15ms nach dem Aufprall besonders viele Messungen stattgefunden haben.
+Die Beziehung zwischen der Beschleunigungskraft und der vergangenen Zeit lässt sich nicht gut linear ausdrücken. Dies ist auf dem Scatterplot, sowie vorallem in der Residuenanalyse zu erkennen. Bei dem Histogram "Verteilung der Messzeitpunkte" fällt außerdem auf, dass bei ca. 15ms nach dem Aufprall besonders viele Messungen stattgefunden haben.
 ```{r}
 par(mfrow=c(2,2))
-plot(df$times, df$accel, ylab="Beschleunigungskraft in g", xlab="Zeit nach Aufprall in ms", main="Korrelation")
-hist(df$accel, xlab="Beschleunigung in g", main="Verteilung der gemessenen Werte")
-hist(df$times, xlab="Zeit der Messungen in ms", main="Verteilung der Messzeitpunkte")
+plot(df.mcycle$times, df.mcycle$accel, ylab="Beschleunigungskraft in g", xlab="Zeit nach Aufprall in ms", main="Korrelation")
+plot(df.mcycle)
+hist(df.mcycle$accel, xlab="Beschleunigung in g", main="Verteilung der gemessenen Werte")
+hist(df.mcycle$times, xlab="Zeit der Messungen in ms", main="Verteilung der Messzeitpunkte")
 ```
 
 ```{r}
@@ -112,11 +117,53 @@ plot.regression <- function(data, model, header){
   abline(model, col = "red")
 }
 
-lm1 <- lm(df$accel~df$times)
+lm1 <- lm(df.mcycle$accel~df.mcycle$times)
 
-plot.regression(df, lm1, "linear regression model")
+plot.regression(df.mcycle, lm1, "linear regression model")
 
 plot(lm1)
+```
+
+c)
+
+```{r}
+
+library(shiny)
+
+ui <- bootstrapPage(
+  sidebarPanel(
+
+  selectInput(inputId = "kernel",
+              label = "Kernschaetzer:",
+              choices = c("box", "normal"),
+              selected = "normal"),
+  
+  sliderInput(inputId = "bandwidth",
+              label = "Bandbreite",
+              min = 0.5, max = 10, value = 1, step = 0.01)),
+  mainPanel(
+    plotOutput("main_plot"),
+    titlePanel(
+      "supported by: https://shiny.rstudio.com/gallery/faithful.html"
+    )
+    
+  )
+  
+)
+
+server <- function(input, output) {
+  
+  output$main_plot <- renderPlot({
+    
+    kernel <- input$kernel
+    bw <- input$bandwidth
+    plot(df$accel, df$times)
+    lines(ksmooth(df$accel, df$times, kernel, bandwidth = bw/0.25), col = "red")
+  
+  })
+}
+
+shinyApp(ui = ui, server = server)
 ```
 
 \begin{auf}
@@ -141,7 +188,8 @@ Beschreibt die Veränderung der "land-ocean temperature" pro Jahr. Ausgangspunkt
 install.packages("astsa")
 library(astsa)
 
-help(globtemp)
+# help(globtemp)
+# help(gtemp)
 
 ```
 
@@ -156,45 +204,52 @@ plot.timeseries.regression <- function(df,model){
   abline(model, col="red")
 }
 
-df <- data.frame("Year"= seq(from=1880,to=2015,by=1), "deviation"= globtemp)
-linear.model <- lm(df$deviation~df$Year)
-plot.regression(df, linear.model, "linear regression year - deviation of temprature")
-anova(linear.model)
+df.globtemp <- data.frame("Year"= seq(from=1880,to=2015,by=1), "deviation"= globtemp)
+df.gtemp <- data.frame("Year"= seq(from=1880,to=2009,by=1), "deviation"= gtemp)
+linear.model.globtemp <- lm(df.globtemp$deviation~df.globtemp$Year)
+linear.model.gtemp <- lm(df.gtemp$deviation~df.gtemp$Year)
+anova(linear.model.globtemp)
+anova(linear.model.gtemp)
 
 par(mfrow=c(2,2))
-plot.timeseries.regression(df, linear.model)
-qqnorm(resid(linear.model), main="Q-Q Plot residuals of regression")
-help(density)
+plot.timeseries.regression(df.globtemp, linear.model.globtemp)
+qqnorm(resid(linear.model.globtemp), main="Q-Q Plot residuals of regression globtemp data")
+plot.timeseries.regression(df.gtemp, linear.model.gtemp)
+qqnorm(resid(linear.model.gtemp), main="Q-Q Plot residuals of regression gtemp data")
 ```
 
 c)
 ```{r}
 
-with(df, {
-  plot(Year, deviation)
-  lines(ksmooth(Year, deviation, kernel = 'box', bandwidth= 10))
-})
-
-help(ksmooth)
-
-ksmooth(df$Year, df$deviation, kernel = 'box', bandwidth= 100)
-
-df
+plot.timeseries.regression.kernel <- function(bw,df){
+  plot.ts(globtemp)
+  lines(ksmooth(df$Year, df$deviation, kernel="normal", bandwidth = bw/0.25), col = "red")
+}
+par(mfrow=c(2,1))
+plot.timeseries.regression.kernel(5, df.globtemp)
+plot.timeseries.regression.kernel(5, df.gtemp)
 ```
+25d)
 
-f)
 ```{r}
+ts.globtemp <- ts(df.globtemp$deviation, 1880, 2015,1)
+ts.globtemp.ma5 <- filter(ts.globtemp, rep(1/5,5), method = "convolution")
+ts.globtemp.ma10 <- filter(ts.globtemp, rep(1/10,10), method = "convolution")
+ts.globtemp.ma15 <- filter(ts.globtemp, rep(1/15,15), method = "convolution")
+plot(ts.globtemp)
+lines(ts.globtemp.ma5, col= "red")
+lines(ts.globtemp.ma10, col = "blue")
+lines(ts.globtemp.ma15, col = "green")
+install.packages("robfilter")
+library("robfilter")
+plot(wrm.filter(ts.globtemp, width = 11, weight.type = 2))
+plot(wrm.filter(ts.globtemp, width = 11, weight.type = 0))
+```
+25f)
 
-with(df, {
-  plot(Year, deviation)
-  lines(ksmooth(Year, deviation, kernel = 'box', bandwidth= 10))
-})
-
-help(ksmooth)
-
-ksmooth(df$Year, df$deviation, kernel = 'box', bandwidth= 100)
-
-df
+```{r}
+model <- HoltWinters(ts.globtemp, alpha = 0.2, beta = FALSE, gamma = FALSE)
+plot(model)
 ```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
