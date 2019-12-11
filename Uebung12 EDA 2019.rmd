@@ -55,18 +55,18 @@ knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
 \begin{centering}
 %\vspace{-2 cm}
 \Huge
-{\bf Übung 12}\\
+{\bf ?bung 12}\\
 \Large
 Explorative Datenanalyse und Visualisierung\\
 \normalsize
 Wintersemester 2019\\
-S. Döhler (FBMN, h\_da)\\
+S. D?hler (FBMN, h\_da)\\
 \end{centering}
 
 
 \hrulefill
 
-**Name:**
+**Name: DOess Rohrer**
 
 
 \hrulefill
@@ -84,20 +84,20 @@ Analysieren Sie die bereinigten Daten {\ttfamily UmfrageBis2019.csv} (s. Aufgabe
 \begin{itemize}
     \item[a)] Erzeugen Sie ein Histogramm der Variablen {\ttfamily Groesse}
     \begin{itemize}
-      \item[i)] Für die Gesamtpopulation
+      \item[i)] F?r die Gesamtpopulation
       \item[ii)] Getrennt nach Geschlechtern (arbeiten Sie mit facets)
     \end{itemize}
-    Was fällt Ihnen bei der Default-Klasseneinteilung auf? Verwenden Sie zusätzlich die Aufteilung nach der Diaconis-Friedman-Methode.
-    \item[b)] Stellen Sie Kerndichteschätzer der Variablen {\ttfamily Groesse} dar.
+    Was f?llt Ihnen bei der Default-Klasseneinteilung auf? Verwenden Sie zus?tzlich die Aufteilung nach der Diaconis-Friedman-Methode.
+    \item[b)] Stellen Sie Kerndichtesch?tzer der Variablen {\ttfamily Groesse} dar.
       \begin{itemize}
         \item Getrennt nach Geschlechtern, jedoch in einer gemeinsamen Grafik (mit verschiedenen Farben und Schraffierungen)
-        \item Fügen Sie einen rug-Plot mit entsprechenden Farben hinzu.
+        \item F?gen Sie einen rug-Plot mit entsprechenden Farben hinzu.
       \end{itemize}
     
     \item[c)] Stellen Sie die empirische Dichtefunktion der Variablen {\ttfamily Groesse} dar.
       \begin{itemize}
         \item Getrennt nach Geschlechtern, jedoch in einer gemeinsamen Grafik (mit verschiedenen Farben und Schraffierungen)
-        \item Fügen Sie einen rug-Plot mit entsprechenden Farben hinzu.
+        \item F?gen Sie einen rug-Plot mit entsprechenden Farben hinzu.
     \end{itemize}
     
     \item[d)] Erzeugen Sie Box- und Violin-Plots der Variablen {\ttfamily Groesse} getrennt nach Geschlechtern, jedoch in jeweils einer gemeinsamen Grafik.
@@ -105,16 +105,43 @@ Analysieren Sie die bereinigten Daten {\ttfamily UmfrageBis2019.csv} (s. Aufgabe
     
     \item[e)] Erzeugen Sie einen Scatterplot der Variablen {\ttfamily Schuhgroesse} (y-Achse) und {\ttfamily Groesse} (x-Achse).
       \begin{itemize}
-        \item Färben Sie die Datenpunkte nach Geschlecht
+        \item F?rben Sie die Datenpunkte nach Geschlecht
         \item Passen Sie pro Geschlecht jeweils eine lineare Regression an und stellen Sie die resultierenden Regressionsgeraden mit der passenden Farbe zusammen mit den Daten dar.
       \end{itemize}
     \end{itemize}
 \end{auf}
    
-\paragraph{Lösung} <!---Hier Schreiben Sie--->
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
 
 ```{r}
+install.packages("ggplot2")
+library("ggplot2")
+data <- read.csv("UmfrageBis2019.csv", header = TRUE, sep = ";", 
+         dec = ".", fill = TRUE, comment.char = "")
+colnames(data)
+names(data)[names(data) == "Letzte.Schulnote.in.Mathematik"] <- "Mathe"
+names(data)[names(data) == "Stunden.am.Tag.in.WhatsApp"] <- "WhatsApp"
+names(data)[names(data) == "Anzahl.Paar.Schuhe.im.Schrank"] <- "AnzSchuhe"
+```
+28a)
 
+```{r}
+ggplot(data, aes(x=data$Groesse))+geom_bar()
+df.w <- subset(data, data$Geschlecht == "w")
+df.m <- subset(data, data$Geschlecht == "m")
+length <- rbind(df.m, df.w)
+ggplot(length, aes(data$Groesse))+
+  geom_bar(data = df.w, colour = "black", fill = "red")+ 
+  geom_bar(data= df.m, colour = "black", fill = "blue")
+
+
+hist <- ggplot(data, aes(x= data$Groesse))+ geom_bar()
+hist + facet_grid(Geschlecht ~ .)
+
+nclass.FD(data$Groesse)
+
+hist <- ggplot(data, aes(x= data$Groesse))+ geom_histogram(binwidth = 7, colour="black")
+hist + facet_grid(Geschlecht ~ .)
 ```
 
 
