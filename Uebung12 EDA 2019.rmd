@@ -1,0 +1,152 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "100%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{definition}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf ?bung 12}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. D?hler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name: DOess Rohrer**
+
+
+\hrulefill
+
+
+\setcounter{auf}{26} 
+
+\begin{auf}
+Arbeiten Sie das Kapitel 22 in \emph{R for Data Science} durch.
+\end{auf}
+
+
+\begin{auf}
+Analysieren Sie die bereinigten Daten {\ttfamily UmfrageBis2019.csv} (s. Aufgabe 21) mit {\ttfamily ggplot2} (arbeiten Sie wieder mit den neuen Spaltennamen...).
+\begin{itemize}
+    \item[a)] Erzeugen Sie ein Histogramm der Variablen {\ttfamily Groesse}
+    \begin{itemize}
+      \item[i)] F?r die Gesamtpopulation
+      \item[ii)] Getrennt nach Geschlechtern (arbeiten Sie mit facets)
+    \end{itemize}
+    Was f?llt Ihnen bei der Default-Klasseneinteilung auf? Verwenden Sie zus?tzlich die Aufteilung nach der Diaconis-Friedman-Methode.
+    \item[b)] Stellen Sie Kerndichtesch?tzer der Variablen {\ttfamily Groesse} dar.
+      \begin{itemize}
+        \item Getrennt nach Geschlechtern, jedoch in einer gemeinsamen Grafik (mit verschiedenen Farben und Schraffierungen)
+        \item F?gen Sie einen rug-Plot mit entsprechenden Farben hinzu.
+      \end{itemize}
+    
+    \item[c)] Stellen Sie die empirische Dichtefunktion der Variablen {\ttfamily Groesse} dar.
+      \begin{itemize}
+        \item Getrennt nach Geschlechtern, jedoch in einer gemeinsamen Grafik (mit verschiedenen Farben und Schraffierungen)
+        \item F?gen Sie einen rug-Plot mit entsprechenden Farben hinzu.
+    \end{itemize}
+    
+    \item[d)] Erzeugen Sie Box- und Violin-Plots der Variablen {\ttfamily Groesse} getrennt nach Geschlechtern, jedoch in jeweils einer gemeinsamen Grafik.
+    
+    
+    \item[e)] Erzeugen Sie einen Scatterplot der Variablen {\ttfamily Schuhgroesse} (y-Achse) und {\ttfamily Groesse} (x-Achse).
+      \begin{itemize}
+        \item F?rben Sie die Datenpunkte nach Geschlecht
+        \item Passen Sie pro Geschlecht jeweils eine lineare Regression an und stellen Sie die resultierenden Regressionsgeraden mit der passenden Farbe zusammen mit den Daten dar.
+      \end{itemize}
+    \end{itemize}
+\end{auf}
+   
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+
+```{r}
+install.packages("ggplot2")
+library("ggplot2")
+data <- read.csv("UmfrageBis2019.csv", header = TRUE, sep = ";", 
+         dec = ".", fill = TRUE, comment.char = "")
+colnames(data)
+names(data)[names(data) == "Letzte.Schulnote.in.Mathematik"] <- "Mathe"
+names(data)[names(data) == "Stunden.am.Tag.in.WhatsApp"] <- "WhatsApp"
+names(data)[names(data) == "Anzahl.Paar.Schuhe.im.Schrank"] <- "AnzSchuhe"
+```
+28a)
+
+```{r}
+ggplot(data, aes(x=data$Groesse))+geom_bar()
+df.w <- subset(data, data$Geschlecht == "w")
+df.m <- subset(data, data$Geschlecht == "m")
+length <- rbind(df.m, df.w)
+ggplot(length, aes(data$Groesse))+
+  geom_bar(data = df.w, colour = "black", fill = "red")+ 
+  geom_bar(data= df.m, colour = "black", fill = "blue")
+
+
+hist <- ggplot(data, aes(x= data$Groesse))+ geom_bar()
+hist + facet_grid(Geschlecht ~ .)
+
+nclass.FD(data$Groesse)
+
+hist <- ggplot(data, aes(x= data$Groesse))+ geom_histogram(binwidth = 7, colour="black")
+hist + facet_grid(Geschlecht ~ .)
+```
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+\vspace{3em}
+

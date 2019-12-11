@@ -92,7 +92,7 @@ Der Datensatz 'mcycle' im R-Paket 'MASS' enth?lt Daten mit den Merkmalen 'accel'
     \item[c)] Schreiben Sie eine shiny-Application analog zur Aufgabe 17, die es dem Benutzer erlaubt, unter verscheidenen Kernen und Bandbreiten auszuw?hlen.
 \end{itemize}
 \end{auf}
-a)
+24a)
 Der Datensatz enthält den Beschleunigungswert eines Kopfes in g innerhalb eines Zeitintervalls nach einem Unfall. Jede Zeile beeinhaltet den Beschleunigungswert zu einem Zeitpunkt. Es liegt eine Zeitreihe vor.
 
 ```{r}
@@ -101,7 +101,7 @@ df.mcycle <- MASS::mcycle
 # help(mcycle)
 mcycle
 ```
-b)
+24b)
 Die Beziehung zwischen der Beschleunigungskraft und der vergangenen Zeit lässt sich nicht gut linear ausdrücken. Dies ist auf dem Scatterplot, sowie vorallem in der Residuenanalyse zu erkennen. Bei dem Histogram "Verteilung der Messzeitpunkte" fällt außerdem auf, dass bei ca. 15ms nach dem Aufprall besonders viele Messungen stattgefunden haben.
 ```{r}
 par(mfrow=c(2,2))
@@ -124,7 +124,7 @@ plot.regression(df.mcycle, lm1, "linear regression model")
 plot(lm1)
 ```
 
-c)
+24c)
 
 ```{r}
 
@@ -182,7 +182,7 @@ Sie sollen die Zeitreihen 'globtemp' und 'gtemp' aus dem Paket 'astsa' (explorat
 \end{itemize}
 \end{auf}
 
-a)
+25a)
 Beschreibt die Veränderung der "land-ocean temperature" pro Jahr. Ausgangspunkt war der Durchschnitt der Jahre 1951-1980. Es liegt eine Zeitreihe vor. Bei dem Datensatz globtemp handelt es sich um eine aktualisierte Variante des Datensatzes gtemp.
 ```{r}
 install.packages("astsa")
@@ -193,7 +193,7 @@ library(astsa)
 
 ```
 
-b)
+25b)
 Interpretation ANOVA #Todo!:
 - Gesamtfehler beträgt 3.3692 und der Durchschnittsfehler 0.0251
 Q-Q-Plot:
@@ -251,6 +251,45 @@ plot(wrm.filter(ts.globtemp, width = 11, weight.type = 0))
 model <- HoltWinters(ts.globtemp, alpha = 0.2, beta = FALSE, gamma = FALSE)
 plot(model)
 ```
+25c)
+```{r}
+
+plot.timeseries.regression.kernel <- function(bw,df){
+  plot.ts(globtemp)
+  lines(ksmooth(df$Year, df$deviation, "normal", bandwidth = bw/0.25), col = "red")
+}
+
+par(mfrow=c(2,1))
+plot.timeseries.regression.kernel(5 ,df.globtemp)
+plot.timeseries.regression.kernel(5, df.gtemp)
+```
+25d)
+
+```{r}
+ts.globtemp <- ts(df.globtemp$deviation, 1880, 2015,1)
+ts.globtemp.ma5 <- filter(ts.globtemp, rep(1/5,5), method = "convolution")
+ts.globtemp.ma10 <- filter(ts.globtemp, rep(1/10,10), method = "convolution")
+ts.globtemp.ma15 <- filter(ts.globtemp, rep(1/15,15), method = "convolution")
+plot(ts.globtemp)
+lines(ts.globtemp.ma5, col= "red")
+lines(ts.globtemp.ma10, col = "blue")
+lines(ts.globtemp.ma15, col = "green")
+
+install.packages("robfilter")
+library("robfilter")
+
+plot(wrm.filter(ts.globtemp, width = 11, weight.type = 2))
+plot(wrm.filter(ts.globtemp, width = 11, weight.type = 0))
+
+```
+25f)
+
+```{r}
+ model <- HoltWinters(ts.globtemp, alpha = 0.2, beta = FALSE, gamma = FALSE)
+plot(model)
+```
+
+}
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
