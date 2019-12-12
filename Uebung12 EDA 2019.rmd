@@ -158,8 +158,27 @@ ggplot(data, aes(data$Groesse, colour= data$Geschlecht)) + geom_density(adjust=1
 28c)
 Annahme: Es ist die empirische Verteilungsfunktion gemeint.
 ```{r}
-
+ggplot(data, aes(data$Groesse, colour=data$Geschlecht)) + 
+  stat_ecdf(geom="step") +
+  labs(title="Männer sind im Durchschnitt größer")
 ```
+28d)
+Anmerkung: Gibts auch einfache ggplot2 interne Lösungen? Ohne 2 extra Pakete?
+```{r}
+install.packages("gridExtra")
+library(grid)
+library(gridExtra)
+
+box.plot <- ggplot(data, aes(y = data$Groesse, x = data$Geschlecht)) + 
+  geom_boxplot() + 
+  labs(title="Männer sind im Durchschnitt größer", x="Geschlecht", y="Groesse")
+violin.plot <- ggplot(data, aes(y = data$Groesse, x = data$Geschlecht)) + 
+  geom_violin() + 
+  labs(title="Männer sind im Durchschnitt größer", x="Geschlecht", y="Groesse")
+
+grid.arrange(box.plot, violin.plot, ncol=2)
+```
+
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
 \textcolor{gray}{\hrulefill}
