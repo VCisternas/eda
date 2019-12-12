@@ -150,7 +150,10 @@ ggplot(data, aes(data$Groesse)) + geom_histogram(bins="15") + facet_grid(data$Ge
   labs(title="Männer sind im Durchschnitt größer", x="Groesse in cm", y="Anzahl")
 
 ```
-
+28b)
+```{r}
+ggplot(data, aes(data$Groesse, colour= data$Geschlecht)) + geom_density(adjust=1/2) + geom_rug()
+```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
