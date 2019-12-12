@@ -178,7 +178,11 @@ violin.plot <- ggplot(data, aes(y = data$Groesse, x = data$Geschlecht)) +
 
 grid.arrange(box.plot, violin.plot, ncol=2)
 ```
-
+28e)
+```{r}
+ggplot(data, aes(x=data$Groesse, y=data$Schuhgroesse, colour=data$Geschlecht)) + geom_point() + geom_smooth(method = "lm") + 
+labs(title="", x="Körpergröße", y="Schuhgröße", colour="Geschlecht")
+```
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
 \textcolor{gray}{\hrulefill}
