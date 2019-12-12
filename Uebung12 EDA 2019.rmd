@@ -142,6 +142,13 @@ nclass.FD(data$Groesse)
 
 hist <- ggplot(data, aes(x= data$Groesse))+ geom_histogram(binwidth = 7, colour="black")
 hist + facet_grid(Geschlecht ~ .)
+
+
+#or just:
+ggplot(data, aes(data$Groesse)) + geom_histogram(bins="15")
+ggplot(data, aes(data$Groesse)) + geom_histogram(bins="15") + facet_grid(data$Geschlecht) + 
+  labs(title="Männer sind im Durchschnitt größer", x="Groesse in cm", y="Anzahl")
+
 ```
 
 
