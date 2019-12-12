@@ -155,7 +155,11 @@ ggplot(data, aes(data$Groesse)) + geom_histogram(bins="15") + facet_grid(data$Ge
 ggplot(data, aes(data$Groesse, colour= data$Geschlecht)) + geom_density(adjust=1/2) + geom_rug() + 
   labs(title='Männer sind im durchschnitt größer', x='Größe in cm', colour="Geschlecht")
 ```
+28c)
+Annahme: Es ist die empirische Verteilungsfunktion gemeint.
+```{r}
 
+```
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
 \textcolor{gray}{\hrulefill}
