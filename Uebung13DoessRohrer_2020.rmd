@@ -1,0 +1,130 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "40%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{definition}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf ?bung 12}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. D?hler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:**
+
+
+\hrulefill
+
+\setcounter{auf}{28} 
+
+\begin{auf}
+Arbeiten Sie weiter an dem Datensatz {\ttfamily UmfrageBis2019.csv} (s. Aufgabe 21).
+\begin{itemize}
+    \item[a)] Erzeugen Sie eine Scatterplotmatrix des gesamten Datensatzes (entfernen Sie ggf. irrelevante Merkmale). Experimentieren Sie auch mit der Funktion 'gpairs' aus dem gleichnamigen R-Paket. 
+    \item[b)] Stellen Sie nun den 3-dimensionalen Datensatz der Merkmale Schuhgroesse, Groesse und Anzahl Schuhe als 3-dimensionalen scatterplot dar (Sie k?nnen dazu das Paket 'scatterplot3d' verwenden). Welche Einstellung der Parameter liefert eine aufschlussreiche Darstellung? Interpretieren Sie die Daten.
+    \item[c)] Visualisieren Sie die Correlationsmatrix durch ein Correlogramm der Daten aus b) z.B. mithilfe der Pakete 'corrplot' und 'psych'. Interpetieren Sie die Ergebnisse.
+    \item[d)] Stellen Sie die Daten aus b) durch einen parallelen Koordinaten-Plot dar. Interpretieren Sie diesen.
+    \item[e)] Betrachten Sie nun die gemeinsame Verteilung von 'Groesse' und 'Schuhgroesse'. Sie sollen einen 2-dimensionalen Kerndichtesch?tzer der Daten visualisieren. Ein solcher ist beispielsweise im Paket 'MASS' implementiert.
+    \begin{itemize}
+    \item[i)] Stellen Sie einen H?henlinienplot des Sch?tzers zusammen mit den Originaldaten dar. 
+    \item[ii)] Stellen Sie einen Graphen des Sch?tzers dar.
+    \item[iii)] Stellen Sie eine heatmap des Sch?tzers dar.
+    \end{itemize}
+Interpretieren Sie die Ergebnisse.
+\end{itemize}
+Denken Sie bitte wie immer daran, die Parameter der Grafiken sorf?ltig zu w?hlen sowie sie sinnvoll zu beschriften (Titel, Achsen, etc)! 
+\end{auf}
+
+
+```{r}
+df <- read.csv('./UmfrageBis2019.csv', sep=";")
+```
+Aufgabe a)
+```{r}
+
+cleaned.df <- df[,c(-1,-5,-6,-10)]
+plot(cleaned.df)
+
+install.packages("gpairs")
+library("gpairs")
+
+gpairs(cleaned.df)
+help(gpairs)
+df
+```
+Aufgabe b)
+```{r}
+install.packages("scatterplot3d")
+library("scatterplot3d")
+
+threeD.df <- df[,c("Groesse", "Anzahl.Paar.Schuhe.im.Schrank", "Schuhgroesse")]
+scatterplot3d(threeD.df)
+#Ausbaufähig
+```
+
+Aufgabe c)
+```{r}
+install.packages("corrplot")
+library("corrplot")
+
+```
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
