@@ -68,7 +68,7 @@ S. D?hler (FBMN, h\_da)\\
 
 \hrulefill
 
-**Name:**
+**Name: Doess, Rohrer**
 
 
 \hrulefill
@@ -115,13 +115,14 @@ Aufgabe b)
 install.packages("scatterplot3d")
 library("scatterplot3d")
 
-threeD.df <- df[,c("Groesse", "Anzahl.Paar.Schuhe.im.Schrank", "Schuhgroesse")]
-threeD3.df <- df[,c("Groesse", "Schuhgroesse", "Anzahl.Paar.Schuhe.im.Schrank")]
-scatterplot3d(threeD.df, type = 'h', highlight.3d = TRUE, angle = 75)
-scatterplot3d(threeD3.df, type = 'h', highlight.3d = TRUE, angle= 30)
-#Ausbaufähig
+names(df)[names(df)=="Anzahl.Paar.Schuhe.im.Schrank"] <- "Schuhe"
+threeD.df <- df[,c("Groesse", "Schuhgroesse", "Schuhe")]
+threeD2.df <- df[,c("Groesse", "Schuhe", "Schuhgroesse")]
+scatterplot3d(threeD2.df, type = 'h', highlight.3d = TRUE, angle = 75)
+scatterplot3d(threeD2.df, type = 'h', highlight.3d = TRUE, angle= 30)
 ```
-Interpretation: Anhand des 3D Scatterplots ist wie aus dem 2D Scatterplot der Merkmale Groesse und Schuhgroesse zu erkennen, dass diese beiden Merkmale eine positive Korrelation besitzen, da man grob sehen kann, dass bei einer größeren Groesse auch eine groessere Schuhgroesse vorliegt. Zudem ist zu erkennen, dass alle drei Merkmale keine nennenswerten Ausreißer besitzen. Jedoch kann bei dem Merkmal Groesse eine Mehrzahl an Beobachtungen im intervall von 165 und 185 cm eingetilt werden. Bei dem Merkmal Schuhgroesse ist dementsprechend eine ähnliche Einteilung der Mehrzahl der Beobachtungen im Intervall zwischen 38 und 46 zu erkennen. Bei dem Merkmal Anz.Paar.Schuhe kann man von einer Häufung der Merkmale im Intervall [5;15]. Dieses Intervall kann besser bestimmt werden, wenn der Winkel (property: angle) zwischen x und y Achse verkleinert wird. Anhand des Scatterplots ist kein fester Zusammenhang zwischen dem Merkmal Anz.Paar.Schuhe und den Mermalen Groesse oder Schuhgroesse zu erkennen, da die Streuung sehr gross und gleichmaessig verteilt ist. Jedoch ist hervorzuheben, dass 4 der 5 höchsten Werte in der unteren Hälfte des Merkmals Groesse liegen und somit evtl von einer negativen Korrelation ausgegangen werden kanncorrplot.
+
+Interpretation: Anhand des 3D Scatterplots ist wie aus dem 2D Scatterplot der Merkmale Groesse und Schuhgroesse zu erkennen, dass diese beiden Merkmale eine positive Korrelation besitzen, da man grob sehen kann, dass bei einer größeren Groesse auch eine groessere Schuhgroesse vorliegt. Zudem ist zu erkennen, dass alle drei Merkmale keine nennenswerten Ausreißer besitzen. Jedoch kann bei dem Merkmal Groesse eine Mehrzahl an Beobachtungen im intervall von 165 und 185 cm eingetilt werden. Bei dem Merkmal Schuhgroesse ist dementsprechend eine ähnliche Einteilung der Mehrzahl der Beobachtungen im Intervall zwischen 38 und 46 zu erkennen. Bei dem Merkmal Schuhe kann man von einer Häufung der Merkmale im Intervall [5;15]. Dieses Intervall kann besser bestimmt werden, wenn der Winkel (property: angle) zwischen x und y Achse verkleinert wird. Anhand des Scatterplots ist kein fester Zusammenhang zwischen dem Merkmal Schuhe und den Mermalen Groesse oder Schuhgroesse zu erkennen, da die Streuung sehr gross und gleichmaessig verteilt ist. Jedoch ist hervorzuheben, dass 4 der 5 höchsten Werte in der unteren Hälfte des Merkmals Groesse liegen und somit evtl von einer negativen Korrelation ausgegangen werden kanncorrplot.
 
 Aufgabe c)
 ```{r}
@@ -132,19 +133,26 @@ help(corrplot)
 corrplot(cor(threeD.df), is.corr = FALSE, method = 'ellipse', cl.align.text = 'l', tl.col = 'black')
 
 ```
-Interpretation: Wie auch im Scatterplot ist zu erkennen, dass die beiden Merkmale Groesse und Schuhgroesse eine starke (~ 0,7) positive Korrelation haben und das Merkmal Anz.Paar.Schuhe jeweils zu den beiden anderen Merkmalen eine leicht negative (~ -0,07 und ~ -0.25) Korrelation aufweist. Ob dadurch davon ausgegangen werden kann, dass kleinere Schuhe günstiger sind und deshalb öfter gekauft werden ist fragwürig.
+
+Interpretation: Wie auch im Scatterplot ist zu erkennen, dass die beiden Merkmale Groesse und Schuhgroesse eine starke (~ 0,7) positive Korrelation haben und das Merkmal Schuhe jeweils zu den beiden anderen Merkmalen eine leicht negative (~ -0,07 und ~ -0.25) Korrelation aufweist. Ob dadurch davon ausgegangen werden kann, dass kleinere Schuhe günstiger sind und deshalb öfter gekauft werden ist fragwürig.
 
 Aufgabe d)
 ```{r}
 install.packages("MASS")
 library("MASS")
+
+help("MASS")
 my_colors1 <- colors()[as.numeric(threeD.df$Groesse)*0.3]
 parcoord(threeD2.df, col = my_colors1, var.label = TRUE)
-parcoord(threeD.df, var.label = TRUE) #Anz.Paar.Schueh in Mitte des Plots
 ```
+
+Interpretation: Ist das Merkmal Groesse in der Mitte des Plots, ist zu erkennen, dass eine starke Korrelation (r~0,8) zwischen der Schuhgroesse und der Groesse in den Daten besteht, da es nur wenige Linien gibt, die nicht dem Muster entsprechen, welches eine positive Korrelation beschreibt. Die überwiegend geraden Linien zwischen Groesse und Schuhgröße deuten auf eine positive Korrelation hin. Beispielsweise gehören Datenpunkte mit kleiner Größe und kleiner Schuhgröße zusammen.
+```{r}
+parcoord(threeD.df, var.label = TRUE) #Anz.Paar.Schuehe in Mitte des Plots
+```
+
 Interpretation:
-Ist das Merkmal in der Mitte des Parallel Coordinate Plots ist gut zu erkennen, dass zu den Merkmalen Groesse und Schuhgroesse nur eine geringe Korrelation besteht, da die Verbindungen keinem Muster folgen. Auch hier ist zu erkennen, dass 4 der 5 größten Werte des Merkmals Anz.Paar.Schuhe zu relativ kleinen Werten der beiden anderen Merkmale verbunden sind, sodass eine leicht negative Korrelation angenommen werden kann.
-Ist das Merkmal Groesse in der Mitte des Plots. ist die positive Korrelation zwischen der Groesse und der Schuhgroesse erkennbar, da es nur wenige Linien gibt, die nicht dem Muster entsprechen, welches eine positive Korrelation beschreibt.
+Ist das Merkmal Schuhe in der Mitte des Parallel Coordinate Plots ist gut zu erkennen, dass zu den Merkmalen Groesse und Schuhgroesse nur eine geringe Korrelation besteht, da die Verbindungen keinem Muster folgen. Die Linien erscheinen zufällig. Auch hier ist zu erkennen, dass 4 der 5 größten Werte des Merkmals Schuhe zu relativ kleinen Werten der beiden anderen Merkmale verbunden sind, sodass eine leicht negative Korrelation angenommen werden kann.
 Es ist wichtig, bei dieser Art von Datenvisualisierung auf die Reihenfolge der Merkmale zu achten., da sonst Erkenntnisse verloren gehen könnten.
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
