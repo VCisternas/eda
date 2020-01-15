@@ -154,6 +154,36 @@ parcoord(threeD.df, var.label = TRUE) #Anz.Paar.Schuehe in Mitte des Plots
 Interpretation:
 Ist das Merkmal Schuhe in der Mitte des Parallel Coordinate Plots ist gut zu erkennen, dass zu den Merkmalen Groesse und Schuhgroesse nur eine geringe Korrelation besteht, da die Verbindungen keinem Muster folgen. Die Linien erscheinen zufällig. Auch hier ist zu erkennen, dass 4 der 5 größten Werte des Merkmals Schuhe zu relativ kleinen Werten der beiden anderen Merkmale verbunden sind, sodass eine leicht negative Korrelation angenommen werden kann.
 Es ist wichtig, bei dieser Art von Datenvisualisierung auf die Reihenfolge der Merkmale zu achten., da sonst Erkenntnisse verloren gehen könnten.
+
+Aufgabe e)
+
+```{r}
+twoD.df <- df[,c("Groesse", "Schuhgroesse")]
+h <- 5
+sorted.groesse <- sort(twoD.df$Groesse)
+sorted.schuhgroesse <- sort(twoD.df$Schuhgroesse)
+kernel <- kde2d(sorted.groesse, sorted.schuhgroesse, h, n = 25, lims = c(range(twoD.df$Groesse), range(twoD.df$Schuhgroesse)))
+contour(x = seq(0, 1, length.out = nrow(z)),
+        y = seq(0, 1, length.out = ncol(z)),kernel)
+
+install.packages('plotly')
+library(plotly)
+plot(twoD.df, col = 'red')
+contour(kernel$x, kernel$y, kernel$z, add = TRUE)
+# plotly version surface plot
+plot_ly(x = kernel$x, y = kernel$y, z = kernel$z, type = "contour")
+```
+```{r}
+# surface plot
+persp(x = kernel$x, y = kernel$y, z = kernel$z)
+
+# plotly heatmap
+plot_ly(x = kernel$x, y = kernel$y, z=kernel$z, type = "heatmap")
+
+```
+
+
+Interpretation: Es ist erkennbar, dass die beiden Merkmale eine starke positive Korrelation aufweisen und in der Mitte der jeweiligen Merkmalsausprägungen ein Intervall mit erhöhter Beobachtungsdichte vorliegt, sodass davon ausgegangen werden kann, dass der Dichteschäter einer ungefähren Normalverteilung entspricht. Es gibt nur wenige Ausreißer, die vom Dichteschätzer aum beachtet werden.
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
 \textcolor{gray}{\hrulefill}
