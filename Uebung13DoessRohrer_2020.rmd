@@ -140,8 +140,10 @@ help("MASS")
 parcoord(threeD.df)
 ```
 Inerpretation:
-Anhand des Parallel Coordinate Plots ist zu erkennen, dass es einen Zusammenhang zwischen der Groesse und der Schuhgroesse gibt. Zwischen Groesse und Schuhgroesse zeichnet sich ein Muster ab.
+Die überwiegend geraden Linien zwischen Groesse und Schuhgröße deuten auf eine positive Korrelation hin. Beispielsweise gehören Datenpunkte mit kleiner Größe und kleiner Schuhgröße zusammen.
+
 Zwischen der Schuhgroesse und der Anzahl an Schuhen ist kein Zusammenhang zu erkennen. Die Linien erscheinen Zufällig.
+
 Aufgabe e)
 ```{r}
 size.shoesize <- threeD.df[,c(1,3)]
