@@ -1,11 +1,13 @@
 ---
-title: 
-author:
-date: 
-output: pdf_document
-header-includes: 
-    - \usepackage{amsthm}
-    - \usepackage{xcolor}
+title: "null"
+author: "null"
+date: "null"
+output:
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{amsthm}
+- \usepackage{xcolor}
 documentclass: article
 <!---output: beamer_presentation--->
 ---
@@ -114,9 +116,12 @@ install.packages("scatterplot3d")
 library("scatterplot3d")
 
 threeD.df <- df[,c("Groesse", "Anzahl.Paar.Schuhe.im.Schrank", "Schuhgroesse")]
-scatterplot3d(threeD.df)
+threeD3.df <- df[,c("Groesse", "Schuhgroesse", "Anzahl.Paar.Schuhe.im.Schrank")]
+scatterplot3d(threeD.df, type = 'h', highlight.3d = TRUE, angle = 75)
+scatterplot3d(threeD3.df, type = 'h', highlight.3d = TRUE, angle= 30)
 #Ausbaufähig
 ```
+Interpretation: Anhand des 3D Scatterplots ist wie aus dem 2D Scatterplot der Merkmale Groesse und Schuhgroesse zu erkennen, dass diese beiden Merkmale eine positive Korrelation besitzen, da man grob sehen kann, dass bei einer größeren Groesse auch eine groessere Schuhgroesse vorliegt. Zudem ist zu erkennen, dass alle drei Merkmale keine nennenswerten Ausreißer besitzen. Jedoch kann bei dem Merkmal Groesse eine Mehrzahl an Beobachtungen im intervall von 165 und 185 cm eingetilt werden. Bei dem Merkmal Schuhgroesse ist dementsprechend eine ähnliche Einteilung der Mehrzahl der Beobachtungen im Intervall zwischen 38 und 46 zu erkennen. Bei dem Merkmal Anz.Paar.Schuhe kann man von einer Häufung der Merkmale im Intervall [5;15]. Dieses Intervall kann besser bestimmt werden, wenn der Winkel (property: angle) zwischen x und y Achse verkleinert wird. Anhand des Scatterplots ist kein fester Zusammenhang zwischen dem Merkmal Anz.Paar.Schuhe und den Mermalen Groesse oder Schuhgroesse zu erkennen, da die Streuung sehr gross und gleichmaessig verteilt ist. Jedoch ist hervorzuheben, dass 4 der 5 höchsten Werte in der unteren Hälfte des Merkmals Groesse liegen.
 
 Aufgabe c)
 ```{r}
