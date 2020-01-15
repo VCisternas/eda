@@ -122,7 +122,9 @@ Aufgabe c)
 ```{r}
 install.packages("corrplot")
 library("corrplot")
+help(corrplot)
 
+corrplot(cor(threeD.df), is.corr = FALSE)
 ```
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
