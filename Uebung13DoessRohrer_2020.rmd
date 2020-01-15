@@ -115,11 +115,10 @@ Aufgabe b)
 install.packages("scatterplot3d")
 library("scatterplot3d")
 
-threeD.df <- df[,c("Groesse", "Anzahl.Paar.Schuhe.im.Schrank", "Schuhgroesse")]
-threeD3.df <- df[,c("Groesse", "Schuhgroesse", "Anzahl.Paar.Schuhe.im.Schrank")]
+names(df)[names(df)=="Anzahl.Paar.Schuhe.im.Schrank"] <- "Schuhe"
+threeD.df <- df[,c("Groesse", "Schuhgroesse", "Schuhe")]
 scatterplot3d(threeD.df, type = 'h', highlight.3d = TRUE, angle = 75)
-scatterplot3d(threeD3.df, type = 'h', highlight.3d = TRUE, angle= 30)
-#Ausbaufähig
+scatterplot3d(threeD.df, type = 'h', highlight.3d = TRUE, angle= 30)
 ```
 Interpretation: Anhand des 3D Scatterplots ist wie aus dem 2D Scatterplot der Merkmale Groesse und Schuhgroesse zu erkennen, dass diese beiden Merkmale eine positive Korrelation besitzen, da man grob sehen kann, dass bei einer größeren Groesse auch eine groessere Schuhgroesse vorliegt. Zudem ist zu erkennen, dass alle drei Merkmale keine nennenswerten Ausreißer besitzen. Jedoch kann bei dem Merkmal Groesse eine Mehrzahl an Beobachtungen im intervall von 165 und 185 cm eingetilt werden. Bei dem Merkmal Schuhgroesse ist dementsprechend eine ähnliche Einteilung der Mehrzahl der Beobachtungen im Intervall zwischen 38 und 46 zu erkennen. Bei dem Merkmal Anz.Paar.Schuhe kann man von einer Häufung der Merkmale im Intervall [5;15]. Dieses Intervall kann besser bestimmt werden, wenn der Winkel (property: angle) zwischen x und y Achse verkleinert wird. Anhand des Scatterplots ist kein fester Zusammenhang zwischen dem Merkmal Anz.Paar.Schuhe und den Mermalen Groesse oder Schuhgroesse zu erkennen, da die Streuung sehr gross und gleichmaessig verteilt ist. Jedoch ist hervorzuheben, dass 4 der 5 höchsten Werte in der unteren Hälfte des Merkmals Groesse liegen.
 
@@ -131,6 +130,24 @@ help(corrplot)
 
 corrplot(cor(threeD.df), is.corr = FALSE)
 ```
+
+Aufgabe d)
+```{r}
+install.packages("MASS")
+library("MASS")
+
+help("MASS")
+parcoord(threeD.df)
+```
+Inerpretation:
+Anhand des Parallel Coordinate Plots ist zu erkennen, dass es einen Zusammenhang zwischen der Groesse und der Schuhgroesse gibt. Zwischen Groesse und Schuhgroesse zeichnet sich ein Muster ab.
+Zwischen der Schuhgroesse und der Anzahl an Schuhen ist kein Zusammenhang zu erkennen. Die Linien erscheinen Zufällig.
+Aufgabe e)
+```{r}
+size.shoesize <- threeD.df[,c(1,3)]
+```
+
+
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
 
 \textcolor{gray}{\hrulefill}
