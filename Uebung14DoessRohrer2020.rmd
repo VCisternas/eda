@@ -122,7 +122,13 @@ Aufgabe 30d)
 
 ```{r}
 
-df.usa[order(df.usa$,df$Mortality.Rate,df$Hospital.Name),]
+df.usa.murder <- df.usa[order(df.usa$Murder),]
+df.usa.murder
+df.usa.assault <- df.usa[order(df.usa$Assault),]
+df.usa.assault
+df.usa.rape <- df.usa[order(df.usa$Rape),]
+df.usa.rape
+df.usa[order(df.usa$Murder, df.usa$Assault, df.usa$Rape),]
 ```
 
 
