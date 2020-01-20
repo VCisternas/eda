@@ -1,11 +1,13 @@
 ---
-title: 
-author:
-date: 
-output: pdf_document
-header-includes: 
-    - \usepackage{amsthm}
-    - \usepackage{xcolor}
+title: "null"
+author: "null"
+date: "null"
+output:
+  html_document:
+    df_print: paged
+header-includes:
+- \usepackage{amsthm}
+- \usepackage{xcolor}
 documentclass: article
 <!---output: beamer_presentation--->
 ---
@@ -55,18 +57,18 @@ knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
 \begin{centering}
 %\vspace{-2 cm}
 \Huge
-{\bf Übung 14}\\
+{\bf ?bung 14}\\
 \Large
 Explorative Datenanalyse und Visualisierung\\
 \normalsize
 Wintersemester 2019\\
-S. Döhler (FBMN, h\_da)\\
+S. D?hler (FBMN, h\_da)\\
 \end{centering}
 
 
 \hrulefill
 
-**Name:**
+**Name: Doess, Rohrer**
 
 **Punkte:**
 
@@ -78,15 +80,50 @@ S. Döhler (FBMN, h\_da)\\
 Arbeiten Sie mit dem Datensatz {\ttfamily USArrests} im R-Basispaket.
 \begin{itemize}
     \item[a)] Machen Sie sich mit dem Datensatz vertraut.
-    \item[b)] Erzeugen Sie mit ggplot2 einen scatterplot mit den Daten (x-Achse: UrbanPop, y-Achse: verschiedene Verbrechenshäufigkeiten) sowie der jeweiligen Regressionen
-    \item[c)] Erzeugen Sie mit ggplot2 Histogramme der verschiedene Verbrechenshäufigkeiten.
-    \item[d)] Sortieren Sie die Daten, so dass Sie pro Verbrechensart nach Häufigkeiten sortiert sind.
+    \item[b)] Erzeugen Sie mit ggplot2 einen scatterplot mit den Daten (x-Achse: UrbanPop, y-Achse: verschiedene Verbrechensh?ufigkeiten) sowie der jeweiligen Regressionen
+    \item[c)] Erzeugen Sie mit ggplot2 Histogramme der verschiedene Verbrechensh?ufigkeiten.
+    \item[d)] Sortieren Sie die Daten, so dass Sie pro Verbrechensart nach H?ufigkeiten sortiert sind.
     \end{itemize}
 \end{auf}
    
-\paragraph{Lösung} <!---Hier Schreiben Sie--->
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
 
+Aufgabe 30a) 
 
+```{r}
+df.usa <- USArrests
+df.usa
+
+help("USArrests")
+```
+
+Aufgabe 30b)
+
+```{r}
+install.packages("ggplot2")
+library("ggplot2")
+
+ggplot(df.usa, aes(x=df.usa$UrbanPop, y=df.usa$Murder)) + geom_point(show.legend = TRUE, aes(size=qsec))
+
+ggplot(df.usa, aes(x= df.usa$UrbanPop)) + geom_point(aes(y=df.usa$Assault), color="red") + geom_point(aes(y=df.usa$Murder), color = "green") + geom_point(aes(y=df.usa$Rape), color = "blue") + geom_smooth(aes(y=df.usa$Assault), color="red") + geom_smooth(aes(y = df.usa$Murder), color = "green") + geom_smooth(aes(y=df.usa$Rape), color="blue")
+```
+
+Aufgabe 30c)
+
+```{r}
+ggplot(data=df.usa, aes(x=df.usa$Murder)) + 
+  geom_histogram(binwidth = 0.5)
+ggplot(data=df.usa, aes(x=df.usa$Assault)) + 
+  geom_histogram(binwidth = 10)
+ggplot(data=df.usa, aes(x=df.usa$Rape)) + 
+  geom_histogram(binwidth = 1)
+```
+Aufgabe 30d)
+
+```{r}
+
+df.usa[order(df.usa$,df$Mortality.Rate,df$Hospital.Name),]
+```
 
 
 
