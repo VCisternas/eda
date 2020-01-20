@@ -1,0 +1,97 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "100%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2016 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{break}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf Übung 14}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. Döhler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:**
+
+**Punkte:**
+
+\hrulefill
+
+
+\setcounter{auf}{29} 
+\begin{auf}
+Arbeiten Sie mit dem Datensatz {\ttfamily USArrests} im R-Basispaket.
+\begin{itemize}
+    \item[a)] Machen Sie sich mit dem Datensatz vertraut.
+    \item[b)] Erzeugen Sie mit ggplot2 einen scatterplot mit den Daten (x-Achse: UrbanPop, y-Achse: verschiedene Verbrechenshäufigkeiten) sowie der jeweiligen Regressionen
+    \item[c)] Erzeugen Sie mit ggplot2 Histogramme der verschiedene Verbrechenshäufigkeiten.
+    \item[d)] Sortieren Sie die Daten, so dass Sie pro Verbrechensart nach Häufigkeiten sortiert sind.
+    \end{itemize}
+\end{auf}
+   
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+
+
+
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
