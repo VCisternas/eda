@@ -89,8 +89,18 @@ Arbeiten Sie mit dem Datensatz {\ttfamily USArrests} im R-Basispaket.
 a)
 ```{r}
 df <- USArrests
+df
 help(USArrests)
 plot(USArrests)
+```
+b)
+```{r}
+library("gridExtra")
+ggplot(df) + 
+  geom_point(aes(x=UrbanPop, y=Murder, col="murder")) + stat_smooth(aes(x=UrbanPop, y=Murder), method="lm", col="green") + 
+  geom_point(aes(x=UrbanPop, y=Assault, col="assault")) + stat_smooth(aes(x=UrbanPop, y=Assault), method="lm", col="red") +
+  geom_point(aes(x=UrbanPop, y=Rape, col="rape")) + stat_smooth(aes(x=UrbanPop, y=Rape), method="lm", col="blue") +
+  labs(x="Urban population in %", y="#crimes per 100,000 citicens", colour="legend", title="Number of assaults seems to depend slightly on the rate of urbal population")
 ```
 
 c)
@@ -100,12 +110,17 @@ library("gridExtra")
 
 bin.count <- length(df$Murder)^0.5
 
-bar.murder <- ggplot(df) + stat_bin(aes(x=Murder, y=..density..), bins = bin.count, fill="grey", color="black")
+bar.murder <- ggplot(df) + stat_bin(aes(x=Murder, y=..density..), bins = bin.count, fill="grey", color="black") 
 bar.rape <- ggplot(df) + geom_histogram(aes(x=Rape, y=..density..), bins = bin.count, fill="grey", color="black")
 bar.assault <- ggplot(df) + geom_histogram(aes(x=Assault, y=..density..), bins = bin.count, fill="grey", color="black")
 grid.arrange(bar.murder, bar.rape, bar.assault, ncol=3, top="Distribution of Crimes")
 
 #ToDo: Dichte und Normalverteilung drüber legen, könnte ja dran kommen.
+```
+
+d)
+```{r}
+ordered.by.murder <- df[order(df$Murder),]
 ```
 
 \paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
