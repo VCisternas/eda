@@ -1,0 +1,182 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "100%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{definition}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf ?bung 12}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. D?hler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:**
+
+
+\hrulefill
+
+
+\setcounter{auf}{26} 
+
+\begin{auf}
+Arbeiten Sie das Kapitel 22 in \emph{R for Data Science} durch.
+\end{auf}
+
+
+\begin{auf}
+Analysieren Sie die bereinigten Daten {\ttfamily UmfrageBis2019.csv} (s. Aufgabe 21) mit {\ttfamily ggplot2} (arbeiten Sie wieder mit den neuen Spaltennamen...).
+\begin{itemize}
+    \item[a)] Erzeugen Sie ein Histogramm der Variablen {\ttfamily Groesse}
+    \begin{itemize}
+      \item[i)] F?r die Gesamtpopulation
+      \item[ii)] Getrennt nach Geschlechtern (arbeiten Sie mit facets)
+    \end{itemize}
+    Was f?llt Ihnen bei der Default-Klasseneinteilung auf? Verwenden Sie zus?tzlich die Aufteilung nach der Diaconis-Friedman-Methode.
+    \item[b)] Stellen Sie Kerndichtesch?tzer der Variablen {\ttfamily Groesse} dar.
+      \begin{itemize}
+        \item Getrennt nach Geschlechtern, jedoch in einer gemeinsamen Grafik (mit verschiedenen Farben und Schraffierungen)
+        \item F?gen Sie einen rug-Plot mit entsprechenden Farben hinzu.
+      \end{itemize}
+    
+    \item[c)] Stellen Sie die empirische Dichtefunktion der Variablen {\ttfamily Groesse} dar.
+      \begin{itemize}
+        \item Getrennt nach Geschlechtern, jedoch in einer gemeinsamen Grafik (mit verschiedenen Farben und Schraffierungen)
+        \item F?gen Sie einen rug-Plot mit entsprechenden Farben hinzu.
+    \end{itemize}
+    
+    \item[d)] Erzeugen Sie Box- und Violin-Plots der Variablen {\ttfamily Groesse} getrennt nach Geschlechtern, jedoch in jeweils einer gemeinsamen Grafik.
+    
+    
+    \item[e)] Erzeugen Sie einen Scatterplot der Variablen {\ttfamily Schuhgroesse} (y-Achse) und {\ttfamily Groesse} (x-Achse).
+      \begin{itemize}
+        \item F?rben Sie die Datenpunkte nach Geschlecht
+        \item Passen Sie pro Geschlecht jeweils eine lineare Regression an und stellen Sie die resultierenden Regressionsgeraden mit der passenden Farbe zusammen mit den Daten dar.
+      \end{itemize}
+    \end{itemize}
+\end{auf}
+   
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+Zun?cht laden wir die Daten runter.
+```{r}
+data <-read.csv("C:/Users/Roman/Dropbox/hda/Explorative_Datenanalyse/uebungen/uebung12/UmfrageBis2019.csv",sep=";",header=TRUE)
+names(data)[names(data) == "Letzte.Schulnote.in.Mathematik"] <- "Mathe"
+names(data)[names(data) == "Stunden.am.Tag.in.WhatsApp"] <- "WhatsApp"
+names(data)[names(data) == "Anzahl.Paar.Schuhe.im.Schrank"] <- "Schuhe"
+```
+
+
+[a)] 
+```{r}
+library(ggplot2)
+ggplot(data=data, aes(data$Groesse)) + geom_histogram(colour="black",fill="white")
+```
+
+In einer Grafik nach Geschlecht aufgeteilt:
+```{r}
+ggplot(data, aes(x=data$Groesse, color=data$Geschlecht,alpha=.2)) +
+  geom_histogram(fill="white", position="identity")
+```
+
+
+In zwei Grafiken nach Geschlecht aufgeteilt unter Verwendung von Facets:
+```{r}
+ggplot(data, aes(x=data$Groesse))+
+  geom_histogram(color="black", fill="white")+
+  facet_grid(.~data$Geschlecht)
+#qplot(data$Groesse, geom="histogram",xlab="Gr??e",xlim=c(150,200),binwidth=1,col=I("blue"))+facet_grid(.~data$Geschlecht)
+#qplot(data$Groesse, geom="histogram",xlab="Gr??e",xlim=c(150,200),binwidth=1,col=I("blue"))+facet_wrap(~data$Geschlecht)
+```
+Die Bandbreite ist sehr unvorteilhaft gew?hlt, da es zwischen jeden zehn Einheitn 7 Bins gibt.
+Wir werden mit der Freedman-Diacons Methode, die Bandbreite optimieren.
+```{r}
+nclass.FD(data$Groesse)
+ggplot(data=data, aes(data$Groesse)) + geom_histogram(colour="black", fill="white",binwidth = 7)+geom_density(alpha=.2, fill="#FF6666") 
+G<-ggplot(data, aes(x=data$Groesse))
+  G+geom_histogram(color="black", fill="white",binwidth = 7)+
+  facet_grid(.~data$Geschlecht)
+```
+[b)] Nun wollen wir die Kerndichtesch?tzer der Variablen "Gr??e" darstellen.
+```{r}
+G+geom_density(aes(col=data$Geschlecht,fill=data$Geschlecht,alpha=.1,linetype=data$Geschlecht) )+geom_rug(aes(col=data$Geschlecht))
+```
+
+[c)] 
+```{r}
+ggplot(data,aes(x=data$Groesse))+stat_ecdf(aes(col=data$Geschlecht,linetype=data$Geschlecht))+geom_rug(aes(col=data$Geschlecht))
+```
+
+
+[d)] 
+```{r}
+ggplot(data,aes(x=data$Geschlecht,y=data$Groesse))+geom_violin(trim=FALSE,fill='#A4A4A4',)+geom_boxplot(width = 0.2)
+```
+
+
+[e)] 
+```{r}
+ggplot(data, aes(x=data$Schuhgroesse, y=data$Groesse,col=data$Geschlecht)) +
+  geom_point(size=1)+geom_smooth(method=lm)
+```
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+\vspace{3em}
+

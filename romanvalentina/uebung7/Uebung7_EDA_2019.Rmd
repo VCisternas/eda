@@ -1,0 +1,116 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 5,     # set figure width
+                      out.width = "50%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+Im folgenden sehen Sie unsere Shiny Applikation zur Visualisierung der Faithfuldaten in einem Histogramm.
+
+```{r tabsets, echo=FALSE}
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+
+    titlePanel("Histogram: Faithful dataset -durations of eruptions"),
+
+    #Input
+    selectInput(inputId = "breaks",
+                label = "Number of bins in histogram (approximate):",
+                choices = c(10, 20, 35, 50),
+                selected = 20),
+    
+    selectInput(inputId = "kern",
+                label = "kernel for the histogram:",
+                choices = c("epanechnikov","gaussian", "rectangular"),
+                selected = "rectangular"),
+    
+    
+    checkboxInput(inputId = "individual_obs",
+                  label = strong("Show individual observations"),
+                  value = FALSE),
+    
+    checkboxInput(inputId = "density",
+                  label = strong("Show density estimate"),
+                  value = FALSE),
+    
+    plotOutput(outputId = "main_plot", height = "300px"),
+    
+    # Display this only if the density is shown
+    conditionalPanel(condition = "input.density == true",
+                     sliderInput(inputId = "bw_adjust",
+                                 label = "Bandwidth adjustment:",
+                                 min = 0.01, max = 2, value = 1, step = 0.1)
+    )
+)
+
+
+# Define server logic required to draw a histogram
+server<-function(input, output) {
+    
+    output$main_plot <- renderPlot({
+        
+        hist(faithful$eruptions,
+             probability = TRUE,
+             breaks = as.numeric(input$breaks),
+             xlab = "Duration (minutes)",
+             main = "Eruption duration")
+        
+        if (input$individual_obs) {
+            rug(faithful$eruptions)
+        }
+        
+        if (input$density) {
+            dens <- density(faithful$eruptions,
+                            kernel=input$kern,
+                            adjust = input$bw_adjust)
+            lines(dens, col = "blue")
+        }
+        
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+```
+

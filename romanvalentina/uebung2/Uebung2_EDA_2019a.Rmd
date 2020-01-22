@@ -1,0 +1,214 @@
+---
+title: 
+author: 
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 5,     # set figure width
+                      out.width = "50%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{break}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf Übung 2}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. Döhler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name: **
+
+\hrulefill
+
+
+\setcounter{auf}{2}
+\begin{auf}
+
+Erzeugen Sie in \R die Folge:
+{\ttfamily 1 2 3 1 2 3 1 2 3 1 2 3}
+\newline
+\newline
+(Folgende \R-Befehle können hilfreich sein: {\ttfamily rep, seq})
+
+\end{auf}
+
+
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+```{r}
+rep(seq(3),3)
+```
+ 
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
+
+\begin{auf}
+Compute using \R the 0.99 quantile of the standard normal distribution.
+\end{auf}
+
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+```{r}
+qnorm(0.99)
+```
+ 
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+\textcolor{gray}{\hrulefill}
+
+
+\begin{auf}
+Simulate 100 observations from $N(50,16)$. Plot the empirical distribution function for this sample and overlay the true distribution function $F$.
+\newline
+\newline
+(Folgender \R-Befehle kann hilfreich sein: {\ttfamily ecdf})
+\end{auf}
+
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+```{r}
+obs <- rnorm(100, mean = 50, sd = 16)
+
+#obs <- sort(obs)
+
+fun <- ecdf(obs)
+
+
+x <- seq(100)
+f <- pnorm(x, mean = 50, sd = 16)
+
+{plot(fun, verticals = FALSE, pch = ".")
+lines(f, type = 'l', col = "red")}
+
+```
+ 
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+\textcolor{gray}{\hrulefill}
+\begin{auf}
+Schreiben Sie eine \R-Funktion {\ttfamily diff.med}, die zu einem gegebenen Vektor $x$ die Differenz des median und des arithmetischen Mittels ausgibt.
+\begin{enumerate}
+	\item[(a)] Simulieren Sie 100 Beobachtungen von $N(50,16)$ und wenden Sie {\ttfamily diff.med} auf diesen Vektor an.
+	\item[(b)] Simulieren Sie 100 Beobachtungen von $LN(1,2)$ (log-normal) und wenden Sie {\ttfamily diff.med} auf diesen Vektor an.
+	\end{enumerate}
+Vergleichen Sie die beiden Ergebnisse. Was würden Sie erwarten? Führen Sie ggf. mehr Simulationen durch und untersuchen Sie die Histogramme, die zu den Daten aus (a) und (b) gehören.
+\\
+(Folgende \R-Befehle können hilfreich sein: {\ttfamily mean, median, hist})
+\end{auf}
+
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+Mean und Median sollten bei einer Normalverteilung nahezu gleich sein (je mehr Observations wir haben, desto näher rücken sie zusammen).
+
+Bei der Log Normal Distribution sollte der Mean über dem Median liegen. Dies kann man ganzt leicht am unten stehenden Histogramm erkennen. Die Log Normal Distribution hat noch einige "Ausreiser", die sich auf den Mittelwert auswirken.
+
+```{r}
+diff.med <- function(x){
+  d <- median(x) - mean(x)
+  return(d)  
+}
+
+# part a
+x1 <- rnorm(n = 10000, mean = 50, sd = 16)
+loe <- diff.med(x1)
+loe
+
+# part b
+x2 <- rlnorm(10000,1,2)
+loeb <- diff.med(x2)
+loeb
+
+hist(x1, breaks = 100, col = "blue", xlim = c(0,100))
+
+hist(x2, breaks = 1000, col = "blue", xlim = c(0,200))
+
+```
+```{r}
+
+```
+ 
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
+
+\begin{auf}
+Ein Risiko $V$ hängt von einem anderen Risiko $X$ folgendermaßen ab:
+\[
+ V=e^X+2 X^2 \qquad \text{mit} \qquad X \sim N(0,1).
+ \]
+Schreiben Sie eine \R-Funktion {\ttfamily Sim.V}, die zu einem gegebenen Niveau $\alpha \in (0,1)$ und gegebener Anzahl $N_{Sim}$ von Simulationen von $V$ das $\alpha$-Quantil der Verteilung von $V$ schätzt.
+\newline
+\newline
+(Folgende \R-Befehle können hilfreich sein: {\ttfamily quantile})
+\end{auf}
+
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+```{r}
+Sim.V <- function(alpha, Nsim){
+  X <- rnorm(Nsim, mean = 0, sd = 1)
+  V <- exp(X) + 2 * X**2
+  q <- quantile(V, probs = alpha)
+  return(q)  
+}
+
+Sim.V(c(0.01,0.1,0.25,0.5,0.75,0.9,0.99), 100000)
+```
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->

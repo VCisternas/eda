@@ -1,0 +1,208 @@
+---
+title: Uebung Nr. 4
+author: Valentina Cisternas Seeger und Roman Kessler
+date: 05.11.2019
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 5,     # set figure width
+                      out.width = "50%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2016 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{definition}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf Uebung 4}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. Doehler, B. Nedic (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:** Roman Kessler und Valentina Cisternas Seeger
+
+**Punkte:**
+
+\hrulefill
+
+
+\setcounter{auf}{12}
+\begin{auf}
+Verwenden Sie den R-Datensatz {\ttfamily faithful} (dieser Datensatz ist im base package enthalten). Das Merkmal {\ttfamily eruptions} enthaelt die Laenge von Eruptionen (in Minuten) des Old Faithful Geysirs im Yellowstone National Park in Wyoming, USA. Sie sollen die Verteilung der Eruptionen analysieren. Achten Sie bei allen Grafiken darauf, dass sowohl der Titel der Grafik als auch die Beschriftungen der Achsen moeglichst aussagekraeftig sind. 
+
+\begin{enumerate}
+	 \item[(a)] Laden Sie die Daten und erstellen Sie eine five-point summary.
+	 \item[(b)] Erstellen Sie einen Box-Plot und interpretieren Sie diesen.
+	 \item[(c)] Erstellen Sie einen Stem and leaf-Plot und interpretieren Sie diesen.
+	 \item[(d)] Plotten Sie die empirische Verteilungsfunktion. 
+	 \item[(e)] Plotten Sie das Histogramm (inklusive eines "rug-plots") und interpretieren Sie dieses. Experimentieren Sie mit verschiedenen Klassenbreiten. Wie muessen Sie die Optionen einstellen, damit das Histogramm als Dichteschaetzer geplottet wird? Wie erhaelt man ein aehnliches Bild wie beim stem and leaf-Plot?
+	 \item[(f)] Plotten Sie ein gleitendes Histogramm in das Histogramm mit ein. Experimentieren Sie mit verschiedenen Bandbreiten. Welche Bandbreite liefert ein "gutes" Ergebnis? 
+	 \item[(g)] Wiederholen Sie Teil (f) mit dem Gauss- und Epanechnikov-Kernen.
+	 \item[(h)] Vergleichen Sie die verschiedenen Methoden. Was haben Sie ueber die Daten gelernt? Welche Methode(n) wuerden Sie einem Anwender empfehlen?
+	\end{enumerate}
+\end{auf}
+\paragraph{Loesung} <!---Hier Schreiben Sie--->
+
+Zu (a):
+
+```{r}
+summary(faithful)
+```
+
+
+
+Zu (b):
+
+```{r}
+d=faithful$eruptions
+boxplot(d,main="Boxplot der Eruptionslaenge des Faithful Datensatzes",
+          ylab="Laenge der Eruptionen in Minuten",horizontal = TRUE)
+```
+
+Der Median der Eruptionen liegt bei 4 Minuten. Das Minimum liegt ist bei 1.6 Minuten und das Maximum bei 5.1 Minuten. Dies laesst auf eine schiefe Verteilung der Daten schliessen.
+
+Zu (c):
+```{r}
+stem(d)
+```
+Das Stem-and-Leaf Plot gibt schon eine genauere Verteilung der Daten wieder. Wir sehen eine gewisse Dichotomie.Die meisten Eruptionen dauern zw. 1.6-2.2 Minuten und 4.-4.8 Minuten.Es gab nur eine Eruption die 3 Minuten dauert. Zwischen 2.4 und 3.8 ist es eher duennbesetzt. 
+
+Zu (d):
+```{r}
+plot(ecdf(d),xlab="Laenge der Eruptionen in Minuten", main="Empirische Verteilungsfunktion der Eruptionen")
+```
+
+Zu (e):
+```{r}
+hist(d, main="Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten")
+rug(d)
+  hist(d, main="Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten", breaks=50)
+  rug(d)
+   hist(d, main="Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten",breaks=34)
+   rug(d)
+```
+
+   
+DAs Histogramm (mit dem Rugplot) bestaetigt noch einmal die Vermutung ueber die dichotome Verteilung der Daten.
+Am haeufigsten dauern die Eruptionen 1.8 Minuten und 4.4 Minuten. Es gibt kaum Eruptionen der Laenge von 2.4 und 3.3. Es gibt ein Paar Ausreisser die in dem Bereich 2.7 bis 3.2 Minuten vorfallen. Die Daten sind vor allem links und rechts angehaeuft.Vor allem die grossen Haeufungen stechen durch den Rugplot hervor.
+
+Ein aehnliches Bild wie bei Stem and Leaf Plot wird ilustriert, wenn man das Histogram in 18 Teilen. Dann ist die Bandbreite 0.2.
+```{r}
+ hist(d, main="Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten",breaks=18)
+   rug(d)
+```
+
+Damit das Histogramm als Dichteschaetzer eingesetzt werden kann, muessen die Summen der Balkenflaechen eins ergeben. Beim Verwenden der relativen Haeufigkeit erhalten wir dies.
+```{r}
+hist(d, main="Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten", breaks=25,freq=FALSE)
+```
+
+
+Nun haben wir die relativen Haeufigkeiten verwendet,demenstsprechend ist dann die Summe aller Flaechen insgesamt 1.
+
+Zu (f):
+#d=5-1.6=3.4
+#damit brauen wir 34 breaks fuer die Bandbreite von 0.1
+```{r}
+ {hist(d, main="gleitendes Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="relative Haeufigkeiten", breaks=34,freq=FALSE)
+lines(density(d, kernel='rectangular', 1.0), col='red')
+lines(density(d, kernel='rectangular', 0.3), col='blue')
+lines(density(d, kernel='rectangular', 0.1), col='green')
+ }
+legend("topleft",
+       c("h=1","h=0.3", "h=0.1"),
+       fill=c("red","blue", "green"))
+```
+
+Besonders das gleitende Histogramm mit Bandbreite 0.1 naehert sich gut an das Histogramm an.
+```{r}
+{
+hist(d, main="Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten", breaks=18,freq=FALSE)
+lines(density(d,kernel="rectangular",0.1), col="red")
+}
+```
+
+Zu (g):
+```{r}
+#Gauss Kern
+{
+hist(d,main="Histogramm der Eruptionslaenge mit Gausskern", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten", breaks=18,freq=FALSE)
+lines(density(d,kernel="gauss",0.2), col="red")
+lines(density(d,kernel="gauss",0.1), col="green")
+}
+```
+```{r}
+#Epanechnikov Kern
+hist(d, main="Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten", breaks=18,freq=FALSE)
+lines(density(d,kernel="epanechnikov",0.2), col="red")
+lines(density(d,kernel="epanechnikov",0.1), col="green")
+#Bessere Variante mit Bandbreite 0.1. Da das Maximum besser angenaehert wird.
+```
+
+```{r}
+hist(d, main="Histogramm der Eruptionslaenge", xlab="Eruptionslaenge in Minuten",ylab="Haeufigkeiten", breaks=18,freq=FALSE)
+lines(density(d,kernel="gauss",0.1), col="red")
+lines(density(d,kernel="epanechnikov",0.1), col="green")
+legend("topleft",c("gauss","epanechnikov"),fill=c("red","green"))
+```
+
+Der Gauss und auch der Epanechnikov Kernel naehert sich gut der Verteilung an. Verglichen zu dem Graph in (f) sind die Funktionen sehr glatt.
+
+
+
+Zu (h):
+Alles in allem stellt sich heraus, das der Boxplot keine gute Wahl ist die Daten zu plotten, da man nicht sehr gut in der Verteilung sehen kann, dass es zwei Erhoehungen gibt (Dichotomie). Die empirische Verteilungsfunktion war in der Hinsicht schon genauer. Dennoch konnte man nicht gut erkennen, welche Eruptionslaengen am haeufigsten vorkamen. Dies konnte man widerum besser durch das Histogramm sehen, je nach dem welche Schrittbreite gewaehlt wurde. Zu kleine Schrittbreiten hat die Verteilung zu zackig und zittrig werden lassen. Grosse Schrittbereiten widerum fuehrten dazu, das die Haeufigkeitsverteilung sehr ungenau wurde. Durch das glatte Histogramm und vor allem durch den Kernel konnte man eine gute Annaeherung an das Histogramm erreichen mit Bandbreite 0.1.
+
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+

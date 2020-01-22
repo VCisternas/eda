@@ -1,0 +1,102 @@
+Teilnehmer;Geschlecht;Groesse;Schuhgroesse;Haarfarbe;Musikalitaet;Letzte Schulnote in Mathematik;Stunden am Tag in WhatsApp;Anzahl Paar Schuhe im Schrank;Fussballfan
+1;m;184;44;blond;sehr;12;1.5;9;ja
+2;w;163;38;braun;mittel;13;0.167;8;nein
+3;m;175;44;braun;mittel;13;0.2;5;ja
+4;m;177;44;braun;mittel;8;0.5;5;ja
+5;m;180;43;blond;mittel;7;0.333;6;ja
+6;m;180;43;braun;gar nicht;13;2;5;ja
+7;m;173;42;blond;mittel;11;0.5;7;nein
+8;m;168;41;braun;etwas;13;0.5;4;nein
+9;m;179;42.5;blond;gar nicht;9;0.5;4;ja
+10;m;179;42;blond;etwas;10;0;3;ja
+11;m;180;42;braun;mittel;10;0;10;nein
+12;m;182;42;schwarz;etwas;4;1.5;5;nein
+13;m;170;42;schwarz;mittel;13;1.5;4;nein
+14;m;192;46;braun;gar nicht;15;1;6;ja
+15;m;180;43;blond;gar nicht;13;1.5;7;nein
+16;m;186;45;blond;gar nicht;8;0.5;5;nein
+17;w;167;36.5;blond;mittel;8;1;20;ja
+18;w;170;38;braun;gar nicht;13;0.5;12;nein
+19;w;176;40;blond;gar nicht;15;1;15;nein
+20;w;157;36;braun;sehr;14;0.167;17;nein
+21;m;188;42.5;braun;gar nicht;14;2;10;ja
+22;w;169;40;braun;gar nicht;14;1.5;20;ja
+23;m;178;42;braun;gar nicht;15;1;10;ja
+24;m;178;42;blond;gar nicht;12;1;10;ja
+25;m;175;44;braun;etwas;12;1;15;nein
+26;m;167;41;braun;mittel;15;1;19;nein
+27;m;186;42;braun;;10;1;10;nein
+28;m;186;44;schwarz;gar nicht;13;1;10;nein
+29;m;177;42;braun;gar nicht;12;1;4;ja
+30;m;175;43;braun;sehr;14;1;5;nein
+31;m;185;43;braun;etwas;15;1;22;nein
+32;m;180;43;braun;etwas;15;1;5;nein
+33;m;179;44;braun;mittel;13;0;4;nein
+34;w;183;42;blond;mittel;12;0;20;ja
+35;w;171;41;braun;etwas;15;1;15;nein
+36;m;188;43;braun;etwas;13;0.5;2;nein
+37;m;190;44;blond;mittel;12;0.5;5;nein
+38;w;157;37;braun;gar nicht;12;3;9;nein
+39;w;180;41;braun;etwas;13;1;20;nein
+40;w;170;37;sonstige;mittel;13;2;15;nein
+41;m;185;45;schwarz;etwas;14;0.5;8;nein
+42;m;193;46;braun;gar nicht;15;0.5;11;ja
+43;m;171;43;blond;gar nicht;15;3;16;ja
+44;m;185;45;braun;gar nicht;15;1;2;ja
+45;m;179;43;braun;etwas;8;0.5;5;ja
+46;m;193;47;braun;mittel;14;2;5;ja
+47;m;196;48;braun;mittel;15;0.5;7;ja
+48;w;175;39;braun;gar nicht;14;0;32;nein
+49;m;190;47;braun;etwas;12;1;12;ja
+50;m;167;41;braun;mittel;10;0.5;5;nein
+51;m;175;43;blond;etwas;11;1;7;nein
+52;m;187;43;blond;etwas;13;2;6;nein
+53;m;180;43;braun;mittel;14;0.5;3;nein
+54;m;187;43;blond;mittel;11;0.5;4;nein
+55;m;179;49;blond;sehr;15;0;4;nein
+56;w;158;38;braun;etwas;12;0.5;7;nein
+57;m;188;46;braun;gar nicht;14;2;6;nein
+58;w;165;37;braun;gar nicht;15;1;5;nein
+59;m;180;43;braun;etwas;15;0.5;3;nein
+60;m;172;43;braun;etwas;15;2;4;nein
+61;m;173;42;blond;gar nicht;11;0;5;nein
+62;m;179;43;blond;mittel;9;0.5;4;nein
+63;m;155;37;blond;gar nicht;10;0.5;2;nein
+64;w;172;41;rot;etwas;12;1;5;nein
+65;m;181;47;braun;mittel;10;1;2;nein
+66;m;179;43;braun;etwas;12;0.5;5;nein
+67;m;173;42;blond;mittel;7;1;5;ja
+68;w;171;38;braun;etwas;12;0.5;10;nein
+69;m;183;43;braun;mittel;3;2;12;nein
+70;m;178;42;schwarz;mittel;15;2;10;ja
+71;w;172;40;blond;etwas;15;2;10;nein
+72;w;172;40;blond;etwas;15;2;15;nein
+73;m;194;44;braun;gar nicht;15;0;8;ja
+74;w;162;39;schwarz;etwas;12;2;3;nein
+75;w;159;38;schwarz;etwas;15;3;30;nein
+76;m;179;42;braun;etwas;14;1;5;nein
+77;m;185;43;braun;mittel;13;1;4;nein
+78;m;186;46;braun;mittel;9;1;3;nein
+79;w;169;38.5;braun;etwas;14;0.5;4;nein
+80;w;162;37.5;braun;gar nicht;14;1.25;3;nein
+81;w;170;39;braun;mittel;14;1.5;10;nein
+82;m;194;44;blond;etwas;;0.4;6;nein
+83;m;180;45;braun;gar nicht;13;0.5;3;ja
+84;w;167;40;braun;gar nicht;12;0.5;20;nein
+85;w;167;38;blond;etwas;13;1.5;20;nein
+86;w;164;37.5;braun;sehr;15;1;7;nein
+87;w;167;39;blond;sehr;14;0.75;30;nein
+88;m;180;43;braun;etwas;4;1;10;ja
+89;m;186;44;braun;mittel;14;4;2;nein
+90;w;165;38;braun;mittel;14;2;5;nein
+91;m;170;41;blond;mittel;15;1;10;nein
+92;m;185;44;rot;etwas;14;1;25;nein
+93;w;187;40;braun;mittel;14;1;15;nein
+94;w;166;37;braun;mittel;15;1;25;nein
+95;m;173;41;braun;gar nicht;12;1;3;nein
+96;m;175;43;braun;gar nicht;12;1.5;8;ja
+97;m;183;42;blond;mittel;12;1;7;ja
+98;m;174;43;braun;etwas;12;3;12;nein
+99;m;178;42.5;blond;gar nicht;15;2;9;ja
+100;m;185;45;blond;gar nicht;14;2;17;ja
+101;m;185;45.5;braun;mittel;13;0.25;15;nein

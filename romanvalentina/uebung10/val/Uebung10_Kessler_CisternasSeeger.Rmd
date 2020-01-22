@@ -1,0 +1,326 @@
+---
+title: "Übung 10" 
+author: "Roman Kessler und Valentina Cisternas Seeger"
+date: "03/12/2019"
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "100%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2016 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{definition}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf Übung 10}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. Döhler, B. Nedic (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:**
+
+**Punkte:**
+
+\hrulefill
+
+
+\setcounter{auf}{21} 
+\begin{auf}
+Auf der Moodle-Seite zur Vorlesung finden Sie 4 verschiedene zweidimensionale Datensätze.
+\begin{itemize}
+    \item[a)] Ermitteln Sie in jedem Fall $\overline{x},\overline{y},s_x,s_y$ und $r_{xy}$. Was fällt Ihnen auf?
+    \item[b)] Ermitteln Sie in allen 4 Fällen das Regressionsmodel und die Regressionsgerade. Benutzen Sie hierfür den {\ttfamily lm}-Befehl.
+    \item[c)] Schreiben Sie eine Funktion {\ttfamily plot.regression}. Als Argumente sollen dieser Funktion übergeben werden:
+    \begin{itemize}
+          \item {\ttfamily daten}: Ein Datensatz
+          \item {\ttfamily model}: Das zugehörige {\ttfamily lm}-Objekt
+          \item {\ttfamily header}: Eine Überschrift
+          \item {\ttfamily x.lim,y.lim}: Wertebereich der $x$- und $y$-Achse
+    \end{itemize}
+    Als Output soll die Funktion einen Scatterplot der Daten (auf den übergebenen Wertebereichenen) mit zugehöriger Regressionsgerade sowie eines Titels liefern.
+    \item[d)] Plotten Sie die 4 Scatterplots inklusive ihrer Regressionsgeraden in einem gemeinsamen Grafikpanel. Benutzen Sie die Funktion {\ttfamily plot.regression}. 
+    \item[e)] Führen Sie für die 4 Datensätze jeweils eine Residuenanalyse durch und interpretieren Sie die Ergebnisse.
+\end{itemize}
+Interpretieren Sie die Ergebnisse.
+\end{auf}
+
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
+\begin{auf}
+Arbeiten Sie weiter an dem Datensatz {\ttfamily UmfrageBis2019.csv} (s. Aufgabe 21).
+\begin{itemize}
+    \item[a)] Untersuchen Sie, ob und wenn ja, welcher Zusammenhang zwischen den Merkmalen 'Fussballfan' und 'Geschlecht' besteht. Erzeugen Sie hierzu eine Vierfeldertafel und einen Mosaicplot mit geeigneten R-Befehlen.
+    \item[b)] Untersuchen Sie, die gleiche Fragestellung wie in a) bei  den Merkmalen 'Musikalitaet' und 'Geschlecht'. Was unterscheidet das Merkmal 'Musikalitaet' vom Merkmal 'Fussballfan'? Wie sollte man das in der Analyse berücksichtigen?
+    \item[c)] Untersuchen Sie, die gleiche Fragestellung wie in a) bei  den Merkmalen 'Musikalitaet' und 'Haarfarbe'.
+    \item[d)] In welchen der 3 obigen Situation scheint der Mosaicplot am ehesten auf Unabhängigkeit der Merkmale hinzudeuten? Begründen Sie Ihre Antwort!
+\end{itemize}
+\end{auf}
+
+
+   
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+Aufgabe 1 a)
+```{r}
+reg1 <- read.csv("~/Desktop/Uni/M. Sc. Data Science/1.Semester /03_EDA/Reg1.csv",header=TRUE)
+x1<-reg1$x1
+y1<-reg1$y1
+
+mean(x1)
+mean(y1)
+sd(x1)
+sd(y1)
+cor.test(x1,y1)
+```
+
+```{r}
+reg2 <- read.csv("~/Desktop/Uni/M. Sc. Data Science/1.Semester /03_EDA/Reg2.csv",header=TRUE)
+x2<-reg2$x2
+y2<-reg2$y2
+
+mean(x2)
+mean(y2)
+sd(x2)
+sd(y2)
+cor.test(x2,y2)
+```
+
+```{r}
+reg3 <- read.csv("~/Desktop/Uni/M. Sc. Data Science/1.Semester /03_EDA/Reg3.csv",header=TRUE)
+x3<-reg3$x3
+y3<-reg3$y3
+
+mean(x3)
+mean(y3)
+sd(x3)
+sd(y3)
+cor.test(x3,y3)
+```
+
+```{r}
+reg4 <- read.csv("~/Desktop/Uni/M. Sc. Data Science/1.Semester /03_EDA/Reg4.csv",header=TRUE)
+x4<-reg4$x4
+y4<-reg4$y4
+mean(x4)
+mean(y4)
+sd(x4)
+sd(y4)
+cor.test(x4,y4)
+```
+Alle Datensätze haben den gleichen Mittelwert für x und bis auf Reg3 den gleichen Mittwelwert für y. Abweichung von 0,000909 bei Reg3. Die Standardabweichung ist bei allen Datensätzen für x gleich und für y ungefähr gleich. Auch die Korrelation ist bei allen ungefähr gleich. Insgesamt sind die Werte für alle Datensätze, auf zwei Kommastellen gerundet, gleich.
+
+
+Aufgabe 1[b]:
+```{r}
+linearMod1 <- lm(y1 ~ x1, data=reg1)  
+print(linearMod1)
+```
+```{r}
+linearMod2 <- lm(y2 ~ x2, data=reg2)  
+print(linearMod2)
+
+```
+
+```{r}
+linearMod3 <- lm(y3 ~ x3, data=reg3)  
+print(linearMod3)
+```
+
+```{r}
+linearMod4 <- lm(y4 ~ x4, data=reg4)  
+print(linearMod4)
+
+```
+
+
+```{r}
+a=c(3,20)
+b=c(3,20)
+par(mfrow=c(2,2))
+plot(x1,y1,main = "Reg1",xlim=a,ylim=b)
+abline(linearMod1,col="red")
+plot(x2,y2,main = "Reg2",xlim=a,ylim=b)
+abline(linearMod2,col="red",)
+plot(x3,y3,main = "Reg3",xlim=a,ylim=b)
+abline(linearMod3,col="red")
+plot(x4,y4,main="Reg4",xlim=a,ylim=b)
+abline(linearMod4,col="red")
+```
+Die Regressionsgerade ist ungefähr gleich bei allen Datensätzen. Dennoch sind die Stichproben sehr unterschiedlich strukuriert. Bei Reg 1 bilden die Punkte eine Art Welle. Bei reg 2 eine Parabel, bei Reg3 eine Linea (bis auf ein Ausreißer) und bei Reg4 gibt es zu einem x-Wert mehrere y-Werte und sonst nur einen anderen x-Wert dazu.
+
+Aufgabe 1[c]:
+
+plot.regression<-function(daten,model,header,x.lim,y.lim){
+x<-daten[[1]]
+y<-daten[[2]]
+
+#Regressionsplot und scatterplot
+plot(x,y,main=header,xlim=x.lim,ylim=y.lim,xlab="X-Achse",ylab="Y-Achse")
+abline(model,col="red")
+}
+
+Aufgabe 1[d]:
+```{r}
+a=c(1,10)
+b=c(2,10)
+par(mfrow=c(2,2))
+plot.regression(reg1,linearMod1,"Reg1",a,b)
+plot.regression(reg2,linearMod2,"Reg2",a,b)
+```
+
+
+```{r}
+plot.regression(reg3,linearMod3,"Reg3",a,b)
+plot.regression(reg4,linearMod4,"Reg4",a,b)
+```
+
+Aufgabe 1[e]
+```{r}
+par(mfrow=c(2,2))
+plot(linearMod1)
+plot(linearMod2)
+plot(linearMod3)
+plot(linearMod4)
+```
+
+
+```{r}
+res1<-linearMod1$residuals
+res2<-linearMod2$residuals
+res3<-linearMod3$residuals
+res4<-linearMod4$residuals
+
+
+
+
+par(mfrow=c(2,2))
+plot(linearMod1$fitted.values,res1,main="Residualanalyse Reg1")
+plot(linearMod2$fitted.values,res2,main="Residualanalyse Reg2")
+plot(linearMod1$fitted.values,res3,main="Residualanalyse Reg3")
+plot(linearMod1$fitted.values,res4,main="Residualanalyse Reg4")
+```
+
+
+Gesamtfazit:
+
+Wie der folgenden Grafiken zu entnehmen ist, unterstellt das Regressionsmodell stets einen linearen Zusammenhang, wie er in Beispiel ( a ) vorliegt. Selbst wenn ein nichtlinearer Zusammenhang wie im Beispiel ( b ) existiert, legt das Regressionsverfahren eine Gerade durch die umgekehrte Parabel. Daher wissen wir nicht, worauf eine schlechte Modellanpassung zurückzuführen ist. Besteht wirklich kein Zusammenhang zwischen beiden Merkmalen oder ist dieser Zusammenhang nur nicht linear ? Die Beispiele ( c ) und ( d ) veranschaulichen den Einfluß von Ausreißern auf die Lage der Regressionsgeraden. Im Beispiel ( c ) zieht der Außreiser die Regressionsgerade nach oben, im zweiten Beispiel konstituiert der Ausreißer einen Scheinzusammenhang. Ohne ihn läge im Beispiel ( d ) kein Zusammenhang vor, da alle Beobachtungen über identische X-Werte verügen und somit keine Varianz aufweisen.
+
+
+
+Aufgabe 2[a]:
+```{r}
+data <- read.csv("~/Desktop/Uni/M. Sc. Data Science/1.Semester /03_EDA/UmfrageBis2019.csv",header=TRUE,sep = ";")
+G<-data$Geschlecht
+F<-data$Fussballfan
+table(G,F)
+chisq.test(table(G,F))
+
+```
+Der p-Wert 0.007041 ist kleiner als 0.05. Somit haben wir nachgewiesen, dass zwischen Geschlecht und Fussbalfan ein statistisch signifikanter Zusammenhang besteht.
+
+
+Nun kommen wir zum Mosaikplot
+```{r}
+mosaicplot(table(G,F),xlab="Geschlecht",ylab="Fußballfan",main="Mosaikplot für die Eigenschaften Geschlecht und Fußballfan")
+```
+Über die Vierfeldertafel erkennt man sofort, dass kaum eine Frau Fußballfan ist, während viele Männer Fußballfans sind. Fußballfans sind bei 28 Männer und 3 Frauen. Von denjenigen, die keine Fußballfans sind, sind es widerum mehr Männer, die keine Fußballfans sind als Frauen.
+
+Im Mosaikplot wird erkenntlich, das ein wesentlich größerer Anteil von Männern Fußballfan sind als Frauen. Es gibt kaum Frauen, die Fußballfans sind. Dies erkennt man durch die verschiedenen Längen der Männlich/Weiblichen Boxen, die Fußballfans sind.Im Gegensatz zum Viertafelplot, wird jetzt klar, das prozentual gesehen mehr Frauen keine Fußballfans sind als Männer. Dies liegt daran, das das Mosaikplot noch die Geschlechtergewichtung visualisiert. Demensprechend ist die Länge der Box der Frauen die keine Fußballfans sind größer als die der Männer.
+
+Daraus kann man schließen, dass es einen Zusammenhang zwischen den Eigenschaften Geschlecht und Fußballfann schließen. Welcher Zusammenhang?
+
+
+Aufgabe 2[b]:
+```{r}
+M<-data$Musikalitaet
+table(G,M)
+```
+Nun haben wir nicht jeweils zwei Kategorien. Musikalität besitzt fünf Kategorien.
+Diese determinieren nicht, ob jemand musikalisch ist oder nicht. Stattdessen wird gerankt, wie musikalisch man ist. Dies sollte man in der Analyse berücksichtigen. 
+Dementsprechend ist die Vierfeldertafel wörtlich genommen keine Viefeldertafel. Würde man die Eigenschaften aus a und b vergleichen wollen, um die jeweiligen Zusammenhänge zu vergleichen, müsste man die kategorien Musikalität auch in zwei Kategorien einteilen.
+
+Aus der Tafel erkennt man das gleich viele Männer wie Frauen sehr musikalisch sind.Bei allen anderen Kategorien sind wesentlich mehr Männer als Frauen vertreten. Auffällig ist auch, dass fast doppelt so viele Männer etwas musikalisch sind wie Frauen. Weierhin sind jeweils ungefähr 3-fach soviele Männer gar nicht bis mittelmäßig musikalisch.
+
+```{r}
+mosaicplot(table(G,M),xlab="Geschlecht",ylab="Musikalität",main="Mosaikplot für die Eigenschaften Geschlecht und Musikalität")
+```
+Im Mosaikplot werden die Häufigkeiten der Musikalitäten nach der Häufigkeit des weiblichen bzw. männlichen Geschlechts gewichtet. Es wird klas das prozentual gesehen mehr Frauen sehr musikalisch sind als Männer.(In der Tafel waren es 3:3!) Die extremen Unterschiede in den Häufigkeiten bei gar nicht und mittel musikalisch fallen in dem Mosaikplot gar nicht mehr so auf. Zwar sind verhältnissmässig mehr Männer gar nicht bis mittelmässig musikalisch, aber der Unterschied ist nicht so groß. Zudem fällt auf, das im Verhältnis zu Männer und Frauen wesentlich mehr Frauen etwas musikalisch sind als Männer.(Vergleich zu Vierfeldertafel=20:11). Insgesamt kann man definitiv einen Zusammenhang erkennen, das mehr Frauen musikalisch sind und Männer eher unmusikalisch bzw. ein bisschen musikalisch. 
+
+Aufgabe 2[c]:
+```{r}
+H<-data$Haarfarbe
+table(H,M)
+```
+Nun haben wir jeweils fünf Kategorien zu einer Eigenschaft zugeordnet.
+Haupsächlich bei bei Blonden und Braunhaarigen treten Ereignisse zu den Kategorien auf.
+Es lässt sich kein Zusammenhang erkennen zwischen Haarfarbe und Musikalität.
+
+```{r}
+mosaicplot(table(H,M))
+```
+Auch im Mosaikplot wird erkenntlich, dass es keinen Zusammenhang zwischen den beiden Eigenschaften gibt.
+Zum Beispiel sind Blonde im Mosaikplot verhältnismässig "sehr musikalischer" als Braunhaarige. Dennoch sind Blonde verhältnissmäßig eher gar nicht musikalisch als musikalisch verglichen mit Braunhaarigen. Daher schließen wir auf keinen Zusammenhang zwischen den Eigenschaften.
+
+
+Aufgabe 2[d]:
+Am ehesten lässt der letzte Mosaikplot auf Unabhängigkeit hindeuten. Es lässt sich keine Struktur erkennen, welche Haarfarbe zu welcher Musikalität beiträgt.Zum Beispiel sind Blonde im Mosaikplot verhältnismässig musikalischer als Braunhaarige. Dennoch sind Blonde verhältnissmäßig eher gar nicht musikalisch als musikalisch verglichen mit Braunhaarigen. Daher schließen wir auf keinen Zusammenhang zwischen den Eigenschaften.
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
+

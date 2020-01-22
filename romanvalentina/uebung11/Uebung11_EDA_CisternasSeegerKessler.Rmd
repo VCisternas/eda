@@ -1,0 +1,451 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 3,     # set figure width
+                      out.width = "80%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2016 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{definition}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf ?bung 11}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. D?hler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:**
+
+**Punkte:**
+
+\hrulefill
+
+
+\setcounter{auf}{23} 
+
+
+
+
+
+
+\begin{auf}
+Der Datensatz 'mcycle' im R-Paket 'MASS' enth?lt Daten mit den Merkmalen 'accel' und 'times'.
+\begin{itemize}
+    \item[a)] Machen Sie sich mit der Herkunft und Bedeutung des Datensatzes vertraut und beschreiben Sie diese mit Ihren eigenen Worten.
+    \item[b)] Plotten Sie die Daten und f?hren Sie eine lineare Regression durch. Diskutieren Sie, ob eine lineare Regression f?r diesen Datensatz  angebracht ist.
+    \item[c)] Schreiben Sie eine shiny-Application analog zur Aufgabe 17, die es dem Benutzer erlaubt, unter verscheidenen Kernen und Bandbreiten auszuw?hlen.
+\end{itemize}
+\end{auf}
+
+Aufgabe 24a)
+
+```{r}
+library("MASS")
+help(mcycle)
+```
+
+
+
+
+Dieser Datensatz simuliert einen Motorradunfall, um das Beschleunigungsverhalten eines Kopfes zu analysieren. Die Simulation wird in zwei Spalten angegeben. Die Spalte "times" beinhaltet die Zeit nach dem Aufprall in  Millisekunden und die Spalte "accel" (f?r acceleration / Beschleunigung) ist die Kraft der Geschwindigkeit(Beschleunigung) bzw. G-Kraft, die sich auf dem Kopf des Motorradfahrers zu der Zeit aus Spalte "times" auswirkt.
+
+Aufgabe 24b)
+
+
+```{r}
+library(lme4)
+df = mcycle
+plot(df, main = "Beschleunigung des Kopfes nach Aufprall",
+     xlab = "Zeit [ms]", ylab = "Beschleunigung [g]")
+
+model.1 <- lm(accel ~ times, data = df)
+summary(model.1)
+
+```
+
+Bereits bei der Darstellung der G-Kraft in Abh?ngigkeit der Zeit, wird im Scatterplot ein nichtlinearer Zusammenhang deutlich.
+Der Scatterplot zeigt zun?chst, dass die G-Kraft etwa nach 12ms stark abnimmt, bei 20ms ein Minimum von etwa -100g erreicht, anschlie?end stark zunimmt (?ber die Baseline) und bei etwa 30ms einen Peak von (+)50g erreicht, und anschlie?end etwas langsamer auf 0g zur?ckf?llt.
+
+Angewendet auf unseren Motorradunfall bedeutet das, dass der Fahrer ab ca. 15ms in die Luft abhebt und dementsprechend keine Kraft auf diesen wirkt(gegen die Erdanziehung) und nach ca. 10 ms zu Boden f?llt, was f?r einen Anstieg der G-Kraft spricht. Bei ca. 35ms  kollidiert er mit den Boden und hast somit maximale G-Kraft.Danach sinkt die G-Kraft wieder. 
+Einen linearen Zusammenhang ist somit ausgeschlossen.
+
+Wir f?hren nun eine Lineare Regression (Abh?ngige Variable: Beschleunigung, Unabh?ngige Variable: Zeit) durch. Wir sehen zun?chst, dass das Regressionsmodell signifikant wird (p=0.0005). Der Intercept wurde auf -53g gesch?tzt (signifikant mit p<0.001), Die Steigung auf etwa 1.1g/ms (signifikant mit p<0.001).
+
+Wenn wir uns die Regressionsgerade in unseren Scatterplot einzeichnen, ...
+
+```{r}
+
+plot(df, main = "Beschleunigung des Kopfes nach Aufprall",
+     xlab = "Zeit [ms]", ylab = "Beschleunigung [g]",
+     pch = 16, cex = 0.7,  col = "darkblue")
+abline(model.1, col = "darkred", lwd = 3)
+
+```
+
+... sehen wir, dass die Gerade das Verhalten der Datenpunkte nicht sehr gut erfasst. Wir erkennen klar, dass hier ein nicht-linearer Zusammenhang besteht. Die meisten Punkte sind meist weit entfernt von der Regressionsgerade und kann das Muster nicht nachbilden.
+
+Wenn wir uns aber das R-Squared unseres Modells anschauen, f?llt uns schon auf, dass das Modell nicht sehr gut ist um unsere Daten zu beschreiben, denn R-Squared ist <0.1. Das bedeutet unser Modell beschreibt gerade mal weniger als 10% der Variabilit?t in den Daten. 
+
+
+```{r}
+plot(model.1)
+```
+
+Auch die Residualanalyse best?tigt unsere Behauptung.Auch die Residualanalyse best?tigt unsere Vermutung. In der Darstellung der Residuen ist ein Muster zu erkennen, der best?tigt, dass ein nichtlinearer Zusammenhang vorliegt.
+Ein Nichtlineares Modell (vielleicht ein Polynom h?herer Ordnung) k?nnte hier besser passen.
+
+
+Aufgabe 24c) Shiny Application
+
+```{r}
+library(shiny)
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+
+    titlePanel(" Beschleunigung des Kopfes nach dem Aufprall"),
+
+    #Input
+    selectInput(inputId = "Kern",
+                label = "W?hle einen Kernsch?tzer aus:",
+                choices = c("symmetric","gaussian"),
+                selected = "symmetric"),
+    
+    sliderInput(inputId = "Bandbreite",
+                label = "W?hle eine Bandbreite aus:",
+                min=0.01, 
+                max = 2.00, 
+                step = 0.01, 
+                value = 1),
+    
+    plotOutput(outputId = "main_plot", height = "300px"),
+    )
+
+
+# Define server logic required to draw a histogram
+server<-function(input, output) {
+    
+    output$main_plot <- renderPlot({
+        
+        plot(x=df$times,y=df$accel,ylab = "G-Kraft in Abh?ngigkeit der Zeit", xlab = "Zeit in[ms]")
+      lines(loess.smooth(x = df$times, y= df$accel, span = input$Bandbreite, family = input$Kern), col = "blue")
+    })
+}
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+\begin{auf}
+Sie sollen die Zeitreihen 'globtemp' und 'gtemp' aus dem Paket 'astsa' (explorativ) analysieren.
+\begin{itemize}
+    \item[a)] Beschreiben Sie kurz in Ihren eigenen Worten die Bedeutung, Herkunft und Erhebung der Daten.
+    \item[b)] F?hren Sie zun?chst eine lineare Regression durch und interpretieren Sie die entsprechende ANOVA-Tabelle. Erzeugen Sie ein gemeinsames Grafik-Panel, das aus 2 Grafiken besteht:     \begin{itemize}
+    \item die Zeitreihe sowie die lineare Regression in einem gemeinsamen Plot 
+    \item ein QQ-Plot der Residuen. Dikutieren Sie, ob die Residuen normalverteilt sind.
+    \end{itemize}
+    Diskutieren Sie ggf. Unterschiede, die sich bei 'globtemp' gegen?ber 'gtemp' ergeben. 
+    \item[c)] Bearbeiten Sie Aufgabe b), indem Sie jedoch als Regressionssch?tzer Kern-Sch?tzer verwenden. Probieren Sie verschiedene Bandbreiten aus.  
+    \item[d)] Probieren Sie verschiedene symmetrische (und gewichtete)  Filter aus, die Sie auf die Zeitreihe anwenden. 
+    \item[e)] Schrieben Sie shiny-Apps, die Aufgaben c) und d) implementieren.
+    \item[f)] Wenden Sie die Holt-Winters-Methode auf die zeitreihe an, um z.B. eine exponentielle Gl?ttung der Zeitreihe zu erzielen. 
+\end{itemize}
+\end{auf}
+
+
+Aufgabe 25a)
+
+
+```{r}
+library("astsa")
+df1 = globtemp
+df2 = gtemp
+library("astsa")
+?globtemp
+?gtemp
+{
+plot(globtemp, col = "blue", main = "globtemp and gtemp time series", ylab = "difference in temperature", xlab = "time")
+lines(gtemp, col = "red")
+legend("topleft", c("globtemp","gtemp"), col = c("blue","red"), lty = 1)
+abline(v = 1951, lty = 14)
+abline(v = 1980, lty = 14)
+abline(h = 0)
+}
+```
+
+
+
+globtemp:
+
+Die Daten reichen von 1880 bis 2015 und beinhalten  Mittelwerte der globalen Temperaturschwankungen zwischen Land und Ozean (in Einheit Grad Celsius). Als Baseline wurde die mittleren Temperaturunterschiede von 1951-1980 verwendet (im Plot mit vertikalten, gestrichelten Linien eingezeichnet). Alle Temperaturunterschiede beziehen sich auf die genormten Temperaturunterschiede in diesem Zeitraum.
+
+gtemp:
+Dies ist eine ?ltere Version des Datensatzes. Er wird nur noch als Referenz verwendet. Der Globtemp Datensatz beinhaltet neue Zahlen (+ ein paar Jahre mehr), einige Daten wurden wegen mangelnder Qualität entfernt. 
+
+Man erkennt schon leichte Unterschiede der beiden Zeitreihen im Plot (haupts?chlich au?erhalb des Jahresbereiches, auf welchen normiert wurde).
+
+
+Aufgabe 25b)
+
+*Globtemp*
+
+```{r}
+df1$time = as.numeric(time(globtemp))
+df1$temperature = as.numeric(globtemp)
+
+df2$time = as.numeric(time(gtemp))
+df2$temperature = as.numeric(gtemp)
+
+model.25.b.1 = lm(as.numeric(globtemp) ~ as.numeric(time(globtemp)))
+summary(model.25.b.1)
+anova(model.25.b.1)
+```
+
+Im globtemp Datensatz: Wir beschreiben sch?tzen die Temperaturunterschiede (DV) aus dem Jahr (IV) und erhalten einen signifikanten linearen Zusammenhang mit F(1,134)=406, und p=2.2*10^-16. Die mittleren Quadratsummen der Temperaturdifferenzen sind um einiges h?her als die Quadratsummen der Residuen.
+
+```{r}
+par(mfrow=(c(1,2)))
+res = rstandard(model.25.b.1)
+{
+plot(globtemp, col = "blue", main = "regression", xlab = "time")
+abline(v = 1951, lty = 14)
+abline(v = 1980, lty = 14)
+abline(h = 0)
+abline(model.25.b.1, col = "darkred", lwd = 3)
+}
+{
+qqnorm(res, 
+   ylab="standardized residuals", 
+   xlab="normal scores", 
+   main="QQ-Plot of residuals") 
+qqline(res)
+}
+```
+
+
+In der linken Abbildungen sehen wir die Zeitreihe mit der Regressionsgeraden. Die Regressionsgerade erfasst zwar den groben Trend, trotz allem erfasst sie nicht alle Zeitr?ume sehr genau. V.a. der Zeitraum, auf welchen die Daten normiert wurden, ist von der Gerade gar nicht gut erfasst. In der rechten den QQ-Plot der standardisierten Residuen. Die Residuen verteilen sich grob an der Winkelhalbierenden, was f?r eine Normalverteilung spricht. In den Extremen gibt es jedoch Abweichungen von der Winkelhalbierenden / Normalverteilung. Wir denken, es liegt keine optimale Normalverteilung der Residuen vor.
+
+
+*gtemp*
+
+```{r}
+model.25.b.2 = lm(as.numeric(gtemp) ~ as.numeric(time(gtemp)))
+summary(model.25.b.2)
+anova(model.25.b.2)
+
+par(mfrow=(c(1,2)))
+res = rstandard(model.25.b.2)
+{
+plot(gtemp, col = "blue", main = "regression", xlab = "time")
+abline(v = 1951, lty = 14)
+abline(v = 1980, lty = 14)
+abline(h = 0)
+abline(model.25.b.2, col = "darkred", lwd = 3)
+}
+{
+qqnorm(res, 
+   ylab="standardized residuals", 
+   xlab="normal scores", 
+   main="QQ-Plot of residuals") 
+qqline(res)
+}
+```
+
+Wenn wir den (alten) Datensatz "gtemp" verwenden, sehen wir ein sehr ?hnliches Bild. Alle Aussagen ?ber die Normalverteilung und ?ber den Fit der Regressionsgeraden treffen auch hier zu. in den unteren Extremen ist die Abweichung von der Regressionsgerade jedoch leicht schwächer als im Globtemp Datensatz. Der F-Wert ist fast so hoch wie im "neuen" Datensatz, und der lineare Zusammenhang zwischen Temperaturunterschied und Zeit ist ebenfalls hoch signifikant. Die Steigung ist ein wenig geringer ausgefallen, als bei dem "globtemp" Datensatz (0.0057 gegen?ber 0.0069). Die Interpretation der Steigung w?re, dass mit jedem Jahr der Temperaturunterschied Meer/Land um 0.0057 (Globtemp) bzw. 0.0069 (Gtemp) ?C zunimmt im Vergleich zum Vorjahr. Wir erkennen auch in beiden Datens?tzen, dass die Steigung (nicht nur das Modell als ganzes) sehr signifikant ist. Wir k?nnen hier interpretieren, dass ein signifikanter, positiver, linearer Zusammenhang vorhanden ist, bzw. der Temperaturunterschied ?ber die Zeit signifikant gr??er wurde.
+
+Aufgabe c) 
+
+Aufgrund der ?hnlichkeit der beiden Datens?tze rechnen wir im folgenden nur noch mit dem "globtemp" Datensatz.
+
+
+Nataraya-Watson Methode:
+
+
+```{r}
+bwd <- c(2,6,10,15,30)
+for (b in bwd){ 
+  ynw = ksmooth(x = as.numeric(time(globtemp)),
+                         y = as.numeric(globtemp),
+                         kernel = "normal",
+                         bandwidth = b
+                         )
+
+  {
+  plot(x = ynw$x, y = ynw$y, main = paste(c("bandwidth = ", b)), xlab = "time", ylab = "delta temperature")
+  abline(h = 0)
+  lines(ynw, col = "blue", lwd = 3)
+  }
+}
+```
+
+
+Loess Methode:
+
+```{r}
+alphas <- c(0.9,0.4,0.2,0.1,0.05)
+counter <- 0
+for (a in alphas){ 
+  counter <- counter + 1
+  loessdata <- loess.smooth(y = as.numeric(globtemp), x = as.numeric(time(globtemp)) , model = FALSE, family = "symmetric", span = a)
+  plot(x = loessdata$x, y = loessdata$y,
+     main = paste(c("Loess smooth, alpha = ",a)),
+     xlab = "time",
+     ylab = "delta temperature",
+     col = counter, #"darkgreen",
+     lwd = 2,
+     )
+  abline(h = 0)
+  lines(loessdata, col = counter, lwd = 3)
+}
+
+```
+
+
+Aufgabe 25d)
+
+```{r}
+
+plot(filter(globtemp, filter = rep(0.001,length(globtemp)/10), method = "convolution", sides = 1), col = "blue", main = "filtered",     xlab = "time",
+     ylab = "delta temperature")
+
+
+```
+
+
+Aufgabe 25e)
+
+
+```{r}
+library(shiny)
+ui <- fluidPage(
+  
+  # Application title
+  titlePanel("Globale Temperatur-Schwankung"),
+  
+  # Sidebar with a slider input for number of bins 
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("span",
+                  "Spannweite Regression:",
+                  min = 0,
+                  max = 1,
+                  value = 0.5),
+      textInput("filter", "Filter;", value = "0.1, 0.1, 0.1")
+    ),
+    
+    # Show a plot of the generated distribution
+    mainPanel(
+      plotOutput("distPlot")
+    )
+  )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+  
+  {
+    
+    output$distPlot <- renderPlot({
+      inputfilter <- paste(c("c(", input$filter, ")"), collapse = "") 
+      fil <- eval(parse(text = inputfilter))
+      {plot(globtemp, main = "Temperaturschwankungen 1880 - 2015", xlab = "Jahre", ylab = "Temp.Schwankung")
+        lines(loess.smooth(x = time(globtemp), y = globtemp, span = input$span), col= "red")
+        lines(filter(globtemp, filter = fil, method = "convolution", sides = 2), col = "blue")}
+    })
+    
+  }
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+
+Aufgabe 25f)
+
+```{r}
+
+alphas <- c(1.0,0.4,0.2,0.1,0.05)
+counter <- 0
+for (a in alphas){ 
+  counter <- counter + 1
+  hw <- HoltWinters(globtemp, alpha = a, beta = FALSE, gamma = FALSE)
+  if (counter == 1){
+    plot(fitted(hw)[,1], 
+       main = "HoltWinters exponential smooth with different alphas",
+       xlab = "time",
+       ylab = "delta temperature",
+       col = counter, #"darkgreen",
+       lwd = 2,
+       )
+  } else {
+      lines(fitted(hw)[,1], 
+         main = paste(c("alpha = ",a)),
+         xlab = "time",
+         ylab = "delta temperature",
+         col = counter, #"darkgreen",
+         lwd = 2,
+         )
+  }
+legend("topleft", legend = alphas, col = seq(length(alphas)), lty = 1, lwd = 2)
+}
+
+```
+
+Wir sehen, wie die HoldWinters Methode f?r verschiedene alpha-Werte die Zeitreihe gl?ttet. Bei Alphas von unter 0.1 scheint schon zu "zu viel" aus den Daten weg-gegl?ttet zu sein. Alphas von 1 ver?ndern die Daten nicht.
+
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+

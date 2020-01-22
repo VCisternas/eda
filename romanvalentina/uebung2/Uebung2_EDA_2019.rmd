@@ -1,0 +1,170 @@
+---
+title: 
+author: 
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 5,     # set figure width
+                      out.width = "50%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{break}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf ?bung 2}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. D?hler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name: **
+
+\hrulefill
+
+
+\setcounter{auf}{2}
+\begin{auf}
+
+Erzeugen Sie in \R die Folge:
+{\ttfamily 1 2 3 1 2 3 1 2 3 1 2 3}
+\newline
+\newline
+(Folgende \R-Befehle k?nnen hilfreich sein: {\ttfamily rep, seq})
+
+\end{auf}
+
+
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+
+```{r}
+
+```
+ 
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
+
+\begin{auf}
+Compute using \R the 0.99 quantile of the standard normal distribution.
+\end{auf}
+
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+
+```{r}
+
+```
+ 
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+\textcolor{gray}{\hrulefill}
+
+
+\begin{auf}
+Simulate 100 observations from $N(50,16)$. Plot the empirical distribution function for this sample and overlay the true distribution function $F$.
+\newline
+\newline
+(Folgender \R-Befehle kann hilfreich sein: {\ttfamily ecdf})
+\end{auf}
+
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+
+```{r}
+
+```
+ 
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+\textcolor{gray}{\hrulefill}
+\begin{auf}
+Schreiben Sie eine \R-Funktion {\ttfamily diff.med}, die zu einem gegebenen Vektor $x$ die Differenz des median und des arithmetischen Mittels ausgibt.
+\begin{enumerate}
+	\item[(a)] Simulieren Sie 100 Beobachtungen von $N(50,16)$ und wenden Sie {\ttfamily diff.med} auf diesen Vektor an.
+	\item[(b)] Simulieren Sie 100 Beobachtungen von $LN(1,2)$ (log-normal) und wenden Sie {\ttfamily diff.med} auf diesen Vektor an.
+	\end{enumerate}
+Vergleichen Sie die beiden Ergebnisse. Was w?rden Sie erwarten? F?hren Sie ggf. mehr Simulationen durch und untersuchen Sie die Histogramme, die zu den Daten aus (a) und (b) geh?ren.
+\\
+(Folgende \R-Befehle k?nnen hilfreich sein: {\ttfamily mean, median, hist})
+\end{auf}
+
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+
+```{r}
+
+```
+ 
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+
+
+\begin{auf}
+Ein Risiko $V$ h?ngt von einem anderen Risiko $X$ folgenderma?en ab:
+\[
+ V=e^X+2 X^2 \qquad \text{mit} \qquad X \sim N(0,1).
+ \]
+Schreiben Sie eine \R-Funktion {\ttfamily Sim.V}, die zu einem gegebenen Niveau $\alpha \in (0,1)$ und gegebener Anzahl $N_{Sim}$ von Simulationen von $V$ das $\alpha$-Quantil der Verteilung von $V$ sch?tzt.
+\newline
+\newline
+(Folgende \R-Befehle k?nnen hilfreich sein: {\ttfamily quantile})
+\end{auf}
+
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+
+```{r}
+
+```
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->

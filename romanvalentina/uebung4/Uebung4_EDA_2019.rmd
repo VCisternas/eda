@@ -1,0 +1,200 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 5,     # set figure width
+                      out.width = "50%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2016 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{definition}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf ?bung 4}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. D?hler, B. Nedic (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:**  Roman Kessler
+
+**Punkte:**
+
+\hrulefill
+
+
+\setcounter{auf}{12}
+\begin{auf}
+Verwenden Sie den R-Datensatz {\ttfamily faithful} (dieser Datensatz ist im base package enthalten). Das Merkmal {\ttfamily eruptions} enth?lt die L?nge von Eruptionen (in Minuten) des Old Faithful Geysirs im Yellowstone National Park in Wyoming, USA. Sie sollen die Verteilung der Eruptionen analysieren. Achten Sie bei allen Grafiken darauf, dass sowohl der Titel der Grafik als auch die Beschriftungen der Achsen m?glichst aussagekr?ftig sind. 
+
+\begin{enumerate}
+	 \item[(a)] Laden Sie die Daten und erstellen Sie eine five-point summary.
+	 \item[(b)] Erstellen Sie einen Box-Plot und interpretieren Sie diesen.
+	 \item[(c)] Erstellen Sie einen Stem and leaf-Plot und interpretieren Sie diesen.
+	 \item[(d)] Plotten Sie die empirische Verteilungsfunktion. 
+	 \item[(e)] Plotten Sie das Histogramm (inklusive eines "rug-plots") und interpretieren Sie dieses. Experimentieren Sie mit verschiedenen Klassenbreiten. Wie m?ssen Sie die Optionen einstellen, damit das Histogramm als Dichtesch?tzer geplottet wird? Wie erh?lt man ein ?hnliches Bild wie beim stem and leaf-Plot?
+	 \item[(f)] Plotten Sie ein gleitendes Histogramm in das Histogramm mit ein. Experimentieren Sie mit verschiedenen Bandbreiten. Welche Bandbreite liefert ein "gutes" Ergebnis? 
+	 \item[(g)] Wiederholen Sie Teil (f) mit dem Gau?- und Epanechnikov-Kernen.
+	 \item[(h)] Vergleichen Sie die verschiedenen Methoden. Was haben Sie ?ber die Daten gelernt? Welche Methode(n) w?rden Sie einem Anwender empfehlen?
+	\end{enumerate}
+\end{auf}
+\paragraph{L?sung} <!---Hier Schreiben Sie--->
+
+
+```{r}
+library(base)
+df = data.frame(faithful)
+```
+
+
+Zu (a):
+
+Durch die Funktion "summary(dataFrame)" erhalten wir die 5 gesuchten Punkte und den arithmetischen Mittelwert:
+
+```{r}
+summary(df)
+```
+
+
+Zu (b):
+
+
+```{r}
+
+boxplot(df$eruptions, col = "green", xlab = "duration of eruption [minutes]", horizontal = TRUE)
+```
+Wir sehen, dass die Dauer der Eruptionen zwischen etwa 1,5 und 5 Minuten ist, der Median jedoch bei etwa 4 Minuten liegt, was auf eine schiefe Verteilung der Daten schließen lässt. 
+
+Zu (c):
+```{r}
+stem(df$eruptions)
+```
+Der Stem-and-Leaf Plot gibt schon eine präzisere Verteilung der Daten wieder. Wir sehen eine gewisse Dichotomie: Es gibt einige kurze Ausbrüche (um den Bereich von 2 Minuten) und viele längere Ausbrüche (um den Bereich von 3,5 bis 5 Minuten).
+
+Zu (d):
+```{r}
+plot(ecdf(df$eruptions), xlab = "duration of eruption [min]", ylab = "empirical cumulative distribution", main = "empirical distribution function of eruptions")
+```
+
+
+
+Zu (e):
+```{r}
+{
+hist(df$eruptions, breaks = 20, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  = TRUE
+     )
+rug(df$eruptions)
+}
+```
+
+Das Histogramm (mit dem Rugplot) bestätigt noch einmal die Vermutung über die dichotome Verteilung der Daten.
+
+Im folgenden experimentieren wir mit der Breite der "Bins".
+
+```{r}
+hist(df$eruptions, breaks = 5, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  main = "breaks = 5")
+hist(df$eruptions, breaks = 10, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  main = "breaks = 10")
+hist(df$eruptions, breaks = 20, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  main = "breaks = 20")
+hist(df$eruptions, breaks = 40, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  main = "breaks = 40")
+hist(df$eruptions, breaks = 80, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  main = "breaks = 80")
+hist(df$eruptions, breaks = 160, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  main = "breaks = 160")
+
+
+```
+
+Wir sehen
+
+1.: das Argument "breaks" (wenn wir ein Integer übergeben um die Anzahl der Zellen zu definieren), erst mal nur ein Vorschlag für die Histogram Funktion darstellt. Bei einem Argument (z.B. breaks = 5), wird dieser Vorschlag ignoriert, da das Programm (laut Dokumentation: "pretty") einen Wert festlegt, mit welchem ich als Betrachter die Verteilung der Daten besser dargestellt bekomme. Meine Eingabe (breaks = 5) scheint wohl eine ungünstiges Ergebnis zu liefern, welches mir eine andere Verteilung implizieren würde.
+
+2.: Wähle ich die Bin-Anzahl zu hoch, liefert mir das keine "brauchbaren" Informationen über die generelle Verteilung der Daten und suggeriert mir eine hohe Präzision. Eine Bin Größe, die der Gesamtzahl der Datenpunkte nahe kommt, ist somit weniger sinnvoll.
+
+
+Wir wählen 34, dann ist es wie beim stem and leaf plot
+
+
+Zu (f):
+
+```{r}
+library(aplpack)
+slider.hist(df$eruptions, breaks = 5, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  main = "breaks = 5")
+#?hist()
+
+
+
+
+```
+
+
+
+Zu (g):
+```{r}
+{hist(df$eruptions, breaks = 34, col = "blue", xlab = "duration of eruption [minutes]", ylab = "test",  main = "", freq = FALSE)
+lines(density(df$eruptions, kernel = "rectangular", 1.0), col = "green")
+lines(density(df$eruptions, kernel = "rectangular", 0.3), col = "green")
+lines(density(df$eruptions, kernel = "rectangular", 0.1), col = "green")}
+legend(c("1.0",#))
+```
+
+
+Zu (h):
+```{r}
+
+```
+
+
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+

@@ -1,0 +1,308 @@
+---
+title: 
+author:
+date: 
+output: pdf_document
+header-includes: 
+    - \usepackage{amsthm}
+    - \usepackage{xcolor}
+documentclass: article
+<!---output: beamer_presentation--->
+---
+
+
+
+
+
+<!--- Below are global settings for knitr. You can override any of them by adding the changes to individual chunks --->
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(error=TRUE,        # Keep compiling upon error
+                      collapse=TRUE,     # collapse by default
+                      echo=TRUE,         # echo code by default
+                      comment = "#>",    # change comment character
+                      fig.width = 7,     # set figure width
+                      out.width = "100%", # set width of displayed images
+                      warning=TRUE,      # show R warnings
+                      message=FALSE)     # show R messages
+```
+
+
+<!--- Solution Region --->
+<style>
+#solution {
+  background-color: #8FBC8F;
+  border-style: solid;
+  border-color: blue;
+  margin-left: 20px;
+  margin-bottom: 15px;
+  padding: 5px;
+}
+</style>
+
+
+
+<!---**Wintersemester 2017 |Studiengang Data Science | Hochschule Darmstadt **--->
+
+
+
+
+\theoremstyle{break}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf Übung 9}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. Döhler (FBMN, h\_da)\\
+\end{centering}
+
+
+\hrulefill
+
+**Name:** Roman Kessler, Valentina Cisternas Seeger
+
+
+\hrulefill
+
+
+\setcounter{auf}{20} 
+\begin{auf}
+In der Datei {\ttfamily UmfrageBis2019.csv} finden Sie (bereinigte) Daten, die von den aktuellen und bisherigen BesucherInnen der EDA-Veranstaltung erhoben wurden.
+\begin{itemize}
+    \item[a)] Laden Sie die Daten und lassen Sie sich die ersten Datensätze mit dem {\ttfamily head}-Befehl anzeigen. Verschaffen Sie sich einen Überblick über die Struktur der Daten mit dem {\ttfamily str}-Befehl. Nennen Sie den Datensatz {\ttfamily data}.
+    \item[b)] Einige Spaltennamen sind sehr lang und daher unpraktisch zu handhaben. Benennen Sie die Spalten , {\ttfamily Letzte. Schulnote....}, {\ttfamily Stunden.am.Tag...} bzw.  {\ttfamily Anzahl.Paar.Schuhe...} um in {\ttfamily Mathe}, {\ttfamily WhatsApp}, {\ttfamily AnzSchuhe} bzw. und lassen Sie sich den header des neuen datensatzes anzeigen.
+    \item[c)] Erzeugen Sie 5-point summaries für alle Merkmale.
+    \item[d)] Was passiert, wenn man {\ttfamily plot(data)} eingibt?
+    \item[e)] Definieren Sie eine Funktion {\ttfamily plot.cont.data}, die als Argument einen Datensatz {\ttfamily dat} eines stetigen Merkmals nimmt und einen grafischen Outpunkt in Form eines 2x2 Grafikpanels liefert, der folgende Grafiken enthält:
+    \begin{itemize}
+          \item Boxplot
+          \item QQ-Plot
+          \item Histogramm mit Dichtefunktion der angepassten Normalverteilung
+          \item Empirische Verteilungsfunktion mit Verteilungsfunktion der angepassten Normalverteilung.
+    \end{itemize}
+    \item[f)] Wenden Sie {\ttfamily plot.cont.data} auf das Merkmal {\ttfamily Groesse} an und interpretieren Sie das Ergebnis.
+    \item[g)] Definieren Sie eine Funktion {\ttfamily analyse.regression}, die als Argument einen Teil-Datensatz {\ttfamily dat} des gesamten Datensatzes nimmt und eine Regression von {\ttfamily Groesse} auf {\ttfamily Schuhgroesse} durchführt. Als Ausgabe sollen das lm-Objekt und die ANOVA-Tabelle zurückgegeben werden.
+    \item[h)] Wenden Sie {\ttfamily analyse.regression} auf die gesamte Stichprobe, sowie jeweils auf die männlichen und weiblichen Teilnehmer an und interpretieren Sie die Ergebnisse. Um Teile der Gesamtstichprobe auszuwählen können Sie den {\ttfamily subset}-Befehl verwenden.
+    \item[i)] Analysieren Sie Körpergröße in Abhängigkeit von der Haarfarbe durch mehrere Boxplots in einer Grafik. Was erscheint besonders? Untersuchen Sie die Daten ggf. genauer, um den Grund zu erkennen. 
+    \end{itemize}
+\end{auf}
+   
+\paragraph{Lösung} <!---Hier Schreiben Sie--->
+
+a. Import the data:
+
+```{r}
+data = read.table(
+  file ="C:/Users/Roman/Dropbox/hda/Explorative_Datenanalyse/uebungen/uebung9/UmfrageBis2019.csv",
+  sep = ";", header = TRUE)
+```
+
+Nun zeigen wir die ersten Zeilen der Tabelle:
+
+```{r}
+head(data)
+```
+
+Nun lassen wir uns ausgeben, welche Variablen wir haben, was für einen Typ sie haben, wieviele vorhanden sind, etc.
+
+```{r}
+str(data)
+```
+
+b) Umbenennung der Spalten.
+
+```{r}
+names(data)[names(data) == "Letzte.Schulnote.in.Mathematik"] <- "Mathe"
+names(data)[names(data) == "Stunden.am.Tag.in.WhatsApp"] <- "WhatsApp"
+names(data)[names(data) == "Anzahl.Paar.Schuhe.im.Schrank"] <- "Schuhe"
+head(data)
+```
+
+c) 5-Point-Summaries für alle Features.
+
+```{r}
+summary(data)
+```
+
+d) Was passiert bei plot(data) ?
+
+```{r}
+plot(data)
+```
+
+Es erscheint eine Graphik, in welcher jede Variable gegen jede andere Variable in jeweils einem Streudiagramm geplottet wird. Der Plot scheint sehr hilfreich, um erste Einblicke über mögliche Zusammenhänge einzelner Variablen zu erhalten.
+Die Auftragung gegen sich selbst (auf der Diagonalen) wurde ausgespart, und stattdessen der Variablennamen als Label ausgegeben.
+
+e) Definiere EDA Funktion
+
+```{r}
+plot.cont.data <- function(dat, varName){
+  # for dat a stetic variable must be chosen !
+  
+  # boxplot
+  par(mfrow=c(2,2)) # create 2x2 subplots
+  boxplot(dat, horizontal = TRUE,
+          main = paste(c("Boxplot of ",varName))) 
+  
+  # qqplot
+  {qqnorm(dat,
+          main = paste(c("Normal QQPlot of ",varName))) 
+    qqline(dat, lwd = 2)
+  }
+  
+  # hist. with density
+  {hist(dat, freq = FALSE,
+        main = paste(c("Histogram of ",varName))) 
+    xs <- seq(min(dat),max(dat))
+    ys <- dnorm(xs, mean = mean(dat), sd = sd(dat))
+    lines(x = xs, y = ys, col = "black", lwd = 2)
+  }
+  
+  # ecdf
+  {plot(ecdf(dat),
+       main = paste(c("ECDF of ",varName)))
+    ys2 <- pnorm(xs, mean = mean(dat), sd = sd(dat))
+    lines(x = xs, y = ys2, col = "black", lwd = 2)
+  }
+
+}
+```
+
+f) Anwenden auf Merkmal Groesse!
+
+```{r}
+plot.cont.data(data$Groesse, "Groesse")
+```
+
+Der Boxplot zeigt bereits, dass sich die Körpergrößen grob von 150 bis 200 cm verteilen, wobei der Median bei etwa 178cm liegt, das untere Quartil bei etwa 170cm, und das obere Quartil bei etwa 185cm.
+
+Der QQPlot gibt etwas Aufschluss darüber, ob die Daten normalverteilt sind. Wir sehen am oberen und unteren Ende, dass die Daten etwas von der Winkelhalbierenderen Geraden abweichen. Jedoch nur bei den Extremwerten, während in der Mitte die Werte halbwegs auf der Geraden liegen. Somit können wir von einer fast-Normalverteilung ausgehen.
+
+Der Boxplot vorher hat auch schon erste Hinweise (wenn auch viel ungenauer) auf eine Normalverteilung gegeben. da er symmetrisch aussieht (die beiden mittleren Quartile als auch die beiden Whiskers sind etwa gleich groß).
+
+Das Histogram ergänzt noch einmal die Aussagen des Boxplots. Wir sehen die Verteilung der Daten hier besser, und sehen auch, dass sie recht symmetrisch um den Erwartungswert verteilt sind. Die Eingezeichnete Dichtefunktion bestätigt noch einmal, dass die Daten halbwegs einer Normalverteilung folgen könnten.
+
+Die Empirische Verteilungsfunktion mit der eingezeichneten Kumulativen Verteilungsfunktion einer theoretischen Normalverteilung mit mean = mean(Groesse) und sd = sd(Groesse) verstärkt die Vermutung nach einer Normalverteilung. Die Daten der Emp. Verteilungsfunktion liegen sehr gut auf der theoretischen Funktion.
+
+
+g) definiere Regressionsfunktion
+
+```{r}
+library(lme4) # import of linear model
+analyse.regression <- function(dat){
+  gr  <- dat$Groesse
+  sgr <- dat$Schuhgroesse
+  model <- lm(sgr ~ gr)
+  return(list(model, anova(model)))
+  # to return multiple objects, we need to use a list
+}
+```
+
+h) Anwendung der Regression auf:
+
+h.i) die ganze Stichprobe
+
+```{r}
+analyse.regression(data)
+```
+
+zu den Modellparametern:
+Wir sehen zunächst einen positiven Zusammenhang (slope = 0.25). Das bedeutet, innerhalb unseres Wertebereiches (X-Achse) steigt mit jeder Einheit Grösse, die Schuhgrösse um 0.25 Einheiten. 
+Der intercept liegt bei -1.73. Er ist in unserem Fall nicht interpretierbar (jemand mit der Größe Null, hat keine Schuhgröße, und wenn, dann wäre sie nicht negativ).
+
+
+zu der ANOVA-Tabelle:
+Wir sehen die Ergebnisse des F-Tests. Die Wahrscheinlichkeit, dass die Nullhypothese verworfen werden kann, und somit dass ein linearer Zusammenhang zwischen Grösse und Schuhgrösse vorhanden ist, beträgt 1 - 2.2*10^-15 und ist somit sehr hoch. Das ist auch an dem hohen F-Wert zu sehen.
+
+
+
+h.ii) männliche Teilnehmer
+
+```{r}
+analyse.regression(
+  data[which(data$Geschlecht == "m"),]
+)
+```
+
+zu den Modellparametern:
+Wir sehen zunächst einen positiven Zusammenhang (slope = 0.17). Das bedeutet, innerhalb unseres Wertebereiches (X-Achse) steigt mit jeder Einheit Grösse, die Schuhgrösse um 0.17 Einheiten (bei den Männern). 
+Der intercept liegt bei 12.3557. Er ist in unserem Fall nicht interpretierbar.
+
+zu der ANOVA-Tabelle:
+Wir sehen die Ergebnisse des F-Tests. Die Wahrscheinlichkeit, dass die Nullhypothese verworfen werden kann, und somit dass ein linearer Zusammenhang zwischen Grösse und Schuhgrösse vorhanden ist, beträgt 1 - 4.8*10^-11 und ist somit sehr hoch. Das ist auch an dem immernoch sehr hohen F-Wert zu sehen.
+
+Der positive Zusammenhang zwischen Groesse und Schuhgroesse ist somit auch in der Subgruppe der Männer vorhanden.
+
+
+
+h.iii) weibliche Teilnehmer
+
+```{r}
+analyse.regression(data[which(data$Geschlecht == "w"),])
+```
+
+zu den Modellparametern:
+Wir sehen zunächst einen positiven Zusammenhang (slope = 0.15). Das bedeutet, innerhalb unseres Wertebereiches (X-Achse) steigt mit jeder Einheit Grösse, die Schuhgrösse um 0.15 Einheiten (bei den Frauen).
+Der Slope ist nur minimal unterschiedlich zu dem der Männer.
+Der intercept liegt bei 13. Er ist in unserem Fall nicht interpretierbar.
+
+Interessant ist, dass die Analysen für Männer und Frauen getrennt jeweils niedrigere Slopes, und höhere Intercepts liefern als in der Analyse der gesamten Gruppe.
+
+zu der ANOVA-Tabelle:
+Wir sehen die Ergebnisse des F-Tests. Die Wahrscheinlichkeit, dass die Nullhypothese verworfen werden kann, und somit dass ein linearer Zusammenhang immernoch hoch. Das ist auch an dem immernoch hohen F-Wert zu sehen.
+
+Trotz allem Sind F-Wert geringer als bei der gleichen Analyse der Männer Subgruppe, und bei weitem geringer als in der Analyse der Gesamtstichprobe. Das gilt umgekehrt natürlich auch für die p-Werte. 
+
+Der positive Zusammenhang zwischen Groesse und Schuhgroesse ist somit auch in der Subgruppe der Frauen vorhanden und signifikant.
+
+
+
+i) Körpergröße in Abhängigkeit von Haarfarbe
+
+```{r}
+# chose subset
+groesse <- data.frame(row.names = list(c("Blond","Brunett","Schwarz","Rot","Sonstige")))
+
+blonde   <- subset(data, Haarfarbe == "blond", select = Groesse)
+brunette <- subset(data, Haarfarbe == "braun", select = Groesse)
+schwarze <- subset(data, Haarfarbe == "schwarz", select = Groesse)
+rote     <- subset(data, Haarfarbe == "rot", select = Groesse)
+sonstige <- subset(data, Haarfarbe == "sonstige", select = Groesse)
+
+# boxplots
+
+#par(mfrow=c(1,5))
+boxplot( c(blonde,brunette,schwarze,rote,sonstige), 
+         col = c("yellow","brown","darkgrey","red","green"),
+         names = c("Blond","Brunett","Schwarz","Rot","Sonstige"),
+         main = "Körpergröße in Abhängigkeit von Haarfarbe",
+         ylab = "Körpergröße",
+         xlab = "Haarfarbe"
+         )
+
+
+
+```
+
+besonders erscheint: 
+Die Mediane der 4 Großen Gruppen (im Folgenden vernachlässigen wir den einen Datenpunk von "Sonstige") liegen sehr ähnlich.
+
+Das gilt auch für die Gruppe "Rothaarig", auch wenn dort nur 2 Datenpunkte vorliegen.
+
+Die Gruppe "Sonstige Haarfarbe" hat nur einen Datenpunkt, deswegen interpretieren wir diese Gruppe erstmal nicht. Auffällig (positiv) ist, dass die wenigen Datenpunkte der Gruppen mit wenigen Datenpunkten ("Rothaarig" und "Sonstige Haarfarbe") halbwegs innerhalb der IQR der anderen Gruppen liegen, auf jeden Fall innerhalb der Daten-Ranges der anderen Gruppen.
+
+Eine genauere Untersuchung sparen wir an dieser stelle aus, da wir keine besonderen Anzeichen für bedeutende Gruppenunterschiede sehen.
+
+
+
+\paragraph{Anmerkungen/Korrektur} <!---Hier schreibt der Tutor--->
+
+\textcolor{gray}{\hrulefill}
+

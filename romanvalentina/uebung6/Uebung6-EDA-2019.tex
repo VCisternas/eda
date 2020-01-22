@@ -1,0 +1,403 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{}
+    \pretitle{\vspace{\droptitle}}
+  \posttitle{}
+    \author{}
+    \preauthor{}\postauthor{}
+    \date{}
+    \predate{}\postdate{}
+  
+\usepackage{amsthm}
+\usepackage{xcolor}
+
+\begin{document}
+
+\theoremstyle{break}
+\newtheorem{auf}{Aufgabe}
+
+\newcommand{\R}{{\sffamily R} }
+
+\begin{centering}
+%\vspace{-2 cm}
+\Huge
+{\bf Übung 6}\\
+\Large
+Explorative Datenanalyse und Visualisierung\\
+\normalsize
+Wintersemester 2019\\
+S. Döhler, S. Döhler (FBMN, h\_da)\\
+\end{centering}
+
+\hrulefill
+
+\textbf{Name:} Valentina Cisternas Seeger Roman Kessler
+
+\textbf{Punkte:}
+
+\hrulefill
+
+\setcounter{auf}{15}
+\begin{auf}
+In dieser Aufgabe soll untersucht werden, ob Text-Messaging die Rechtschreibung verschlechtert. Dazu wurde folgendes Experiment durchgeführt: Ein Gruppe von 25 Schülern wurde sechs Monate lang ermuntert über ihre Smartphones Textnachrichten zu versenden. Einer zweite Gruppe von 25 Schülern wurde hingegen sechs Monate lang verboten über ihre Smartphones Textnachrichten zu versenden. Am Anfang und Ende der sechs Monate wurde die Rechtschreibung der Schüler durch einen Test gemessen (Details -- auch zur Durchführung des Verbots! -- finden sich in "Discovering Statistics Using R" von Andy Field). Der Datensatz {\ttfamily TextMessages.dat}, den Sie in Moodle finden enthält folgende Variablen:
+\begin{itemize}
+    \item {\ttfamily Group}: Beschreibt, ob die Person zur ersten oder zweiten Gruppe gehörte.
+    \item {\ttfamily Baseline:} Ergebnis des Rechtschreibungstests (in \% Richtige) zu Beginn der sechs Monate
+    \item {\ttfamily SixMonths:} Ergebnis des Rechtschreibungstests (in \% Richtige) am Ende der sechs Monate
+\end{itemize}
+Sie sollen die Ergebnisse des Experiments mit den Methoden aus der LV explorativ analysieren. Einige Hinweise:
+\begin{itemize}
+    \item Starten Sie zunächst mit den Rohdaten. Nähern Sie sich dann der Fragestellung indem Sie neue Variablen einführen, mit denen Sie dann weiterarbeiten.
+    \item Begründen Sie, welche Methoden zu welchen Variablentypen passen könnten. 
+    \item Achten Sie auf Titel, Legende, Achsenbeschriftung Ihrer plots.
+\end{itemize}
+\end{auf}
+
+\paragraph{Lösung}
+
+Zunächst importieren wir den Datensatz.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# import the data (delete the white spaces before importing)}
+\NormalTok{df <-}\StringTok{ }\KeywordTok{read.table}\NormalTok{(}\StringTok{"TextMessages.dat"}\NormalTok{, }\DataTypeTok{sep =} \StringTok{"}\CharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\DataTypeTok{col.names =} \KeywordTok{c}\NormalTok{(}\StringTok{"group"}\NormalTok{, }\StringTok{"pre"}\NormalTok{, }\StringTok{"post"}\NormalTok{), }\DataTypeTok{colClasses =} \KeywordTok{c}\NormalTok{(}\StringTok{"factor"}\NormalTok{, }\StringTok{"integer"}\NormalTok{, }\StringTok{"integer"}\NormalTok{), }\DataTypeTok{skip =} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Nun schauen wir uns die Verteilung der Variablen in Histogrammen an.
+
+Zunächst, wie sehen die Punktzahlen der beiden Gruppen vor dem
+Experiment aus?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(df}\OperatorTok{$}\NormalTok{pre[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{], }\DataTypeTok{col=}\KeywordTok{rgb}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{), }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{),}
+     \DataTypeTok{main=}\StringTok{"Prä-Experiment"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"Punktzahl"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Häufigkeit"}\NormalTok{, }\DataTypeTok{breaks =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(df}\OperatorTok{$}\NormalTok{pre[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{], }\DataTypeTok{col=}\KeywordTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\DataTypeTok{breaks =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{5}\NormalTok{), }\DataTypeTok{add=}\NormalTok{T)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\DataTypeTok{legend=}\KeywordTok{c}\NormalTok{(}\StringTok{"Messagers Gruppe"}\NormalTok{, }\StringTok{"Control Gruppe"}\NormalTok{),}
+       \DataTypeTok{fill =} \KeywordTok{c}\NormalTok{(}\KeywordTok{rgb}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\KeywordTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{0.5}\NormalTok{)), }\DataTypeTok{cex=}\DecValTok{1}\NormalTok{, }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth]{Uebung6-EDA-2019_files/figure-latex/unnamed-chunk-2-1}
+
+Vor dem Experiment sehen die Verteilungen der Punktzahlen der beiden
+Gruppen erstmal sehr ähnlich aus.
+
+Anschließend, wie sehen die Punktzahlen der beiden Gruppen nach dem
+Experiment aus?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{hist}\NormalTok{(df}\OperatorTok{$}\NormalTok{post[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{], }\DataTypeTok{col=}\KeywordTok{rgb}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\DataTypeTok{xlim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{), }\DataTypeTok{ylim=}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{10}\NormalTok{),}
+     \DataTypeTok{main=}\StringTok{"Post-Experiment"}\NormalTok{, }\DataTypeTok{xlab=}\StringTok{"Punktzahl"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Häufigkeit"}\NormalTok{, }\DataTypeTok{breaks =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{5}\NormalTok{))}
+\KeywordTok{hist}\NormalTok{(df}\OperatorTok{$}\NormalTok{post[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{], }\DataTypeTok{col=}\KeywordTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\DataTypeTok{breaks =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{5}\NormalTok{), }\DataTypeTok{add=}\NormalTok{T)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"topleft"}\NormalTok{, }\DataTypeTok{legend=}\KeywordTok{c}\NormalTok{(}\StringTok{"Messagers Gruppe"}\NormalTok{, }\StringTok{"Control Gruppe"}\NormalTok{),}
+       \DataTypeTok{fill =} \KeywordTok{c}\NormalTok{(}\KeywordTok{rgb}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\KeywordTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{0.5}\NormalTok{)), }\DataTypeTok{cex=}\DecValTok{1}\NormalTok{, }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth]{Uebung6-EDA-2019_files/figure-latex/unnamed-chunk-3-1}
+
+Wir sehen hier, dass die ``Text Messagers'' Gruppe nach dem Experiment
+einige Werte im unteren Bereich hat, also niedrige Punktzahlen. Es
+scheint, als hätten sich einzelne Probanden der ``Text Messagers''
+Gruppe durch das Experiment verschlechtert.
+
+Nun vergleichen wir mithilfe eines QQ-Plots noch einmal die Verteilung
+der beiden Gruppen.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\{}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow=}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{))}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pty=}\StringTok{"s"}\NormalTok{)}
+\KeywordTok{qqplot}\NormalTok{(df}\OperatorTok{$}\NormalTok{pre[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{],df}\OperatorTok{$}\NormalTok{pre[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{],}
+       \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{), }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{),}\DataTypeTok{asp=}\DecValTok{1}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Messagers Gruppe"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Control Gruppe"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Prä-Experiment"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DataTypeTok{col =} \StringTok{'red'}\NormalTok{)}
+
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pty=}\StringTok{"s"}\NormalTok{)}
+\KeywordTok{qqplot}\NormalTok{(df}\OperatorTok{$}\NormalTok{post[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{],df}\OperatorTok{$}\NormalTok{post[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{],}
+       \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{), }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{),}\DataTypeTok{asp=}\DecValTok{1}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Messagers Gruppe"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Control Gruppe"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Post-Experiment"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DataTypeTok{col =} \StringTok{'red'}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth]{Uebung6-EDA-2019_files/figure-latex/unnamed-chunk-4-1}
+
+Wir sehen dass die beiden Gruppen vor dem Experiment ähnlich verteilt
+sind (Punkte liegen an der Winkelhalbierenden des QQ-Plots). Nach dem
+Experiment sehen wir klare Abweichungen der Punkte von der
+Winkelhalbierenden. Wenn wir die Richtung der Abweichung anschauen,
+bestätigt dies nochmal eine mögliche Verschlechterung in der Messagers
+Gruppe.
+
+Wir formulieren uns hier schwammig (z.B. ``mögliche Verschlechterung''),
+da wir ohne eine Statistik erstmal keine endgültige Aussage treffen
+wollen.
+
+Nun Vergleichen wir mit Boxplots die Gruppen prä und post gegeneinander:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#boxplot(df$pre[df$group == "TextMessagers"], col="darkred")}
+
+\KeywordTok{boxplot}\NormalTok{(}
+\NormalTok{        df}\OperatorTok{$}\NormalTok{pre[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{],}
+\NormalTok{        df}\OperatorTok{$}\NormalTok{pre[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{],}
+\NormalTok{        df}\OperatorTok{$}\NormalTok{post[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{],}
+\NormalTok{        df}\OperatorTok{$}\NormalTok{post[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{],}
+        \DataTypeTok{main =} \StringTok{"Rechtschreibung und Text Messaging"}\NormalTok{,}
+        \DataTypeTok{ylab =} \StringTok{"Punktzahl"}\NormalTok{,}
+        \DataTypeTok{xlab =} \StringTok{"Gruppe und Messzeitpunkt"}\NormalTok{,}
+        \DataTypeTok{at =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{,}\DecValTok{3}\NormalTok{,}\DecValTok{4}\NormalTok{),}
+        \DataTypeTok{names =} \KeywordTok{c}\NormalTok{(}\StringTok{"Messagers Prä"}\NormalTok{,}\StringTok{"Controls Prä"}\NormalTok{, }\StringTok{"Messagers Post"}\NormalTok{,  }\StringTok{"Controls Post"}\NormalTok{),}
+        \DataTypeTok{las =} \DecValTok{1}\NormalTok{,}
+        \DataTypeTok{col =} \KeywordTok{c}\NormalTok{(}\KeywordTok{rgb}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\KeywordTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{0.5}\NormalTok{)),}
+        \DataTypeTok{border =} \StringTok{"black"}\NormalTok{,}
+        \DataTypeTok{notch =} \OtherTok{FALSE}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth]{Uebung6-EDA-2019_files/figure-latex/unnamed-chunk-5-1}
+
+Durch die Boxpolts bestätigt sich nochmal, dass sich die Gruppen vor dem
+Experiment nicht grob zu unterscheiden scheinen.
+
+Nach dem Experiment sehen wir eine leichte verschlechterung in der
+Messagers Gruppe. Es gibt einige sehr niedrige Werte (siehe auch
+Histogram). Weiterhin sehen wir, dass der Median in der Gruppe im
+Vergleich zur Kontrollgruppe ein kleines wenig niedriger ist. Die
+Streuung der Daten ist auf jeden Fall größer, als in der Kontrollgruppe.
+
+Nun berechnen wir die Differenzen der einzelnen Probanden der beiden
+Gruppen. Dadurch können wir hoffentlich besser sehen, wie die
+individuelle Entwicklung der Probanden der beiden Gruppen durch das
+Experiment aussieht.
+
+Wir definieren die Differenz als Post minus Prä - Experiment, somit
+bedeutet eine positive Differenz eine Verbesserung, und eine negative
+Differenz eine Verschlechterung.
+
+Wir plotten die Differenzen erstmal als stem-and-leave Plot, um uns die
+Verteilung anzuschauen.
+
+Für die Kontrollgruppe:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x =}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{100}\NormalTok{)}
+\NormalTok{df}\OperatorTok{$}\NormalTok{imp <-}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{post }\OperatorTok{-}\StringTok{ }\NormalTok{df}\OperatorTok{$}\NormalTok{pre}
+\KeywordTok{stem}\NormalTok{(df}\OperatorTok{$}\NormalTok{imp[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{])}
+\CommentTok{#> }
+\CommentTok{#>   The decimal point is 1 digit(s) to the right of the |}
+\CommentTok{#> }
+\CommentTok{#>   -1 | 63311000}
+\CommentTok{#>   -0 | 976555444431}
+\CommentTok{#>    0 | 03}
+\CommentTok{#>    1 | 4}
+\CommentTok{#>    2 | 00}
+\end{Highlighting}
+\end{Shaded}
+
+Und für die Experimentalgruppe:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{stem}\NormalTok{(df}\OperatorTok{$}\NormalTok{imp[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{])}
+\CommentTok{#> }
+\CommentTok{#>   The decimal point is 1 digit(s) to the right of the |}
+\CommentTok{#> }
+\CommentTok{#>   -6 | 0}
+\CommentTok{#>   -4 | 6}
+\CommentTok{#>   -2 | 1300}
+\CommentTok{#>   -0 | 665009977544331}
+\CommentTok{#>    0 | 1894}
+\end{Highlighting}
+\end{Shaded}
+
+Wir sehen, dass es in beiden Gruppen hauptsächlich negative Werte
+auftreten, somit eine Verschlechterung. In der Text Messagers Gruppe
+sind jedoch mehr Werte im Negativen als in der Control Gruppe.
+
+Schauen wir uns die beiden Verteilungen noch einmal mittels eines
+QQ-Plots an:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pty=}\StringTok{"s"}\NormalTok{)}
+\NormalTok{Xmin =}\StringTok{ }\DecValTok{-3} \OperatorTok{+}\StringTok{ }\KeywordTok{min}\NormalTok{(df}\OperatorTok{$}\NormalTok{imp[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{])}
+\NormalTok{Xmax =}\StringTok{ }\OperatorTok{+}\DecValTok{3} \OperatorTok{+}\StringTok{ }\KeywordTok{max}\NormalTok{(df}\OperatorTok{$}\NormalTok{imp[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{])}
+\NormalTok{Ymin =}\StringTok{ }\DecValTok{-3} \OperatorTok{+}\StringTok{ }\KeywordTok{min}\NormalTok{(df}\OperatorTok{$}\NormalTok{imp[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{])}
+\NormalTok{Ymax =}\StringTok{ }\OperatorTok{+}\DecValTok{3} \OperatorTok{+}\StringTok{ }\KeywordTok{max}\NormalTok{(df}\OperatorTok{$}\NormalTok{imp[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{])}
+\KeywordTok{qqplot}\NormalTok{(df}\OperatorTok{$}\NormalTok{imp[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "TextMessagers"}\NormalTok{],df}\OperatorTok{$}\NormalTok{imp[df}\OperatorTok{$}\NormalTok{group }\OperatorTok{==}\StringTok{ "Controls"}\NormalTok{],}
+       \DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(Ymin,Ymax), }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(Xmin,Xmax),}\DataTypeTok{asp=}\DecValTok{1}\NormalTok{, }\DataTypeTok{xlab =} \StringTok{"Messagers Gruppe"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Control Gruppe"}\NormalTok{, }\DataTypeTok{main =} \StringTok{"Verbesserung der Probanden"}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DataTypeTok{col =} \StringTok{'red'}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth]{Uebung6-EDA-2019_files/figure-latex/unnamed-chunk-8-1}
+
+Dieser Plot bestätigt noch einmal alle schon oben getätigten aussagen.
+
+In einem finalen Schritt (das könnten wir aber schon viel früher
+machen), schauen wir uns mal die einzelnen Datenpunkte in einem
+Streudiagramm an.
+
+Wir tragen sowohl die Punktzahl eines jeden Probanden vor und nach dem
+Experiment auf, für alle Probanden der beiden Gruppen (in
+unterschiedlichen Farben). Wir erwarten zunächst mal einen groben
+Linearen Zusammenhang zwischen Vorher und Nacher, da wir davon ausgehen
+würden, dass die Probanden, die vorher \emph{sehr gut} waren, später
+nicht \emph{sehr schlecht} sein werden, und wenn doch, dann eher als
+Ausnahme.
+
+Wir können jedoch noch etwas viel interessanteres sehen: Die Probanden,
+die auf der einen Seite der Winkelhalbierenden liegen, haben sich
+verschlechtert, und die auf der anderen Seite, haben sich verbessert.
+Der Abstand zu der Winkelhalbierenden impliziert gleichzeitig das Ausmaß
+der Verbesserung/Verschlechterung.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\{}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{pty=}\StringTok{"s"}\NormalTok{)}
+\KeywordTok{plot}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ df}\OperatorTok{$}\NormalTok{post, }\DataTypeTok{y =}\NormalTok{ df}\OperatorTok{$}\NormalTok{pre, }\DataTypeTok{xlim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{), }\DataTypeTok{ylim =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{100}\NormalTok{),}
+     \DataTypeTok{col =} \KeywordTok{ifelse}\NormalTok{(df}\OperatorTok{$}\NormalTok{group}\OperatorTok{==}\StringTok{"Controls"}\NormalTok{,}\KeywordTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\KeywordTok{rgb}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\FloatTok{0.5}\NormalTok{)),}
+     \DataTypeTok{ylab =} \StringTok{"Prä Experiment"}\NormalTok{,}
+     \DataTypeTok{xlab =} \StringTok{"Post Experiment"}\NormalTok{,}
+     \DataTypeTok{main =} \StringTok{"Punktzahlen im Rechtschreibtest"}\NormalTok{,}
+     \DataTypeTok{pch=}\DecValTok{16}\NormalTok{)}
+\KeywordTok{abline}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DataTypeTok{col =} \StringTok{'black'}\NormalTok{)}
+\KeywordTok{legend}\NormalTok{(}\StringTok{"bottomright"}\NormalTok{, }\DataTypeTok{legend=}\KeywordTok{c}\NormalTok{(}\StringTok{"Messagers Gruppe"}\NormalTok{, }\StringTok{"Control Gruppe"}\NormalTok{),}
+       \DataTypeTok{fill =} \KeywordTok{c}\NormalTok{(}\KeywordTok{rgb}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\FloatTok{0.5}\NormalTok{),}\KeywordTok{rgb}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{,}\FloatTok{0.5}\NormalTok{)), }\DataTypeTok{cex=}\DecValTok{1}\NormalTok{, }\DataTypeTok{bty =} \StringTok{"n"}\NormalTok{)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=0.5\linewidth]{Uebung6-EDA-2019_files/figure-latex/unnamed-chunk-9-1}
+
+Dieser Plot gibt uns jetzt eigentlich keine neue Information, ist aber
+eine schöne Zusammenfassung der einzelnen Datenpunkte. Wir sehen auch
+hieran, dass es eine Tendenz zur Verschlechterung in der ``Messagers''
+Gruppe vorhanden ist, da viele Datenpunkte nach oben links abweichen.
+
+\paragraph{Anmerkungen/Korrektur}
+
+\textcolor{gray}{\hrulefill}
+
+
+\end{document}
