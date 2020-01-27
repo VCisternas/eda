@@ -1,0 +1,583 @@
+---
+title: "alle_uebungen_2nd_round"
+author: "roman"
+date: "25 1 2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Uebungsblatt 1
+
+## Aufgabe 3
+
+```{r cars}
+rep(seq(3),4)
+```
+## Aufgabe 4
+```{r}
+qnorm(0.99)
+```
+## Aufgabe 5
+```{r}
+library(ggplot2)
+a <- rnorm(n=100, mean = 50, sd = 4)
+b <- ecdf(a)
+{
+plot(b)
+lines(x = seq(40,60), y = pnorm(seq(40,60),mean = 50, sd = 4), col = "blue", lwd = 5)
+}
+```
+## Aufgabe 6
+```{r}
+diff.med <- function(x){
+  d <- median(x) - mean(x)
+  return(d)  
+}
+x <- rnorm(100,50,4)
+print(diff.med(x))
+y <- rlnorm(100,1,2)
+print(diff.med(y))
+hist(x)
+hist(y)
+```
+## Aufgabe 7
+```{r}
+Sim.V <- function(alpha, Nsim){
+  if (alpha<=0 | alpha >= 1){
+    print("Change alpha input!")
+  }
+  else{
+    #a <- seq(-3,3,0.01) # create x values
+    X <- rnorm(Nsim, 0, 1)       # create X values, simulate normal dist
+    V = exp(X) + 2 * X**2 # calculate V dist
+    q <- quantile(V, alpha)
+    return(q)
+  }
+  
+}
+Sim.V(0.001,1000)
+```
+# Uebungsblatt 4
+## Aufgabe 13
+
+```{r}
+summary(faithful)
+```
+
+```{r}
+library(ggplot2)
+library(tidyverse)
+df <- faithful
+df2 <- df %>%
+  pivot_longer(c('eruptions', 'waiting'), names_to = "feature", values_to = "time")
+df3 <- subset(df2, select = c("feature","time"), subset = feature=="eruptions")
+ggplot(df3, aes(x = feature,y = time)) +
+  geom_boxplot()
+
+```
+```{r}
+stem(df3$time)
+```
+```{r}
+ggplot(df3) +
+  stat_ecdf(aes(x=time))
+  
+```
+```{r}
+ggplot(df3, aes(x=time)) +
+  geom_histogram(aes(y = ..density..), alpha = 0.5) +
+  geom_rug() +
+  geom_density(col = "red",   alpha = 0.2, kernel = "rectangular", bw=0.3) + 
+  geom_density(col = "red",   alpha = 0.2, kernel = "rectangular", bw=0.1) + 
+  geom_density(col = "black", alpha = 0.2, kernel = "gaussian")  + 
+  geom_density(col = "blue",  alpha = 0.2, kernel = "epanechnikov", bw = 0.05) +
+  geom_density(col = "blue",  alpha = 0.2, kernel = "epanechnikov", bw = 0.1) +
+  geom_density(col = "blue",  alpha = 0.2, kernel = "epanechnikov", bw = 0.9)
+```
+
+# Uebungsblatt 6
+## Aufgabe 16
+
+```{r}
+df <- read.csv("TextMessages.dat", sep = "\t")
+str(df)
+```
+
+```{r}
+df$subject = c(seq(length(df$Baseline)))
+df2 <- df %>%
+  pivot_longer(c("Baseline","Six_months"), names_to = "time", values_to = "points")
+df2
+```
+```{r}
+ggplot(df2, aes(x = points)) +
+  geom_histogram(bins = 15) +
+  facet_grid(Group ~ time)
+```
+```{r}
+ggplot(df2, aes(y = points)) +
+  geom_violin(stat="ydensity", aes(x = NA)) +
+  facet_grid(Group ~ time)
+```
+```{r}
+df$improvement = df$Six_months - df$Baseline
+df3 <- df %>%
+  pivot_longer(c("Baseline","Six_months","improvement"), names_to = "time", values_to = "points")
+df3
+
+```
+```{r}
+df4 <- subset(df3, subset = time=="improvement")
+ggplot(df4, aes(x=subject, y=points, fill = Group)) + 
+  geom_col()
+  geom_point()
+  #facet_grid(. ~ Group)
+```
+
+# Uebungsblatt 7
+## Aufgabe 17 (cont. of Aufgabe 13)
+
+```{r}
+library(shiny)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+
+    # Application title
+    titlePanel("Old Faithful Geyser Data"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            selectInput(inputId = "n_breaks",
+                        label = "Anzahl der Breaks:",
+                        choices = c(10, 20, 35, 50),
+                        selected = 20),
+            
+            selectInput(inputId = "kernel_type",
+                        label = "Typ des Kernels:",
+                        choices = c("gaussian","rectangular","epanechnikov"),
+                        selected = "gaussian"),
+            
+            sliderInput(inputId = "bandwidth",
+                        label = "Bandbreite",
+                        min = 0.01,
+                        max = 2.,
+                        value = 1,
+                        step = 0.01)
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("distPlot")
+        )
+    )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+
+    output$distPlot <- renderPlot({
+        # generate bins based on input$bins from ui.R
+        x    <- faithful[, 2]
+        #bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+        # draw the histogram with the specified number of bins
+        #hist(x, breaks = as.numeric(input$n_breaks), col = 'darkgray', border = 'white')
+        #lines()
+        ggplot(df3, aes(x=time)) +
+            geom_histogram(aes(y = ..density..), alpha = 0.5, bins = as.numeric(input$n_breaks)) +
+            geom_rug() + 
+            geom_density(col = "black",   alpha = 0.6, lwd = 2, kernel = input$kernel_type, bw=input$bandwidth)
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+```
+
+
+# Uebungsblatt 9
+## Aufgabe 21
+
+```{r}
+data <- read.csv("UmfrageBis2019.csv", sep = ";")
+head(data)
+str(data)
+```
+```{r}
+data <- data %>%
+  rename(
+    Mathe = Letzte.Schulnote.in.Mathematik,
+    WhatsApp = Stunden.am.Tag.in.WhatsApp,
+    AnzSchuhe = Anzahl.Paar.Schuhe.im.Schrank
+  )
+head(data)
+summary(data)
+plot(data)
+```
+```{r}
+library(gridExtra)
+plot.cont.data <- function(dat){
+  p1 <- ggplot(dat) +
+    geom_boxplot(aes(y = Groesse)) +
+    labs(title = "Boxplot")
+  p2 <- ggplot(dat) +
+    geom_qq(aes(sample = Groesse)) +
+    geom_qq_line(aes(sample = Groesse)) +
+    labs(title = "QQ-Plot of Quantiles")
+  p3 <- ggplot(dat) +
+    geom_histogram(aes(x = Groesse, y = ..density..)) +
+    geom_density(aes(x = Groesse)) +
+    labs(title = "Histogramm mit Verteilungsfunktion")
+  p4 <- ggplot(dat) +
+    stat_ecdf(aes(x = Groesse)) +
+    labs(title = "ecdf", y = "probability")
+  grid.arrange(p1, p2, p3, p4, nrow = 2)
+}
+plot.cont.data(data)
+```
+
+```{r}
+library(lme4)
+analyse.regression <- function(dat){
+  model <- lm(Schuhgroesse ~ Groesse, data = dat)  
+  return(list(anova(model),model))
+}
+analyse.regression(data)
+
+```
+
+```{r}
+analyse.regression(subset(data, subset = Geschlecht == "m"))
+analyse.regression(subset(data, subset = Geschlecht == "w"))
+
+```
+```{r}
+ggplot(data) +
+  geom_boxplot(aes(x = Haarfarbe, y = Groesse))
+```
+
+# Uebungblatt 10
+## Aufgabe 22
+
+```{r}
+df1 <- read.csv("Reg1.csv")
+df2 <- read.csv("Reg2.csv")
+df3 <- read.csv("Reg3.csv")
+df4 <- read.csv("Reg4.csv")
+colMeans(df1)
+colMeans(df2)
+colMeans(df3)
+colMeans(df4)
+```
+```{r}
+model1 <- lm(y1 ~ x1, data = df1)
+model2 <- lm(y2 ~ x2, data = df2)
+model3 <- lm(y3 ~ x3, data = df3)
+model4 <- lm(y4 ~ x4, data = df4)
+
+plot.regression <- function(daten, model, header, x.lim, y.lim){
+  x <- names(daten)[1]
+  y <- names(daten)[2]
+  daten <- daten %>%
+    rename(xn = x,
+           yn = y)
+  p <- ggplot(daten) +
+    geom_point(aes(xn,yn)) +
+    geom_abline(intercept = model$coefficients[1],
+                slope = model$coefficients[2]) +
+    coord_cartesian(xlim = c(0,x.lim), ylim = c(0,y.lim))
+  return(p)
+}
+p1 <- plot.regression(df1, model1, "Model 1", 15, 12)
+p2 <- plot.regression(df2, model2, "Model 2", 15, 12)
+p3 <- plot.regression(df3, model3, "Model 3", 15, 12)
+p4 <- plot.regression(df4, model4, "Model 4", 15, 12)
+grid.arrange(p1,p2,p3,p4, nrow=2)
+```
+
+```{r}
+#model1$x <- df1$x1
+#ggplot(model1) +
+#  geom_point(aes(x = y = as.numeric(residuals)))
+plot.res <- function(model){
+  ggplot(model, aes(x = fitted(model), y = resid(model))) +
+    geom_point() +
+    geom_hline(yintercept=0) +
+    labs(title = "residual plot", x = "fitted", y = "residual")
+}
+plot.res(model1)
+plot.res(model2)
+plot.res(model3)
+plot.res(model4)
+
+```
+
+## Aufgabe 23
+```{r}
+t <- table(data$Geschlecht, data$Fussballfan)
+chisq.test(t)
+mosaicplot(t)
+
+```
+```{r}
+t2 <- table(data$Geschlecht, data$Musikalitaet)
+chisq.test(t2)
+mosaicplot(t2)
+```
+```{r}
+t3 <- table(data$Haarfarbe, data$Musikalitaet)
+chisq.test(t3)
+mosaicplot(t3)
+```
+
+# Uebungsblatt 11
+## Aufgabe 24
+
+```{r}
+library(MASS)
+head(mcycle)
+```
+```{r}
+model24 <- lm(accel ~ times, data = mcycle)
+ggplot(mcycle) +
+  geom_point(aes(x = times, y = accel)) +
+  geom_abline(intercept = coefficients(model24)[1],
+              slope = coefficients(model24)[2])
+```
+```{r}
+ggplot(model24) +
+  geom_point(aes(x = fitted(model24), y = resid(model24))) +
+  geom_hline(yintercept = 0)
+```
+```{r}
+library(shiny)
+
+# Define UI for application that draws a histogram
+ui <- fluidPage(
+
+    # Application title
+    titlePanel("Aufgabe XY"),
+
+    # Sidebar with a slider input for number of bins 
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "number of bins",
+                        min = 1,
+                        max = 50,
+                        value = 30),
+            selectInput("kernel",
+                        "Choose kernel type",
+                        choices = c("gaussian","rectangular","epanechnikov"),
+                        selected = "gaussian"),
+            sliderInput("bw",
+                        "bandwidth",
+                        min = 0.1,
+                        max = 10,
+                        value = 5,
+                        step = 0.1)
+        ),
+
+        # Show a plot of the generated distribution
+        mainPanel(
+           plotOutput("distPlot")
+        )
+    )
+)
+
+# Define server logic required to draw a histogram
+server <- function(input, output) {
+
+    output$distPlot <- renderPlot({
+        # generate bins based on input$bins from ui.R
+
+        # draw the histogram with the specified number of bins
+        #hist(x, breaks = bins, col = 'darkgray', border = 'white')
+        ggplot(mcycle) +
+            geom_histogram(aes(x = accel, y = ..density..),
+                           bins = input$bins) + 
+            geom_density(aes(x = accel),
+                         fill = "green",
+                         lwd = 1.2,
+                         alpha = 0.2,
+                         kernel = input$kernel,
+                         bw = input$bw)
+            #coord_flip()
+            #geom_histogram(aes(y = times))
+    })
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+
+```
+
+## Aufgabe 25
+
+```{r}
+library(astsa)
+str(globtemp)
+```
+```{r}
+model25 <- lm(globtemp ~ time(globtemp))
+anova(model25)
+```
+```{r}
+df25 <- data.frame(as.numeric(time(globtemp)),as.numeric(globtemp))
+names(df25) <- c("time","temp")
+p1 <- ggplot(df25) +
+  geom_line(aes(x = time, y = temp)) +
+  geom_abline(intercept = coefficients(model25)[1], slope = coefficients(model25)[2])
+p2 <- ggplot(model25) +
+  geom_qq(aes(sample = globtemp)) +
+  geom_qq_line(aes(sample = globtemp))
+grid.arrange(p1,p2,nrow = 1)
+```
+
+# Uebungsblatt 12
+## Aufgabe 28
+
+```{r}
+head(data)
+```
+```{r}
+ggplot(data) +
+  geom_histogram(aes(Groesse), bins = 15)
+```
+```{r}
+ggplot(data) +
+  geom_histogram(aes(Groesse), bins = 7) +
+  facet_grid(Geschlecht~.)
+```
+```{r}
+ggplot(data) +
+  geom_density(aes(x=Groesse, fill=Geschlecht, col = Geschlecht),
+               alpha = 0.5) +
+  geom_rug(aes(x=Groesse, col = Geschlecht))
+```
+```{r}
+ggplot(data, aes(y = Groesse, x = "")) +
+  geom_violin(aes(fill = Geschlecht)) +
+  geom_boxplot() +
+  
+  facet_grid(. ~ Geschlecht)
+```
+```{r}
+modelm <- lm(Schuhgroesse ~ Groesse, data = subset(data, Geschlecht == "m"))
+modelf <- lm(Schuhgroesse ~ Groesse, data = subset(data, Geschlecht == "w"))
+
+ggplot(data) +
+  geom_point(aes(x=Groesse,y=Schuhgroesse,col = Geschlecht)) +
+  geom_abline(intercept = coefficients(modelm)[1], slope = coefficients(modelm)[2], col = "red") +
+  geom_abline(intercept = coefficients(modelf)[1], slope = coefficients(modelf)[2], col = "cyan")
+```
+
+# Uebungsblatt 12
+## Aufgabe 29
+
+```{r}
+data2 <- subset(data, select = c("Groesse","Schuhgroesse","Mathe","WhatsApp","AnzSchuhe"))
+plot(data2)
+```
+```{r}
+library(gpairs)
+gpairs(data2)
+```
+```{r}
+data3 <- subset(data2, select = c("Groesse","Schuhgroesse","AnzSchuhe"))
+library(scatterplot3d)
+scatterplot3d(data3)
+
+```
+```{r}
+library(corrplot)
+library(psych)
+corrplot(cor
+         (data3))
+```
+```{r}
+library(MASS)
+parcoord(data3)
+```
+```{r}
+kd <- kde2d(x=data3$Groesse,y=data3$Schuhgroesse)
+{
+contour(kd$z*)
+plot(x=data3$Groesse, y=data3$Schuhgroesse)
+}
+```
+
+```{r}
+library(plot3D)
+contour2D(kd$z)
+```
+```{r}
+persp3D(z = kd$z)
+```
+
+
+```{r}
+heatmap(kd$z, Colv = NA, Rowv = NA)
+
+```
+
+# Uebungsblatt 14
+## Aufgabe 30
+
+```{r}
+str(USArrests)
+
+```
+```{r}
+df<-USArrests %>%
+  pivot_longer(c("Assault","Rape","Murder"),
+               names_to = "type",
+               values_to = "amount")
+head(df)
+```
+```{r}
+model1<- lm(amount~UrbanPop, data = subset(df, subset = type=="Assault"))
+model2<- lm(amount~UrbanPop, data = subset(df, subset = type=="Rape"))
+model3<- lm(amount~UrbanPop, data = subset(df, subset = type=="Murder"))
+ggplot(df) +
+  geom_point(aes(x=UrbanPop,y=amount,col = type)) +
+  geom_abline(intercept = coefficients(model1)[1], slope = coefficients(model1)[2], col="red") +
+  geom_abline(intercept = coefficients(model2)[1], slope = coefficients(model2)[2], col="blue") +
+  geom_abline(intercept = coefficients(model3)[1], slope = coefficients(model3)[2], col="green")
+
+```
+```{r}
+ggplot(df) +
+  geom_histogram(aes(x = amount, fill = type), bins = 40)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
